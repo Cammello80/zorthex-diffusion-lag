@@ -1,0 +1,11 @@
+technology,regime,t_start,t_start_source,t_start_criterion,t_peak,t_peak_rule,L_months,L_years,google_trends_query,L_version_B,L_version_C,notes
+LLM,scientific,2017-06,Attention is all you need (Vaswani et al.),seminal_paper,2023-02,primary,69,5.8,large language model,65,72,ChatGPT launch Nov 2022 as external event
+mRNA vaccine,scientific,2015-01,First mRNA therapeutic trials (>100 citations),seminal_paper,2020-11,primary,70,5.8,mRNA vaccine,67,73,COVID pandemic as external event accelerator
+CRISPR,scientific,2012-06,Doudna/Charpentier Science 2012,seminal_paper,2016-09,primary,51,4.3,CRISPR,48,55,He Jiankui scandal Nov 2018 as secondary event
+Deep Learning,scientific,2012-09,AlexNet ImageNet (Krizhevsky et al.),seminal_paper,2018-11,primary,74,6.2,deep learning,70,78,No single external event - gradual diffusion
+VR,slow-burn,2010-01,First consumer VR development period,commercial,2015-11,primary,71,5.9,virtual reality,68,75,Oculus Rift kickstarter 2012 as partial accelerator
+Quantum Computing,slow-burn,2010-01,IBM and Google early quantum research period,seminal_paper,2025-04,fallback_40pct,187,15.6,quantum computing,183,191,Never reached 25 threshold - fallback applied
+iPhone,product,2007-01,Apple iPhone launch January 2007,commercial,2009-06,primary,29,2.4,iPhone,26,32,Immediate consumer product - minimal lag expected
+Cloud computing,product,2006-03,AWS launch March 2006,commercial,2008-08,primary,29,2.4,cloud computing,26,33,Enterprise adoption precedes mainstream attention
+Facebook,product,2004-02,Facebook launch February 2004,commercial,2009-01,primary,59,4.9,Facebook,55,63,Gradual network effect diffusion
+Bitcoin,product,2008-10,Nakamoto whitepaper October 2008,seminal_paper,2017-11,primary,109,9.1,Bitcoin,105,114,Financial technology - trust and infrastructure barriers
