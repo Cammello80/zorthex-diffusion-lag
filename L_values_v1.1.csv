@@ -1,0 +1,16 @@
+technology,domain,t_start,t_start_source,t_peak,L_months,uncertainty_low,uncertainty_high,censoring_flag,data_quality_score,notes
+LLM,AI,2017-06,Attention is all you need (Vaswani et al.),2023-02,69,65,72,none,0.95,Clear event — ChatGPT as external accelerator
+mRNA vaccine,biotech_medical,2015-01,First mRNA therapeutic trials,2020-11,70,67,73,none,0.90,COVID pandemic as external event — accelerated diffusion
+CRISPR,biotech_medical,2012-06,Doudna/Charpentier Science 2012,2016-09,51,48,55,none,0.90,He Jiankui scandal as secondary event
+Deep Learning,AI,2012-09,AlexNet ImageNet (Krizhevsky et al.),2018-11,74,70,78,none,0.90,Gradual diffusion — no single external event
+Gene Therapy,biotech_medical,2004-01,Early clinical trials period,2009-09,69,65,74,none,0.75,t_start approximate — pre-2004 history truncated
+GLP-1,biotech_medical,2018-01,Ozempic FDA approval period,2025-01,84,78,90,none,0.80,Consumer health crossover — strong media effect
+mRNA cancer vaccine,biotech_medical,2020-01,First clinical trials post-COVID,2025-08,67,60,75,none,0.70,Benefiting from mRNA awareness post-COVID
+Stem cell therapy,biotech_medical,2004-01,Early therapeutic research period,2011-01,84,78,92,none,0.75,t_start approximate — pre-2004 history truncated
+Nanotechnology,materials_science,2004-01,Pre-2004 research period,2004-01,0,,,left-censored,0.20,Left-censored: technology predates Google Trends — L not observable
+VR,consumer_tech,2010-01,First consumer VR development,2015-11,71,68,75,none,0.80,Oculus Rift 2012 as partial accelerator
+Quantum Computing,AI,2010-01,IBM and Google early quantum research,2025-04,187,179,195,none,0.75,Structural cognitive barrier — very slow diffusion
+iPhone,consumer_tech,2007-01,Apple iPhone launch,2009-06,29,26,33,none,0.95,Product-driven — immediate consumer adoption
+Cloud computing,infrastructure,2006-03,AWS launch,2008-08,29,26,34,none,0.90,Enterprise adoption precedes mainstream
+Facebook,consumer_tech,2004-02,Facebook launch,2009-01,59,55,63,none,0.90,Network effect diffusion
+Bitcoin,financial_tech,2008-10,Nakamoto whitepaper,2017-11,109,105,115,none,0.85,Financial trust barriers — multi-cycle hype
