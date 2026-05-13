@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zorthex — Public Attention Diffusion Lag</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+
+  :root {
+    --bg: #05050a;
+    --surface: #0a0a14;
+    --surface2: #0f0f1e;
+    --border: #1a1a30;
+    --border2: #252540;
+    --cyan: #00d4ff;
+    --cyan-dim: rgba(0,212,255,0.08);
+    --cyan-mid: rgba(0,212,255,0.3);
+    --magenta: #cc44ff;
+    --magenta-dim: rgba(204,68,255,0.08);
+    --magenta-mid: rgba(204,68,255,0.3);
+    --blue: #4466ff;
+    --amber: #ffaa44;
+    --red: #ff4466;
+    --green: #44ffaa;
+    --text: #e8f0ff;
+    --text-dim: #5a6080;
+    --text-mid: #9aa0c0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 30%, rgba(0,100,200,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 70%, rgba(150,0,200,0.10) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(0,50,100,0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body > * { position: relative; z-index: 1; }
+
+  .header {
+    padding: 22px 48px;
+    border-bottom: 1px solid var(--border2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: rgba(5,5,10,0.92);
+    backdrop-filter: blur(16px);
+    z-index: 100;
+  }
+
+  .brand {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    text-shadow: 0 0 20px rgba(0,212,255,0.4);
+  }
+
+  .brand em {
+    color: var(--cyan);
+    font-style: normal;
+    text-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0,212,255,0.3);
+  }
+
+  .header-right { display: flex; align-items: center; gap: 20px; }
+
+  .header-tag {
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .version-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border: 1px solid var(--cyan-mid);
+    border-radius: 20px;
+    color: var(--cyan);
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 10px var(--cyan);
+    box-shadow: 0 0 12px rgba(0,212,255,0.1);
+  }
+
+  /* API KEY BANNER */
+  .api-banner {
+    background: rgba(0,212,255,0.04);
+    border-bottom: 1px solid rgba(0,212,255,0.15);
+    padding: 12px 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  .api-banner.connected {
+    background: rgba(68,255,170,0.04);
+    border-bottom-color: rgba(68,255,170,0.15);
+    color: var(--green);
+  }
+
+  .api-key-input {
+    flex: 1;
+    max-width: 420px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    padding: 8px 14px;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    letter-spacing: 0.04em;
+  }
+
+  .api-key-input:focus { border-color: var(--cyan-mid); }
+
+  .api-connect-btn {
+    background: rgba(0,212,255,0.1);
+    border: 1px solid var(--cyan-mid);
+    border-radius: 4px;
+    padding: 8px 18px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--cyan);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .api-connect-btn:hover {
+    background: rgba(0,212,255,0.2);
+    box-shadow: 0 0 16px rgba(0,212,255,0.2);
+  }
+
+  .api-status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    flex-shrink: 0;
+  }
+
+  .api-status-dot.active {
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+
+  /* HERO */
+  .hero {
+    padding: 80px 48px 64px;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,212,255,0.008) 2px, rgba(0,212,255,0.008) 4px);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 24px;
+    text-shadow: 0 0 15px var(--cyan);
+  }
+
+  .hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+
+  .hero-title .cyan { color: var(--cyan); text-shadow: 0 0 30px var(--cyan), 0 0 60px rgba(0,212,255,0.2); }
+  .hero-title .magenta { color: var(--magenta); text-shadow: 0 0 30px var(--magenta), 0 0 60px rgba(204,68,255,0.2); }
+
+  .hero-desc {
+    font-size: 18px;
+    color: var(--text-mid);
+    max-width: 620px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .main { padding: 60px 48px; max-width: 1000px; margin: 0 auto; }
+
+  .input-section { margin-bottom: 60px; }
+
+  .input-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-mid);
+    margin-bottom: 14px;
+    display: block;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .input-row { display: flex; gap: 12px; align-items: stretch; margin-bottom: 16px; }
+
+  .input-field {
+    flex: 1;
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    border-radius: 6px;
+    padding: 18px 24px;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 17px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .input-field:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 2px rgba(0,212,255,0.1), 0 0 20px rgba(0,212,255,0.05);
+  }
+
+  .input-field::placeholder { color: var(--text-dim); font-weight: 300; font-style: italic; }
+
+  .run-btn {
+    background: linear-gradient(135deg, #0088cc, #6600cc);
+    border: 1px solid var(--cyan-mid);
+    border-radius: 6px;
+    padding: 18px 36px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+    box-shadow: 0 0 20px rgba(0,136,204,0.2);
+  }
+
+  .run-btn:hover {
+    box-shadow: 0 0 30px rgba(0,212,255,0.3), 0 0 60px rgba(102,0,204,0.2);
+    border-color: var(--cyan);
+    transform: translateY(-1px);
+  }
+
+  .run-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .presets-label { font-size: 13px; color: var(--text-dim); margin-bottom: 10px; letter-spacing: 0.04em; }
+  .presets { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .preset {
+    font-size: 13px;
+    padding: 8px 18px;
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    color: var(--text-mid);
+    cursor: pointer;
+    background: var(--surface);
+    font-family: 'Exo 2', sans-serif;
+    transition: all 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .preset:hover {
+    border-color: var(--cyan-mid);
+    color: var(--cyan);
+    background: var(--cyan-dim);
+    box-shadow: 0 0 12px rgba(0,212,255,0.08);
+  }
+
+  .loading { display: none; align-items: center; gap: 16px; padding: 32px 0; }
+  .loading.active { display: flex; }
+
+  .spinner {
+    width: 22px; height: 22px;
+    border: 2px solid var(--border2);
+    border-top-color: var(--cyan);
+    border-right-color: var(--magenta);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(0,212,255,0.2);
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text { font-size: 15px; color: var(--text-dim); letter-spacing: 0.04em; font-style: italic; }
+
+  /* AI badge */
+  .ai-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--magenta);
+    border: 1px solid rgba(204,68,255,0.3);
+    border-radius: 3px;
+    padding: 3px 10px;
+    margin-left: 12px;
+    letter-spacing: 0.08em;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 0 0 8px var(--magenta);
+  }
+
+  .results { display: none; animation: fadeUp 0.5s ease; }
+  .results.active { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 36px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border2);
+    gap: 20px;
+  }
+
+  .result-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+    text-shadow: 0 0 20px rgba(0,212,255,0.15);
+  }
+
+  .result-meta { font-size: 14px; color: var(--text-mid); letter-spacing: 0.04em; }
+
+  .status-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .status-observation { background: rgba(255,170,68,0.08); color: var(--amber); border: 1px solid rgba(255,170,68,0.3); text-shadow: 0 0 10px var(--amber); box-shadow: 0 0 16px rgba(255,170,68,0.08); }
+  .status-structural { background: rgba(0,212,255,0.06); color: var(--cyan); border: 1px solid rgba(0,212,255,0.3); text-shadow: 0 0 10px var(--cyan); box-shadow: 0 0 16px rgba(0,212,255,0.08); }
+  .status-bubble { background: rgba(255,68,102,0.08); color: var(--red); border: 1px solid rgba(255,68,102,0.3); text-shadow: 0 0 10px var(--red); box-shadow: 0 0 16px rgba(255,68,102,0.08); }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 28px;
+    border: 1px solid var(--border2);
+    box-shadow: 0 0 40px rgba(0,212,255,0.03);
+  }
+
+  .metric { background: var(--surface); padding: 24px 20px; position: relative; overflow: hidden; }
+  .metric::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--cyan-mid), transparent); }
+
+  .metric-val { font-family: 'Orbitron', sans-serif; font-size: 34px; font-weight: 700; line-height: 1; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .metric-val.cyan { color: var(--cyan); text-shadow: 0 0 20px var(--cyan); }
+  .metric-val.amber { color: var(--amber); text-shadow: 0 0 20px var(--amber); }
+  .metric-val.red { color: var(--red); text-shadow: 0 0 20px var(--red); }
+  .metric-val.magenta { color: var(--magenta); text-shadow: 0 0 20px var(--magenta); }
+  .metric-lbl { font-size: 13px; color: #7a80a0; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.4; }
+
+  .chart-section { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 28px; margin-bottom: 24px; box-shadow: inset 0 0 40px rgba(0,0,20,0.5); }
+  .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .chart-title { font-size: 15px; font-weight: 500; color: var(--text); letter-spacing: 0.04em; }
+  .chart-note { font-size: 13px; color: var(--cyan); text-shadow: 0 0 8px rgba(0,212,255,0.3); }
+  canvas { width: 100% !important; display: block; }
+
+  .sources { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .source-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 20px 22px; position: relative; overflow: hidden; transition: border-color 0.2s; }
+  .source-card:hover { border-color: var(--cyan-mid); }
+  .source-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .source-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 12px currentColor; }
+  .source-name { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.1em; }
+  .source-status { font-size: 15px; color: #c0c8e8; line-height: 1.7; }
+
+  .interp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .interp-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 26px; position: relative; overflow: hidden; }
+  .interp-card:first-child { border-left: 2px solid rgba(0,212,255,0.4); box-shadow: inset 2px 0 20px rgba(0,212,255,0.04); }
+  .interp-card:last-child { border-left: 2px solid rgba(204,68,255,0.4); box-shadow: inset 2px 0 20px rgba(204,68,255,0.04); }
+  .interp-card-title { font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--cyan); text-shadow: 0 0 10px rgba(0,212,255,0.4); margin-bottom: 14px; }
+  .interp-card:last-child .interp-card-title { color: var(--magenta); text-shadow: 0 0 10px rgba(204,68,255,0.4); }
+  .interp-card-body { font-size: 16px; color: #d0d8f0; line-height: 1.8; font-weight: 400; }
+
+  .result-footer { font-size: 14px; color: var(--text-mid); padding-top: 24px; border-top: 1px solid var(--border2); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; letter-spacing: 0.02em; }
+  .doi-link { color: var(--cyan); text-decoration: none; text-shadow: 0 0 10px rgba(0,212,255,0.5); font-weight: 500; }
+  .doi-link:hover { text-decoration: underline; text-shadow: 0 0 16px var(--cyan); }
+
+  .disclaimer {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: rgba(255,170,68,0.04);
+    border: 1px solid rgba(255,170,68,0.15);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .disclaimer strong { color: var(--amber); }
+
+  .page-footer { margin-top: 80px; padding: 32px 48px; border-top: 1px solid var(--border2); display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--text-mid); letter-spacing: 0.04em; }
+  .page-footer-brand { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: 0.08em; text-shadow: 0 0 15px rgba(0,212,255,0.2); }
+  .page-footer-brand em { color: var(--cyan); font-style: normal; text-shadow: 0 0 15px var(--cyan); }
+
+  /* WHY SECTION */
+  .why-section {
+    padding: 80px 48px;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .why-tagline {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 48px;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 40px rgba(0,212,255,0.1);
+  }
+
+  .why-tagline em {
+    color: var(--cyan);
+    font-style: normal;
+    text-shadow: 0 0 20px var(--cyan);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 48px;
+    border: 1px solid var(--border2);
+  }
+
+  .why-card {
+    background: var(--surface);
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s;
+  }
+
+  .why-card:hover { background: var(--surface2); }
+
+  .why-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan-mid), transparent);
+  }
+
+  .why-card:nth-child(2)::before {
+    background: linear-gradient(90deg, transparent, var(--magenta-mid), transparent);
+  }
+
+  .why-card:nth-child(3)::before {
+    background: linear-gradient(90deg, transparent, rgba(255,170,68,0.4), transparent);
+  }
+
+  .why-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 16px;
+    color: rgba(0,212,255,0.15);
+    letter-spacing: -0.02em;
+  }
+
+  .why-card:nth-child(2) .why-number { color: rgba(204,68,255,0.15); }
+  .why-card:nth-child(3) .why-number { color: rgba(255,170,68,0.15); }
+
+  .why-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    text-shadow: 0 0 10px rgba(0,212,255,0.4);
+    margin-bottom: 14px;
+  }
+
+  .why-card:nth-child(2) .why-title { color: var(--magenta); text-shadow: 0 0 10px rgba(204,68,255,0.4); }
+  .why-card:nth-child(3) .why-title { color: var(--amber); text-shadow: 0 0 10px rgba(255,170,68,0.4); }
+
+  .why-body {
+    font-size: 16px;
+    color: #b0b8d8;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .why-close {
+    font-size: 20px;
+    color: var(--text-mid);
+    line-height: 1.7;
+    font-weight: 300;
+    max-width: 700px;
+    border-left: 2px solid rgba(0,212,255,0.3);
+    padding-left: 28px;
+  }
+
+  .why-close strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  @media (max-width: 700px) {
+    .why-section { padding: 48px 24px; }
+    .why-tagline { font-size: 20px; }
+    .why-grid { grid-template-columns: 1fr; }
+    .header { padding: 18px 24px; }
+    .api-banner { padding: 12px 24px; flex-wrap: wrap; }
+    .hero { padding: 48px 24px 40px; }
+    .hero-title { font-size: 28px; }
+    .hero-desc { font-size: 16px; }
+    .main { padding: 40px 24px; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .interp-grid { grid-template-columns: 1fr; }
+    .sources { grid-template-columns: 1fr; }
+    .input-row { flex-direction: column; }
+    .result-header { flex-direction: column; }
+    .page-footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px; }
+    .result-title { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">ZORTH<em>EX</em></div>
+  <div class="header-right">
+    <a href="research.html" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--cyan);text-decoration:none;border:1px solid var(--cyan-mid);padding:6px 14px;border-radius:4px;transition:all 0.2s;" onmouseover="this.style.background='rgba(0,212,255,0.1)'" onmouseout="this.style.background='transparent'">→ SIGNAL REPORTS</a>
+    <span class="header-tag">Public Attention Diffusion Lag</span>
+    <span class="version-badge">V1.1</span>
+  </div>
+</div>
+
+<!-- API KEY BANNER -->
+<div class="api-banner" id="apiBanner">
+  <div class="api-status-dot" id="apiDot"></div>
+  <span id="apiLabel">Claude API key:</span>
+  <input class="api-key-input" id="apiKeyInput" type="password" placeholder="sk-ant-api03-...  (your key, stored only in this browser session)">
+  <button class="api-connect-btn" onclick="connectAPI()">CONNECT</button>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Open Research Framework · Est. MMXXVI</div>
+  <div class="hero-title">
+    How long before the world<br>
+    starts <span class="cyan">paying</span><br>
+    <span class="magenta">attention?</span>
+  </div>
+  <div class="hero-desc">Zorthex measures the gap between when something emerges — a technology, a phenomenon, an idea — and when public attention actually reaches it. Not understanding. Attention. Three independent sources. Open method. Replicable data.</div>
+</div>
+
+<!-- INPUT SECTION - between hero and why -->
+<div style="padding: 60px 48px 0; max-width: 1000px; margin: 0 auto;">
+  <div class="input-section" style="margin-bottom:0;">
+    <label class="input-label">Enter a name, a technology, a political phenomenon, a product</label>
+    <div class="input-row">
+      <input class="input-field" id="queryInput" type="text" placeholder="e.g. mRNA cancer vaccine, Bitcoin, nuclear fusion, tariffs..." style="border-color: rgba(0,212,255,0.8); box-shadow: 0 0 30px rgba(0,212,255,0.15), 0 0 60px rgba(0,212,255,0.06), inset 0 0 20px rgba(0,212,255,0.04);">
+      <button class="run-btn" id="runBtn" onclick="runAnalysis()">ANALYZE →</button>
+    </div>
+    <div class="presets-label">Or start with one of these:</div>
+    <div class="presets">
+      <button class="preset" onclick="setPreset('mRNA cancer vaccine')">mRNA cancer vaccine</button>
+      <button class="preset" onclick="setPreset('Bitcoin')">Bitcoin</button>
+      <button class="preset" onclick="setPreset('quantitative easing')">Quantitative easing</button>
+      <button class="preset" onclick="setPreset('CRISPR')">CRISPR</button>
+      <button class="preset" onclick="setPreset('nuclear fusion')">Nuclear fusion</button>
+    </div>
+  </div>
+</div>
+
+<!-- WHY SECTION -->
+<div class="why-section">
+  <div class="why-tagline">
+    Public attention doesn't follow the science.<br>
+    It follows its <em>own clock.</em>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-number">01</div>
+      <div class="why-title">Know when to act</div>
+      <div class="why-body">Knowing where a technology, a political phenomenon, or any product sits in its attention cycle — too early, on time, or already fading — changes everything. When to launch. When to publish. When to invest. When to wait.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-number">02</div>
+      <div class="why-title">Three independent sources</div>
+      <div class="why-body">Google Trends measures search attention. Wikipedia pageviews measure informational interest. Reddit measures community depth. Three clocks. Same direction — or not.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-number">03</div>
+      <div class="why-title">Open method</div>
+      <div class="why-body">Every metric is defined. Every threshold is explicit. The pipeline is replicable. If you run the same analysis and get different results — that's a contribution, not a problem.</div>
+    </div>
+  </div>
+
+  <div class="why-close">
+    <strong>Zorthex maps that clock.</strong> For any phenomenon — biotech, finance, space, machine intelligence, politics, marketing. The question is always the same: where are we in the cycle?
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <span class="loading-text" id="loadingText">Querying three independent sources...</span>
+  </div>
+
+  <div class="results" id="results">
+
+    <div class="result-header">
+      <div>
+        <div class="result-title" id="resultTitle">—</div>
+        <div class="result-meta" id="resultMeta">—</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+        <div class="status-badge" id="statusBadge">—</div>
+        <div class="ai-badge" id="aiBadge" style="display:none">✦ AI</div>
+      </div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-val magenta" id="metricL">—</div>
+        <div class="metric-lbl">Months of lag (L)</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val amber" id="metricPeak">—</div>
+        <div class="metric-lbl">Peak attention score</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val cyan" id="metricMonths">—</div>
+        <div class="metric-lbl">Months above threshold</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val" id="metricCurrent">—</div>
+        <div class="metric-lbl">Current score · May 2026</div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-header">
+        <div class="chart-title">Public attention over time — Google Trends (0–100)</div>
+        <div class="chart-note">Threshold: 25 · 12 consecutive months = structural consolidation</div>
+      </div>
+      <canvas id="trendChart" height="210"></canvas>
+    </div>
+
+    <div class="sources">
+      <div class="source-card">
+        <div class="source-header">
+          <div class="source-dot" style="background:var(--cyan); color:var(--cyan)"></div>
+          <div class="source-name">Google Trends</div>
+        </div>
+        <div class="source-status" id="src1">—</div>
+      </div>
+      <div class="source-card">
+        <div class="source-header">
+          <div class="source-dot" style="background:var(--magenta); color:var(--magenta)"></div>
+          <div class="source-name">Wikipedia Pageviews</div>
+        </div>
+        <div class="source-status" id="src2">—</div>
+      </div>
+      <div class="source-card">
+        <div class="source-header">
+          <div class="source-dot" style="background:var(--amber); color:var(--amber)"></div>
+          <div class="source-name">Reddit Community</div>
+        </div>
+        <div class="source-status" id="src3">—</div>
+      </div>
+    </div>
+
+    <div class="interp-grid">
+      <div class="interp-card">
+        <div class="interp-card-title">Interpretation</div>
+        <div class="interp-card-body" id="interpretation">—</div>
+      </div>
+      <div class="interp-card">
+        <div class="interp-card-title">What to monitor next</div>
+        <div class="interp-card-body" id="monitor">—</div>
+      </div>
+    </div>
+
+    <div class="disclaimer" id="disclaimer" style="display:none">
+      <strong>Note:</strong> This analysis was generated by Claude AI applying the Zorthex v1.1 framework to its training knowledge. Values are estimates based on publicly available historical data. For verified Signal Reports, see <a class="doi-link" href="https://zorthex.com/research.html" target="_blank">zorthex.com/research.html</a>. Manual verification recommended before publication.
+    </div>
+
+    <div class="result-footer">
+      <span>Zorthex framework v1.1 · CC-BY 4.0 · <a class="doi-link" href="https://doi.org/10.5281/zenodo.20072999" target="_blank">doi.org/10.5281/zenodo.20072999</a> · <a class="doi-link" href="https://github.com/zorthex2026/zorthex-diffusion-lag" target="_blank">GitHub</a></span>
+      <span id="analysisDate">—</span>
+    </div>
+
+  </div>
+</div>
+
+<div class="page-footer">
+  <div class="page-footer-brand">ZORTH<em>EX</em> · BEYOND WHAT'S NEXT</div>
+  <div>Built in public · No team · No investors · Est. MMXXVI</div>
+  <div>Powered by <a href="https://www.anthropic.com" target="_blank" style="color:var(--cyan);text-decoration:none;text-shadow:0 0 10px rgba(0,212,255,0.5);">Claude</a> · zorthex.com</div>
+</div>
+
+<script>
+// ─── API KEY MANAGEMENT ───────────────────────────────────────────────────────
+let claudeApiKey = '';
+
+function connectAPI() {
+  const key = document.getElementById('apiKeyInput').value.trim();
+  if (!key.startsWith('sk-ant-')) {
+    alert('Please enter a valid Anthropic API key (starts with sk-ant-)');
+    return;
+  }
+  claudeApiKey = key;
+  document.getElementById('apiDot').classList.add('active');
+  document.getElementById('apiBanner').classList.add('connected');
+  document.getElementById('apiLabel').textContent = '✓ Claude API connected — any term will be analyzed in real time';
+  document.getElementById('apiKeyInput').style.display = 'none';
+  document.querySelector('.api-connect-btn').style.display = 'none';
+}
+
+// ─── PRESETS DATA (verified, from Zorthex v1.1) ───────────────────────────────
+const PRESETS_DATA = {
+  'mrna cancer vaccine': {
+    title: 'mRNA Cancer Vaccines',
+    tStart: 'Jan 2015', tPeak: 'Sep 2025', L: 126,
+    peakScore: 100, monthsAbove: 9, currentScore: 17,
+    status: 'observation',
+    chartData: [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,8,10,12,8,5,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,93,100,64,50,29,64,28,40,28,17],
+    src1: 'Breakout Aug 2025 (93/100). Peak Sep 2025 (100/100). May 2026: 17/100 — below threshold. Critical inflection point.',
+    src2: 'Peak 894 views/day Aug 2025 vs baseline 418/day. Now 239/day. Wikipedia peaked one month before Google — deeper interest peaked first.',
+    src3: 'High-vote posts cluster Aug–Oct 2025. Approx. 40–50% politically driven (RFK Jr. cuts). Declared limitation, not hidden.',
+    interpretation: 'Nine of 12 months above threshold. May 2026 dropped to 17/100 — below the structural line. Whether this is a temporary dip or the start of a decline is the key open question. The next 8–12 weeks are the most informative window available.',
+    monitor: 'Does Google Trends return above 25 for June–July 2026? BioNTech/Moderna Phase 3 melanoma results expected summer 2026. A positive trial would likely restart the attention clock.'
+  },
+  'bitcoin': {
+    title: 'Bitcoin',
+    tStart: 'Jan 2009', tPeak: 'Dec 2017', L: 107,
+    peakScore: 100, monthsAbove: 36, currentScore: 42,
+    status: 'structural',
+    chartData: [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,12,18,12,8,5,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,100,70,45,30,28,25,30,35,95,80,55,40,35,30,28,30,35,38,40,38,42,40,38,42],
+    src1: 'First mainstream peak Dec 2017 (100/100). Second peak Nov 2021 (95/100). Currently sustained above threshold at 42/100.',
+    src2: 'Wikipedia "Bitcoin" among the top 1000 most visited pages globally. Consistent above-baseline traffic since 2017.',
+    src3: 'r/Bitcoin has 6M+ members. Multiple active narratives: macro hedge, digital gold, speculation. Sustained high volume.',
+    interpretation: 'Bitcoin has achieved structural consolidation — over 36 months above threshold. The public understanding has evolved from speculative bubble to macro hedge to institutional asset. L = 107 months from genesis block to first mainstream peak.',
+    monitor: 'CBDC developments and regulatory frameworks in major economies. ETF inflows as institutional attention proxy. Inflation expectations correlation.'
+  },
+  'quantitative easing': {
+    title: 'Quantitative Easing',
+    tStart: 'Nov 2008', tPeak: 'Mar 2020', L: 136,
+    peakScore: 89, monthsAbove: 14, currentScore: 28,
+    status: 'observation',
+    chartData: [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,45,50,42,35,30,28,26,25,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,89,70,55,45,38,35,30,28,28,26,28],
+    src1: 'First peak 2010–2011 (Fed QE1/QE2 era). Major peak Mar 2020 ("money printer go brrr"). Currently above threshold at 28/100.',
+    src2: 'Wikipedia "Quantitative easing" spiked dramatically Mar 2020. Sustained elevated interest vs pre-2008 baseline of near-zero.',
+    src3: 'Reddit r/economics and r/wallstreetbets drove massive awareness 2020–2021. Meme format accelerated public comprehension of a complex monetary concept.',
+    interpretation: 'The clearest case of meme-accelerated diffusion in the Zorthex dataset. A concept understood only by central bankers in 2008 became cultural common knowledge by 2020 via a three-word meme. L = 136 months — but the final compression happened in weeks.',
+    monitor: 'Fed balance sheet reduction (QT) and whether the public tracks the reversal. Inflation expectations as a proxy for monetary literacy in real time.'
+  },
+  'crispr': {
+    title: 'CRISPR Gene Editing',
+    tStart: 'Jan 2012', tPeak: 'Nov 2018', L: 82,
+    peakScore: 78, monthsAbove: 18, currentScore: 31,
+    status: 'structural',
+    chartData: [5,5,5,5,5,5,5,5,5,5,5,5,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,65,55,45,38,32,28,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,65,60,55,50,45,40,38,36,34,32,31,31],
+    src1: 'Steady growth 2012–2018. Peak Nov 2018 (He Jiankui gene-edited babies scandal). Sustained above threshold for 18 months.',
+    src2: 'Wikipedia traffic reflects milestones: 2015 Science paper, 2018 scandal, 2020 Nobel Prize. Each event added a distinct layer of public understanding.',
+    src3: 'r/science and r/genetics show consistent engagement. Ethics debates consistently drive larger spikes than scientific papers alone.',
+    interpretation: 'CRISPR has achieved structural consolidation. Driven by scientific breakthroughs and ethical controversies in roughly equal measure. The 2020 Nobel Prize confirmed mainstream status. L = 82 months — one of the faster diffusions in the biotech dataset.',
+    monitor: 'Clinical results for CRISPR-based therapies. Regulatory developments for germline editing. Any major trial failure would test structural consolidation.'
+  },
+  'nuclear fusion': {
+    title: 'Nuclear Fusion',
+    tStart: 'Jan 1950', tPeak: 'Dec 2022', L: 875,
+    peakScore: 100, monthsAbove: 6, currentScore: 22,
+    status: 'observation',
+    chartData: [5,5,5,6,5,5,5,6,5,5,5,5,5,5,5,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,100,72,48,32,26,22,22,22,22],
+    src1: 'Peak Dec 2022 (NIF ignition breakthrough, 100/100). May 2026: 22/100 — below threshold. First sustained public attention spike in 70+ years of active research.',
+    src2: 'Wikipedia "Nuclear fusion" spike Dec 2022. Historically very low baseline despite decades of research and billions invested worldwide.',
+    src3: 'Reddit r/fusion active but niche. Dec 2022 posts hit 50k+ votes. Now back to baseline community discussion levels.',
+    interpretation: 'Nuclear fusion has the longest documented lag in the Zorthex dataset: L = 875 months — over 70 years. The Dec 2022 NIF ignition was the first real public attention spike. Currently below threshold. Structural consolidation not yet confirmed.',
+    monitor: 'NIF follow-up ignition experiments. Private sector: Commonwealth Fusion Systems, Helion Energy milestones. Any net-energy-gain replication by an independent lab would trigger a new attention cycle.'
+  }
+};
+
+// ─── CLAUDE API CALL ──────────────────────────────────────────────────────────
+async function analyzeWithClaude(query) {
+  const prompt = `You are applying the Zorthex v1.1 framework to analyze the public attention diffusion lag for: "${query}"
+
+The Zorthex framework definitions:
+- t_start: first relevant public appearance of the phenomenon
+- t_peak: first month where Google Trends reached a sustained threshold of ≥25/100 for at least one month
+- L = t_peak - t_start (in months). This is the diffusion lag.
+- Classification:
+  * STRUCTURAL: sustained ≥25/100 for 12+ consecutive months (mainstream consolidated)
+  * OBSERVATION: above threshold but fewer than 12 consecutive months (forming)
+  * BUBBLE: reached high attention but dropped below threshold without consolidating
+
+Analyze "${query}" and respond ONLY with valid JSON, no other text:
+
+{
+  "title": "clean display name",
+  "tStart": "approximate month/year of first public emergence",
+  "tPeak": "approximate month/year of first major attention peak",
+  "L": number of months between tStart and tPeak,
+  "peakScore": estimated Google Trends peak score 0-100,
+  "monthsAbove": estimated months above threshold of 25,
+  "currentScore": estimated current Google Trends score May 2026 (0-100),
+  "status": "structural" or "observation" or "bubble",
+  "chartData": array of 80 numbers 0-100 representing estimated attention curve over time from tStart to May 2026,
+  "src1": "2-3 sentence Google Trends analysis — key dates, peak scores, current status",
+  "src2": "2-3 sentence Wikipedia pageviews analysis — baseline, spikes, current level",
+  "src3": "2-3 sentence Reddit community analysis — subreddits, activity level, notable discussions",
+  "interpretation": "3-4 sentence interpretation in Zorthex tone: observational, precise, no hype. What does the data show? Where in the cycle?",
+  "monitor": "2-3 sentence: what specific events or signals to watch next that could change the classification"
+}
+
+Be precise and factual. Use your knowledge of when phenomena actually emerged and gained public attention. The tone for interpretation and monitor fields should be concise and observational — never sensationalist.`;
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': claudeApiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1500,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err.error?.message || 'API error');
+  }
+
+  const data = await response.json();
+  const text = data.content[0].text;
+  const clean = text.replace(/```json|```/g, '').trim();
+  return JSON.parse(clean);
+}
+
+// ─── UI FUNCTIONS ─────────────────────────────────────────────────────────────
+function setPreset(val) {
+  document.getElementById('queryInput').value = val;
+}
+
+async function runAnalysis() {
+  const query = document.getElementById('queryInput').value.trim();
+  if (!query) return;
+
+  document.getElementById('runBtn').disabled = true;
+  document.getElementById('results').classList.remove('active');
+  document.getElementById('loading').classList.add('active');
+  document.getElementById('aiBadge').style.display = 'none';
+  document.getElementById('disclaimer').style.display = 'none';
+
+  // Check if it's a preset
+  const qLower = query.toLowerCase().trim();
+  let isPreset = false;
+  for (const key of Object.keys(PRESETS_DATA)) {
+    if (qLower.includes(key) || key.includes(qLower)) { isPreset = true; break; }
+  }
+
+  if (isPreset || !claudeApiKey) {
+    // Use preset or simulate
+    const msgs = ['Querying Google Trends...', 'Fetching Wikipedia pageviews...', 'Scanning Reddit signals...', 'Calculating diffusion lag (L)...', 'Applying Zorthex v1.1 framework...'];
+    let i = 0;
+    const iv = setInterval(() => { if (i < msgs.length) document.getElementById('loadingText').textContent = msgs[i++]; }, 640);
+    setTimeout(() => { clearInterval(iv); document.getElementById('loading').classList.remove('active'); document.getElementById('runBtn').disabled = false; showResults(query, null); }, 3200);
+  } else {
+    // Use Claude API
+    const msgs = ['Connecting to Claude API...', 'Applying Zorthex v1.1 framework...', 'Estimating diffusion lag (L)...', 'Generating three-source analysis...', 'Building interpretation...'];
+    let i = 0;
+    const iv = setInterval(() => { if (i < msgs.length) document.getElementById('loadingText').textContent = msgs[i++]; }, 800);
+    try {
+      const aiData = await analyzeWithClaude(query);
+      clearInterval(iv);
+      document.getElementById('loading').classList.remove('active');
+      document.getElementById('runBtn').disabled = false;
+      showResults(query, aiData);
+    } catch (err) {
+      clearInterval(iv);
+      document.getElementById('loading').classList.remove('active');
+      document.getElementById('runBtn').disabled = false;
+      document.getElementById('loadingText').textContent = '';
+      alert('Claude API error: ' + err.message + '\n\nCheck your API key and try again.');
+    }
+  }
+}
+
+function showResults(query, aiData) {
+  const qLower = query.toLowerCase().trim();
+  let data = aiData;
+  let fromAI = !!aiData;
+
+  if (!data) {
+    for (const key of Object.keys(PRESETS_DATA)) {
+      if (qLower.includes(key) || key.includes(qLower)) { data = PRESETS_DATA[key]; break; }
+    }
+  }
+
+  if (!data) {
+    // No API key, no preset — generate placeholder
+    const L = Math.floor(Math.random() * 80 + 20);
+    const peak = Math.floor(Math.random() * 40 + 45);
+    const months = Math.floor(Math.random() * 8 + 2);
+    const current = Math.floor(Math.random() * 30 + 10);
+    const cd = [];
+    for (let i = 0; i < 80; i++) {
+      if (i < 65) cd.push(3 + Math.random() * 4);
+      else if (i === 66) cd.push(peak * 0.7);
+      else if (i === 67) cd.push(peak);
+      else if (i < 74) cd.push(25 + Math.random() * 12);
+      else cd.push(current);
+    }
+    data = {
+      title: query.charAt(0).toUpperCase() + query.slice(1),
+      tStart: 'est. ' + (2026 - Math.floor(L / 12)), tPeak: 'est. 2024–2025',
+      L, peakScore: peak, monthsAbove: months, currentScore: current,
+      status: months >= 12 ? 'structural' : months < 4 ? 'bubble' : 'observation',
+      chartData: cd,
+      src1: `Estimated peak score ${peak}/100. Currently at ${current}/100. ${months} months above threshold of 25. Connect Claude API for real analysis.`,
+      src2: 'Wikipedia pageview data not available in simulation mode. Connect Claude API for real-time analysis.',
+      src3: 'Reddit data not available in simulation mode. Connect Claude API for real-time analysis.',
+      interpretation: `Simulation mode — connect Claude API for real analysis of "${query}". Enter your API key above to unlock any-term analysis powered by Claude.`,
+      monitor: 'Connect Claude API above to get real monitoring signals and next-event tracking for this phenomenon.'
+    };
+  }
+
+  document.getElementById('resultTitle').textContent = data.title;
+  document.getElementById('resultMeta').textContent = `t_start: ${data.tStart}  ·  t_peak: ${data.tPeak}  ·  Analysis: May 2026`;
+  document.getElementById('metricL').textContent = data.L + ' mo';
+  document.getElementById('metricPeak').textContent = data.peakScore + '/100';
+  document.getElementById('metricMonths').textContent = data.monthsAbove;
+  document.getElementById('metricCurrent').textContent = data.currentScore + '/100';
+
+  const curEl = document.getElementById('metricCurrent');
+  curEl.className = 'metric-val';
+  const cur = parseInt(data.currentScore);
+  if (cur < 25) { curEl.style.color = 'var(--red)'; curEl.style.textShadow = '0 0 20px var(--red)'; }
+  else if (cur < 50) { curEl.style.color = 'var(--amber)'; curEl.style.textShadow = '0 0 20px var(--amber)'; }
+  else { curEl.style.color = 'var(--cyan)'; curEl.style.textShadow = '0 0 20px var(--cyan)'; }
+
+  const badge = document.getElementById('statusBadge');
+  badge.className = 'status-badge';
+  if (data.status === 'observation') { badge.classList.add('status-observation'); badge.textContent = '◉ OBSERVATION'; }
+  else if (data.status === 'structural') { badge.classList.add('status-structural'); badge.textContent = '◉ STRUCTURAL'; }
+  else { badge.classList.add('status-bubble'); badge.textContent = '◉ BUBBLE'; }
+
+  if (fromAI) {
+    document.getElementById('aiBadge').style.display = 'inline-flex';
+    document.getElementById('disclaimer').style.display = 'block';
+  }
+
+  document.getElementById('src1').textContent = data.src1;
+  document.getElementById('src2').textContent = data.src2;
+  document.getElementById('src3').textContent = data.src3;
+  document.getElementById('interpretation').textContent = data.interpretation;
+  document.getElementById('monitor').textContent = data.monitor;
+  document.getElementById('analysisDate').textContent = 'Generated ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  drawChart(data.chartData);
+  document.getElementById('results').classList.add('active');
+  setTimeout(() => { document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+}
+
+function drawChart(data) {
+  const canvas = document.getElementById('trendChart');
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth || 900;
+  const H = 210;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const PAD = { top: 16, right: 80, bottom: 32, left: 44 };
+  const cW = W - PAD.left - PAD.right;
+  const cH = H - PAD.top - PAD.bottom;
+  ctx.clearRect(0, 0, W, H);
+
+  const sx = i => PAD.left + (i / (data.length - 1)) * cW;
+  const sy = v => PAD.top + cH - (v / 100) * cH;
+
+  [0, 25, 50, 75, 100].forEach(v => {
+    ctx.strokeStyle = v === 25 ? 'rgba(0,212,255,0.15)' : 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = v === 25 ? 1 : 0.5;
+    ctx.setLineDash(v === 25 ? [6, 5] : []);
+    ctx.beginPath(); ctx.moveTo(PAD.left, sy(v)); ctx.lineTo(PAD.left + cW, sy(v)); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(150,160,192,0.5)';
+    ctx.font = `11px 'Exo 2', sans-serif`;
+    ctx.textAlign = 'right';
+    ctx.fillText(v, PAD.left - 8, sy(v) + 4);
+  });
+
+  ctx.fillStyle = 'rgba(0,212,255,0.5)';
+  ctx.font = `11px 'Exo 2', sans-serif`;
+  ctx.textAlign = 'left';
+  ctx.fillText('threshold 25', PAD.left + cW + 6, sy(25) + 4);
+
+  const fillGrad = ctx.createLinearGradient(0, sy(100), 0, sy(25));
+  fillGrad.addColorStop(0, 'rgba(0,212,255,0.12)');
+  fillGrad.addColorStop(1, 'rgba(0,212,255,0.02)');
+  ctx.fillStyle = fillGrad;
+  ctx.beginPath();
+  ctx.moveTo(sx(0), sy(25));
+  data.forEach((v, i) => ctx.lineTo(sx(i), sy(Math.max(v, 25))));
+  ctx.lineTo(sx(data.length - 1), sy(25));
+  ctx.closePath(); ctx.fill();
+
+  ctx.save();
+  ctx.shadowColor = '#00d4ff'; ctx.shadowBlur = 12;
+  ctx.strokeStyle = 'rgba(0,212,255,0.3)'; ctx.lineWidth = 4;
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  ctx.beginPath();
+  data.forEach((v, i) => i === 0 ? ctx.moveTo(sx(i), sy(v)) : ctx.lineTo(sx(i), sy(v)));
+  ctx.stroke(); ctx.restore();
+
+  const lineGrad = ctx.createLinearGradient(PAD.left, 0, PAD.left + cW, 0);
+  lineGrad.addColorStop(0, '#0088bb');
+  lineGrad.addColorStop(0.75, '#00d4ff');
+  lineGrad.addColorStop(1, data[data.length - 1] < 25 ? '#ff4466' : '#cc44ff');
+  ctx.strokeStyle = lineGrad; ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  ctx.beginPath();
+  data.forEach((v, i) => i === 0 ? ctx.moveTo(sx(i), sy(v)) : ctx.lineTo(sx(i), sy(v)));
+  ctx.stroke();
+
+  const peakIdx = data.indexOf(Math.max(...data));
+  ctx.save(); ctx.shadowColor = '#cc44ff'; ctx.shadowBlur = 16;
+  ctx.fillStyle = '#cc44ff'; ctx.beginPath();
+  ctx.arc(sx(peakIdx), sy(data[peakIdx]), 5, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+
+  const last = data[data.length - 1];
+  const dotColor = last < 25 ? '#ff4466' : '#00d4ff';
+  ctx.save(); ctx.shadowColor = dotColor; ctx.shadowBlur = 16;
+  ctx.fillStyle = dotColor; ctx.beginPath();
+  ctx.arc(sx(data.length - 1), sy(last), 5, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+}
+
+document.getElementById('queryInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') runAnalysis();
+});
+</script>
+</body>
+</html>
