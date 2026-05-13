@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZORTHEX — Research</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050510;
+      --bg2: #0a0a1f;
+      --accent: #00b4d8;
+      --accent2: #7b2d8b;
+      --accent3: #2dc653;
+      --warn: #e63946;
+      --text: #e0e0ff;
+      --muted: #6666aa;
+      --border: #1a1a3a;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'Space Mono', monospace; min-height: 100vh; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(0,180,216,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,180,216,0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); background: rgba(5,5,16,0.9); backdrop-filter: blur(12px); }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; letter-spacing: 0.2em; color: var(--text); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    nav a { color: var(--muted); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.1em; transition: color 0.2s; }
+    nav a:hover { color: var(--accent); }
+    main { position: relative; z-index: 1; padding-top: 5rem; }
+    .hero { padding: 5rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
+    .status-badge { display: inline-block; padding: 0.3rem 0.8rem; border: 1px solid var(--accent3); color: var(--accent3); font-size: 0.65rem; letter-spacing: 0.15em; margin-bottom: 2rem; }
+    .doi-badge { display: inline-block; padding: 0.3rem 0.8rem; border: 1px solid var(--accent); color: var(--accent); font-size: 0.65rem; letter-spacing: 0.1em; margin-bottom: 2rem; margin-left: 0.8rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; transition: background 0.2s; }
+    .doi-badge:hover { background: rgba(0,180,216,0.1); }
+    h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; margin-bottom: 1.5rem; }
+    h1 span { color: var(--accent); }
+    .hero-sub { font-size: 0.9rem; line-height: 1.8; color: var(--muted); max-width: 640px; margin-bottom: 2.5rem; }
+    .key-finding { border-left: 3px solid var(--accent); padding: 1.5rem; background: rgba(0,180,216,0.05); margin-bottom: 3rem; font-size: 0.85rem; line-height: 1.8; font-style: italic; color: #aaaacc; }
+    section { max-width: 900px; margin: 0 auto; padding: 0 2rem 4rem; }
+    .section-label { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; }
+    h2 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.4rem; margin-bottom: 1.5rem; color: var(--text); }
+    .def-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 3rem; }
+    .def-item { background: var(--bg2); padding: 1.5rem; }
+    .def-term { font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-bottom: 0.5rem; }
+    .def-formula { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.8rem; font-style: italic; }
+    .def-desc { font-size: 0.75rem; line-height: 1.7; color: #8888bb; }
+    .chart-container { background: var(--bg2); border: 1px solid var(--border); padding: 2rem; margin-bottom: 3rem; }
+    .chart-title { font-size: 0.75rem; color: var(--muted); margin-bottom: 1.5rem; letter-spacing: 0.1em; }
+    .domain-grid { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; }
+    .domain-row { display: grid; grid-template-columns: 160px 1fr 80px 60px; align-items: center; gap: 1rem; font-size: 0.75rem; }
+    .domain-name { color: var(--muted); text-align: right; }
+    .domain-bar-wrap { position: relative; height: 24px; background: rgba(255,255,255,0.03); }
+    .domain-bar { height: 100%; position: relative; transition: width 1s ease; }
+    .domain-bar::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 2px; background: rgba(255,255,255,0.3); }
+    .domain-cv { color: var(--muted); font-size: 0.7rem; text-align: right; }
+    .domain-n { color: var(--muted); font-size: 0.7rem; }
+    .tech-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; margin-bottom: 2rem; }
+    .tech-table th { text-align: left; padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--border); color: var(--muted); font-weight: 400; letter-spacing: 0.1em; font-size: 0.65rem; }
+    .tech-table td { padding: 0.6rem 0.8rem; border-bottom: 1px solid rgba(26,26,58,0.5); color: #aaaacc; }
+    .tech-table tr:hover td { background: rgba(0,180,216,0.03); }
+    .badge { display: inline-block; padding: 0.15rem 0.5rem; font-size: 0.6rem; letter-spacing: 0.1em; border: 1px solid; }
+    .badge-sci { color: var(--accent); border-color: var(--accent); }
+    .badge-ai { color: var(--accent2); border-color: var(--accent2); }
+    .badge-prod { color: #f4a261; border-color: #f4a261; }
+    .badge-slow { color: #ffd166; border-color: #ffd166; }
+    .badge-cens { color: var(--warn); border-color: var(--warn); }
+    .limit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 3rem; }
+    .limit-item { background: var(--bg2); padding: 1.2rem 1.5rem; }
+    .limit-num { font-size: 2rem; font-family: 'Syne', sans-serif; font-weight: 800; color: var(--border); line-height: 1; margin-bottom: 0.5rem; }
+    .limit-title { font-size: 0.8rem; color: var(--warn); margin-bottom: 0.4rem; font-weight: 700; }
+    .limit-desc { font-size: 0.72rem; color: var(--muted); line-height: 1.6; }
+    .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .btn { display: inline-block; padding: 0.8rem 1.5rem; font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-decoration: none; transition: all 0.2s; border: 1px solid; }
+    .btn-primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+    .btn-primary:hover { background: transparent; color: var(--accent); }
+    .btn-secondary { background: transparent; color: var(--muted); border-color: var(--border); }
+    .btn-secondary:hover { color: var(--text); border-color: var(--muted); }
+    .btn-zenodo { background: transparent; color: var(--accent3); border-color: var(--accent3); }
+    .btn-zenodo:hover { background: rgba(45,198,83,0.1); }
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; }
+    footer a { color: var(--accent); text-decoration: none; }
+    @media (max-width: 600px) {
+      .def-grid { grid-template-columns: 1fr; }
+      .limit-grid { grid-template-columns: 1fr; }
+      .domain-row { grid-template-columns: 100px 1fr 60px; }
+      .domain-n { display: none; }
+      .doi-badge { display: block; margin-left: 0; margin-top: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">ZORTH<span>EX</span></a>
+  <div style="display:flex;gap:2rem;">
+    <a href="/">Home</a>
+    <a href="/research.html" style="color:var(--accent)">&#8594; Research</a>
+  </div>
+</nav>
+<main>
+  <div class="hero">
+    <div>
+      <span class="status-badge">PREPRINT PUBLISHED &#8212; ZENODO &#8212; v1.1</span>
+      <a href="https://doi.org/10.5281/zenodo.20072999" target="_blank" class="doi-badge">&#8599; DOI: 10.5281/zenodo.20072999</a>
+    </div>
+    <h1>Public Attention<br>Diffusion <span>Lag</span></h1>
+    <p class="hero-sub">We tried to find a universal law of how the world discovers new things.<br>We didn't find it. We found something more interesting.</p>
+    <div class="key-finding">"The explored data show a broad distribution of diffusion times (L) across emerging technologies, with strong heterogeneity between domains. The biotech_medical subset presents the lowest variance (CV = 0.222), while the AI domain shows high heterogeneity (CV = 0.452). Results are limited by selection bias, small sample size, and possible censoring effects. Version 1.1 introduces a 12-month sustained attention window and the Structural Bubble category."</div>
+  </div>
+  <section>
+    <div class="section-label">// framework v1.1</div>
+    <h2>Three Locked Definitions</h2>
+    <div class="def-grid">
+      <div class="def-item"><div class="def-term">t_start</div><div class="def-formula">First public emergence</div><div class="def-desc">Seminal paper OR documented commercial launch OR recognized founding event. Must be justified and documented.</div></div>
+      <div class="def-item"><div class="def-term">t_peak</div><div class="def-formula">First structural consolidation</div><div class="def-desc">First window of &#8805;12 consecutive months with Google Trends &#8805;25/100. Updated from 3 to 12 months in v1.1 to distinguish structural attention from hype.</div></div>
+      <div class="def-item"><div class="def-term">L</div><div class="def-formula">L = t_peak &#8722; t_start (months)</div><div class="def-desc">Empirical indicator of public attention diffusion. Not a physical constant. Not a universal law. Represents the preparation window available before mainstream attention arrives.</div></div>
+    </div>
+  </section>
+  <section>
+    <div class="section-label">// results v1.1 &#8212; 11 structural technologies</div>
+    <h2>Domain Distribution</h2>
+    <div class="chart-container">
+      <div class="chart-title">L BY CLUSTER &#8212; v1.1 dataset (12-month window)</div>
+      <div class="domain-grid">
+        <div class="domain-row"><div class="domain-name">biotech_medical</div><div class="domain-bar-wrap"><div class="domain-bar" style="width:36%;background:linear-gradient(90deg,#e63946,#c1121f);"></div></div><div class="domain-cv">CV 0.222</div><div class="domain-n">n=2</div></div>
+        <div class="domain-row"><div class="domain-name">consumer_tech</div><div class="domain-bar-wrap"><div class="domain-bar" style="width:29%;background:linear-gradient(90deg,#a8a8a8,#666666);"></div></div><div class="domain-cv">CV 0.438</div><div class="domain-n">n=4</div></div>
+        <div class="domain-row"><div class="domain-name">AI/scientific</div><div class="domain-bar-wrap"><div class="domain-bar" style="width:72%;background:linear-gradient(90deg,#7b2d8b,#4a1a6b);"></div></div><div class="domain-cv">CV 0.452</div><div class="domain-n">n=3</div></div>
+        <div class="domain-row"><div class="domain-name">financial_tech</div><div class="domain-bar-wrap"><div class="domain-bar" style="width:74%;background:linear-gradient(90deg,#f4a261,#c47a3a);"></div></div><div class="domain-cv">CV 0.292</div><div class="domain-n">n=2</div></div>
+      </div>
+      <p style="font-size:0.65rem;color:var(--muted);">Bar length proportional to mean L. Lower CV = more stable distribution within domain.</p>
+    </div>
+    <table class="tech-table">
+      <thead><tr><th>Technology</th><th>Cluster</th><th>t_start</th><th>L (months)</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>mRNA vaccine</td><td>biotech_medical</td><td>Jan 2015</td><td>70</td><td><span class="badge badge-sci">structural</span></td></tr>
+        <tr><td>CRISPR</td><td>biotech_medical</td><td>Jun 2012</td><td>51</td><td><span class="badge badge-sci">structural</span></td></tr>
+        <tr><td>LLM</td><td>AI/scientific</td><td>Jun 2017</td><td>69</td><td><span class="badge badge-ai">structural</span></td></tr>
+        <tr><td>Deep Learning</td><td>AI/scientific</td><td>Sep 2012</td><td>112</td><td><span class="badge badge-ai">structural</span></td></tr>
+        <tr><td>Autonomous Vehicle</td><td>AI/scientific</td><td>Oct 2010</td><td>176</td><td><span class="badge badge-slow">outlier</span></td></tr>
+        <tr><td>Virtual Reality</td><td>consumer_tech</td><td>Jan 2010</td><td>71</td><td><span class="badge badge-prod">structural</span></td></tr>
+        <tr><td>iPhone</td><td>consumer_tech</td><td>Jan 2007</td><td>29</td><td><span class="badge badge-prod">structural</span></td></tr>
+        <tr><td>Cloud Computing</td><td>consumer_tech</td><td>Mar 2006</td><td>31</td><td><span class="badge badge-prod">structural</span></td></tr>
+        <tr><td>Facebook</td><td>consumer_tech</td><td>Feb 2004</td><td>59</td><td><span class="badge badge-prod">structural</span></td></tr>
+        <tr><td>Bitcoin</td><td>financial_tech</td><td>Oct 2008</td><td>146</td><td><span class="badge badge-prod">structural</span></td></tr>
+        <tr><td>Cryptocurrency</td><td>financial_tech</td><td>Jan 2013</td><td>96</td><td><span class="badge badge-prod">structural</span></td></tr>
+        <tr><td>NFT</td><td>structural bubble</td><td>&#8212;</td><td>N/A</td><td><span class="badge badge-cens">bubble</span></td></tr>
+        <tr><td>Metaverse</td><td>structural bubble</td><td>&#8212;</td><td>N/A</td><td><span class="badge badge-cens">bubble</span></td></tr>
+        <tr><td>Clubhouse</td><td>structural bubble</td><td>&#8212;</td><td>N/A</td><td><span class="badge badge-cens">bubble</span></td></tr>
+        <tr><td>Nanotechnology</td><td>censored</td><td>&#8212;</td><td>N/A</td><td><span class="badge badge-cens">censored</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+  <section>
+    <div class="section-label">// limitations</div>
+    <h2>What This Is Not</h2>
+    <div class="limit-grid">
+      <div class="limit-item"><div class="limit-num">01</div><div class="limit-title">Survival Bias</div><div class="limit-desc">Only technologies that reached mainstream are included. Technologies that failed to diffuse are not represented.</div></div>
+      <div class="limit-item"><div class="limit-num">02</div><div class="limit-title">Selection Bias</div><div class="limit-desc">Technologies chosen for historical prominence, not random sampling. Results cannot be generalized.</div></div>
+      <div class="limit-item"><div class="limit-num">03</div><div class="limit-title">Proxy Limitation</div><div class="limit-desc">Google Trends measures search interest, not understanding or adoption. Biased toward English-speaking populations.</div></div>
+      <div class="limit-item"><div class="limit-num">04</div><div class="limit-title">Small Sample</div><div class="limit-desc">n=11 structural total. No robust statistical inference possible. Target for v2.0: n&#8805;20 per cluster.</div></div>
+      <div class="limit-item"><div class="limit-num">05</div><div class="limit-title">t_start Subjectivity</div><div class="limit-desc">Identification of the founding event involves judgment. v2.0 will introduce confidence bands based on alternative t_start candidates.</div></div>
+      <div class="limit-item"><div class="limit-num">06</div><div class="limit-title">Operational Window</div><div class="limit-desc">L is measurable only after t_peak. In real time, historical sector L is used as a probabilistic estimate, not a certainty.</div></div>
+    </div>
+  </section>
+  <section>
+    <div class="section-label">// open source</div>
+    <h2>Replicate This Work</h2>
+    <p style="font-size:0.8rem;color:var(--muted);line-height:1.8;margin-bottom:1.5rem;">All code, data, and methodology are publicly available. If you follow the pipeline and obtain different results &#8212; that is a contribution, not a problem.</p>
+    <div class="cta-row">
+      <a href="https://doi.org/10.5281/zenodo.20072999" target="_blank" class="btn btn-zenodo">&#8594; Preprint v1.1 on Zenodo</a>
+      <a href="https://doi.org/10.5281/zenodo.20049069" target="_blank" class="btn btn-zenodo" style="border-color:#6666aa;color:#6666aa;">&#8594; v1.0 (archived)</a>
+      <a href="https://github.com/zorthex2026/zorthex-diffusion-lag" target="_blank" class="btn btn-primary">&#8594; View on GitHub</a>
+      <a href="/" class="btn btn-secondary">&#8592; Back to Zorthex</a>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--border);padding:1.2rem;font-size:0.72rem;color:var(--muted);line-height:1.8;">
+      <strong style="color:var(--text);">Cite as (v1.1):</strong><br>
+      Santi, R. (2026). ZORTHEX v1.1 &#8212; Public Attention Diffusion Lag: A Replicable Framework for Measuring Technology Diffusion (1.1). Zenodo.<br>
+      <a href="https://doi.org/10.5281/zenodo.20072999" target="_blank" style="color:var(--accent);">https://doi.org/10.5281/zenodo.20072999</a><br><br>
+      <strong style="color:var(--text);">Cite all versions:</strong><br>
+      <a href="https://doi.org/10.5281/zenodo.20049068" target="_blank" style="color:var(--accent);">https://doi.org/10.5281/zenodo.20049068</a>
+    </div>
+  </section>
+</main>
+<footer>
+  ZORTHEX.COM &#8212; BEYOND WHAT'S NEXT &#8212; EST. MMXXVI &#8212;
+  <a href="https://x.com/zorthex" target="_blank">@ZORTHEX</a> &#8212;
+  POWERED BY <a href="https://anthropic.com" target="_blank">CLAUDE</a>
+</footer>
+</body>
+</html>

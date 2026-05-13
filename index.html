@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZORTHEX — Beyond What's Next</title>
+<meta name="description" content="Zorthex does not predict. Does not hope. Does not warn. It maps. Deciphers. Delivers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #050505;
+    --white: #f0ede6;
+    --dim: #8a887f;
+    --accent: #c8ff00;
+    --line: rgba(200,255,0,0.15);
+  }
+
+  html, body {
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 3rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.3em;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    border: 1px solid rgba(200,255,0,0.3);
+    padding: 0.4rem 0.8rem;
+  }
+
+  .nav-link:hover {
+    background: rgba(200,255,0,0.1);
+    border-color: var(--accent);
+  }
+
+  .status {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dim);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.2s forwards;
+  }
+
+  .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 14vw, 12rem);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    opacity: 0;
+    animation: fadeUp 1s 0.4s forwards;
+  }
+
+  .headline span {
+    color: var(--accent);
+    display: block;
+  }
+
+  .tagline {
+    margin-top: 2.5rem;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-weight: 300;
+    color: var(--dim);
+    max-width: 520px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 1s 0.6s forwards;
+  }
+
+  .tagline strong {
+    color: var(--white);
+    font-weight: 400;
+  }
+
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: var(--accent);
+    margin: 2.5rem 0;
+    opacity: 0;
+    animation: fadeUp 1s 0.7s forwards;
+  }
+
+  .form-block {
+    opacity: 0;
+    animation: fadeUp 1s 0.9s forwards;
+  }
+
+  .form-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 0;
+    max-width: 480px;
+    border: 1px solid rgba(200,255,0,0.3);
+    transition: border-color 0.3s;
+  }
+
+  .form-row:focus-within {
+    border-color: var(--accent);
+  }
+
+  .form-row input[type="email"] {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0.9rem 1.2rem;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--white);
+    letter-spacing: 0.05em;
+  }
+
+  .form-row input[type="email"]::placeholder {
+    color: var(--dim);
+  }
+
+  .form-row button {
+    background: var(--accent);
+    border: none;
+    color: var(--black);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    padding: 0.9rem 1.6rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+  }
+
+  .form-row button:hover { background: #d4ff33; }
+  .form-row button:active { transform: scale(0.97); }
+
+  .form-disclaimer {
+    margin-top: 0.75rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  .success-msg {
+    display: none;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    padding: 1rem 0;
+    max-width: 480px;
+  }
+
+  .bottom-strip {
+    border-top: 1px solid var(--line);
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 1s 1.2s forwards;
+  }
+
+  .bottom-strip .coords {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--dim);
+    letter-spacing: 0.15em;
+  }
+
+  .pillars { display: flex; gap: 2rem; }
+
+  .pillars span {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .pillars span::before {
+    content: '//';
+    color: var(--accent);
+    margin-right: 0.4em;
+    opacity: 0.6;
+  }
+
+  .side-text {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    transform-origin: center center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--dim);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeIn 2s 1.5s forwards;
+  }
+
+  .scan-line {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.3;
+    animation: scan 8s linear infinite;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  @keyframes scan {
+    0% { top: 0; }
+    100% { top: 100vh; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 0.5; }
+  }
+
+  .counter {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    margin-top: 0.5rem;
+  }
+
+  .counter span { color: var(--accent); }
+
+  /* ── MOBILE FIX ── */
+  @media (max-width: 600px) {
+    header { padding: 1.2rem 1.5rem; }
+    main { padding: 3rem 1.5rem; }
+    .bottom-strip { padding: 1.5rem; flex-direction: column; align-items: flex-start; }
+    .pillars { flex-wrap: wrap; gap: 1rem; }
+    .side-text { display: none; }
+    .form-row { flex-direction: column; }
+    .form-row button { width: 100%; }
+    .nav-link {
+      display: inline-flex;
+      font-size: 0.65rem;
+      padding: 0.35rem 0.6rem;
+      letter-spacing: 0.1em;
+    }
+    .status { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<div class="wrapper">
+
+  <header>
+    <a href="/" class="logo">ZORTHEX</a>
+    <div class="nav-right">
+      <a href="/research.html" class="nav-link">→ Research</a>
+      <div class="status">SIGNAL ACTIVE</div>
+    </div>
+  </header>
+
+  <main>
+    <p class="eyebrow">// Transmission 001 — Initializing</p>
+
+    <h1 class="headline">
+      Beyond<br>
+      <span>What's</span>
+      Next.
+    </h1>
+
+    <p class="tagline">
+      Zorthex does not predict. Does not hope. Does not warn.<br>
+      <strong>It maps. Deciphers. Delivers.</strong><br><br>
+      Signals from the edges of biotech, space, and machine intelligence —
+      before they become obvious.
+    </p>
+
+    <div class="divider"></div>
+
+    <div class="form-block">
+      <label class="form-label">// Request access to the signal</label>
+
+      <div class="form-row" id="zx-form-row">
+        <input type="email" id="EMAIL" placeholder="your@email.com" autocomplete="off" />
+        <button onclick="zxSubmit()">ACCESS</button>
+      </div>
+      <div id="zx-success" style="display:none; font-family:'Share Tech Mono',monospace; font-size:0.8rem; color:#c8ff00; padding:0.5rem 0;">
+        &gt; Signal registered. You will be contacted.<br>&gt; Do not share this confirmation.
+      </div>
+      <script>
+      function zxSubmit() {
+        var email = document.getElementById('EMAIL').value.trim();
+        if (!email || !email.includes('@')) {
+          document.getElementById('EMAIL').style.border = '1px solid #ff4444';
+          return;
+        }
+        var formData = new FormData();
+        formData.append('EMAIL', email);
+        formData.append('email_address_check', '');
+        formData.append('locale', 'it');
+        fetch('https://5bf3c2bc.sibforms.com/serve/MUIFAGXaEDHYCdotn3fb14sFFESw-5DdkuyCwQuiatHCKhWvsT0QUgt5Bme4Ri-cHXbdudFuj18rWuSHwcG9gp7owAFKO6aqajCZaUvVFh3dJrey66mapUQV-PEypd30X3dODV1EtFxra-5nMSCZPvyysAogWyYI-02ANfOhO-D3s8GVu_GqmH1pio0qYAzER9Z9fv1o4scHvor1tQ==', {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors'
+        });
+        document.getElementById('zx-form-row').style.display = 'none';
+        document.querySelector('.form-disclaimer') && (document.querySelector('.form-disclaimer').style.display = 'none');
+        document.getElementById('zx-success').style.display = 'block';
+        document.getElementById('count').textContent = parseInt(document.getElementById('count').textContent) + 1;
+      }
+      </script>
+
+      <p class="form-disclaimer">No spam. No noise. Only what matters.</p>
+      <p class="counter">Registered observers: <span id="count">848</span></p>
+    </div>
+  </main>
+
+  <footer class="bottom-strip">
+    <div class="coords">39.3°N / 16.2°E — NODE COSENZA</div>
+    <div class="pillars">
+      <span>Biotech</span>
+      <span>Space</span>
+      <span>Machine Intelligence</span>
+    </div>
+    <div class="coords">EST. MMXXV</div>
+  </footer>
+
+</div>
+
+<div class="side-text">ZORTHEX.COM — BEYOND WHAT'S NEXT</div>
+
+</body>
+</html>
