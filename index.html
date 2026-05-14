@@ -920,7 +920,7 @@ async function runAnalysis() {
     if (qLower.includes(key) || key.includes(qLower)) { isPreset = true; break; }
   }
 
-  if (isPreset || !claudeApiKey) {
+  if (isPreset) {
     // Use preset or simulate
     const msgs = ['Querying Google Trends...', 'Fetching Wikipedia pageviews...', 'Scanning Reddit signals...', 'Calculating diffusion lag (L)...', 'Applying Zorthex v1.1 framework...'];
     let i = 0;
