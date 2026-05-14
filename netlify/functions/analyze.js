@@ -1,3 +1,5 @@
+const https = require('https');
+
 exports.handler = async function(event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -28,42 +30,65 @@ Analyze "${query}" and respond ONLY with valid JSON, no other text:
   "currentScore": estimated current Google Trends score May 2026 (0-100),
   "status": "structural" or "observation" or "bubble",
   "chartData": array of 80 numbers 0-100 representing estimated attention curve over time from tStart to May 2026,
-  "src1": "2-3 sentence Google Trends analysis",
-  "src2": "2-3 sentence Wikipedia pageviews analysis",
-  "src3": "2-3 sentence Reddit community analysis",
-  "interpretation": "3-4 sentence interpretation in Zorthex tone",
-  "monitor": "2-3 sentence: what specific events or signals to watch next"
-}`;
+  "src1": "2-3 sentence Google Trends analysis — key dates, peak scores, current status",
+  "src2": "2-3 sentence Wikipedia pageviews analysis — baseline, spikes, current level",
+  "src3": "2-3 sentence Reddit community analysis — subreddits, activity level, notable discussions",
+  "interpretation": "3-4 sentence interpretation in Zorthex tone: observational, precise, no hype.",
+  "monitor": "2-3 sentence: what specific events or signals to watch next that could change the classification"
+}
 
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+Be precise and factual. Never sensationalist.`;
+
+  const body = JSON.stringify({
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 1500,
+    messages: [{ role: 'user', content: prompt }]
+  });
+
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'api.anthropic.com',
+      path: '/v1/messages',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1500,
-        messages: [{ role: 'user', content: prompt }]
-      })
+        'anthropic-version': '2023-06-01',
+        'Content-Length': Buffer.byteLength(body)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          const text = parsed.content[0].text;
+          const clean = text.replace(/```json|```/g, '').trim();
+          const result = JSON.parse(clean);
+          resolve({
+            statusCode: 200,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(result)
+          });
+        } catch (err) {
+          resolve({
+            statusCode: 500,
+            body: JSON.stringify({ error: err.message, raw: data.substring(0, 200) })
+          });
+        }
+      });
     });
 
-    const data = await response.json();
-    const text = data.content[0].text;
-    const clean = text.replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(clean);
+    req.on('error', (err) => {
+      resolve({
+        statusCode: 500,
+        body: JSON.stringify({ error: err.message })
+      });
+    });
 
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(parsed)
-    };
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: err.message })
-    };
-  }
+    req.write(body);
+    req.end();
+  });
 };
