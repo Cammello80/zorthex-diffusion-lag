@@ -672,6 +672,10 @@
       <input class="input-field" id="queryInput" type="text" placeholder="e.g. mRNA cancer vaccine, Bitcoin, nuclear fusion, tariffs..." style="border-color: rgba(0,212,255,0.8); box-shadow: 0 0 30px rgba(0,212,255,0.15), 0 0 60px rgba(0,212,255,0.06), inset 0 0 20px rgba(0,212,255,0.04);">
       <button class="run-btn" id="runBtn" onclick="runAnalysis()">ANALYZE →</button>
     </div>
+    <div id="analyzeHint" style="display:none; align-items:center; gap:10px; margin-bottom:16px; padding:10px 18px; background:rgba(204,68,255,0.07); border:1px solid rgba(204,68,255,0.25); border-radius:6px; font-size:13px; color:#cc44ff; letter-spacing:0.04em; font-family:'Orbitron',sans-serif; font-weight:600;">
+      <span style="animation:bounce 1s ease-in-out infinite; display:inline-block; font-size:16px;">↓</span>
+      ANALYSIS IN PROGRESS · RESULTS LOADING BELOW
+    </div>
     <div class="presets-label">Or start with one of these:</div>
     <div class="presets">
       <button class="preset" onclick="setPreset('mRNA cancer vaccine')">mRNA cancer vaccine</button>
@@ -719,10 +723,6 @@
     <div class="loading-row">
       <div class="spinner"></div>
       <span class="loading-text" id="loadingText">Querying three independent sources...</span>
-    </div>
-    <div class="loading-hint">
-      <span class="loading-hint-arrow">↓</span>
-      This takes around 20 seconds — results will appear below
     </div>
   </div>
 
@@ -974,6 +974,7 @@ async function runAnalysis() {
   document.getElementById('runBtn').disabled = true;
   document.getElementById('results').classList.remove('active');
   document.getElementById('loading').classList.add('active');
+  document.getElementById('analyzeHint').style.display = 'flex';
   document.getElementById('aiBadge').style.display = 'none';
   document.getElementById('disclaimer').style.display = 'none';
 
@@ -989,7 +990,7 @@ async function runAnalysis() {
     const msgs = ['Querying Google Trends...', 'Fetching Wikipedia pageviews...', 'Scanning Reddit signals...', 'Calculating diffusion lag (L)...', 'Applying Zorthex v1.1 framework...'];
     let i = 0;
     const iv = setInterval(() => { if (i < msgs.length) document.getElementById('loadingText').textContent = msgs[i++]; }, 640);
-    setTimeout(() => { clearInterval(iv); document.getElementById('loading').classList.remove('active'); document.getElementById('runBtn').disabled = false; showResults(query, null); }, 3200);
+    setTimeout(() => { clearInterval(iv); document.getElementById('loading').classList.remove('active'); document.getElementById('analyzeHint').style.display = 'none'; document.getElementById('runBtn').disabled = false; showResults(query, null); }, 3200);
   } else {
     // Use Claude API
     const msgs = ['Connecting to Claude API...', 'Applying Zorthex v1.1 framework...', 'Estimating diffusion lag (L)...', 'Generating three-source analysis...', 'Building interpretation...'];
@@ -999,11 +1000,13 @@ async function runAnalysis() {
       const aiData = await analyzeWithClaude(query);
       clearInterval(iv);
       document.getElementById('loading').classList.remove('active');
+      document.getElementById('analyzeHint').style.display = 'none';
       document.getElementById('runBtn').disabled = false;
       showResults(query, aiData);
     } catch (err) {
       clearInterval(iv);
       document.getElementById('loading').classList.remove('active');
+      document.getElementById('analyzeHint').style.display = 'none';
       document.getElementById('runBtn').disabled = false;
       document.getElementById('loadingText').textContent = '';
       alert('Claude API error: ' + err.message + '\n\nCheck your API key and try again.');
