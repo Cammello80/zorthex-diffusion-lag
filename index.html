@@ -410,6 +410,29 @@
   .metric-val.magenta { color: var(--magenta); text-shadow: 0 0 20px var(--magenta); }
   .metric-lbl { font-size: 13px; color: #7a80a0; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.4; }
 
+  /* METRIC LEGEND */
+  .metric-legend { display: grid; grid-template-columns: repeat(4, 1fr); margin-bottom: 28px; margin-top: -16px; }
+  .metric-legend-item { padding: 10px 20px 14px; font-size: 12px; color: var(--text-dim); line-height: 1.55; letter-spacing: 0.01em; border-left: 1px solid var(--border); }
+  .metric-legend-item:first-child { border-left: none; }
+  .metric-legend-item strong { display: block; color: #7a80a0; font-weight: 500; margin-bottom: 3px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* SIGNAL INTELLIGENCE */
+  .signal-block { background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 32px 36px; margin-bottom: 24px; position: relative; overflow: hidden; }
+  .signal-block::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--amber)); }
+  .signal-block-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .signal-block-title { font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-mid); }
+  .signal-verdict { font-size: 20px; font-weight: 400; color: var(--text); line-height: 1.6; margin-bottom: 20px; font-family: 'Exo 2', sans-serif; }
+  .signal-verdict strong { font-weight: 600; }
+  .sv-cyan { color: var(--cyan); text-shadow: 0 0 12px rgba(0,212,255,0.4); }
+  .sv-amber { color: var(--amber); text-shadow: 0 0 12px rgba(255,170,68,0.4); }
+  .sv-red { color: var(--red); text-shadow: 0 0 12px rgba(255,68,102,0.4); }
+  .sv-green { color: var(--green); }
+  .signal-points { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .signal-point { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; }
+  .signal-point-icon { font-size: 14px; flex-shrink: 0; margin-top: 2px; color: var(--text-dim); }
+  .signal-point-text { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+  .signal-point-text strong { color: var(--text); font-weight: 500; }
+
   .chart-section { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 28px; margin-bottom: 24px; box-shadow: inset 0 0 40px rgba(0,0,20,0.5); }
   .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
   .chart-title { font-size: 15px; font-weight: 500; color: var(--text); letter-spacing: 0.04em; }
@@ -423,6 +446,14 @@
   .source-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 12px currentColor; }
   .source-name { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.1em; }
   .source-status { font-size: 15px; color: #c0c8e8; line-height: 1.7; }
+
+  /* WHAT IT MEANS */
+  .wim-block { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 32px 36px; margin-bottom: 24px; position: relative; }
+  .wim-block::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--magenta), var(--cyan)); border-radius: 8px 8px 0 0; }
+  .wim-incipit { font-size: 16px; color: var(--text-mid); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+  .wim-label { font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); text-shadow: 0 0 10px rgba(0,212,255,0.4); margin-bottom: 14px; }
+  .wim-body { font-size: 16px; color: var(--text); line-height: 1.85; font-weight: 300; }
+  .wim-disclaimer { margin-top: 16px; font-size: 13px; color: var(--text-dim); font-style: italic; border-top: 1px solid var(--border); padding-top: 14px; }
 
   .interp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
   .interp-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 8px; padding: 26px; position: relative; overflow: hidden; }
@@ -575,6 +606,9 @@
     .hero-desc { font-size: 16px; }
     .main { padding: 40px 24px; }
     .metrics { grid-template-columns: repeat(2, 1fr); }
+    .metric-legend { grid-template-columns: repeat(2, 1fr); }
+    .metric-legend-item { border-left: none; border-top: 1px solid var(--border); }
+    .signal-points { grid-template-columns: 1fr; }
     .interp-grid { grid-template-columns: 1fr; }
     .sources { grid-template-columns: 1fr; }
     .input-row { flex-direction: column; }
@@ -591,8 +625,6 @@
   <div class="header-right">
     <a href="research.html" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--cyan);text-decoration:none;border:1px solid var(--cyan-mid);padding:6px 14px;border-radius:4px;transition:all 0.2s;" onmouseover="this.style.background='rgba(0,212,255,0.1)'" onmouseout="this.style.background='transparent'">→ SIGNAL REPORTS</a>
     <a onclick="document.getElementById('howModal').style.display='flex'" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--text-mid);text-decoration:none;cursor:pointer;padding:6px 14px;border-radius:4px;border:1px solid var(--border2);transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(0,212,255,0.3)';this.style.color='var(--cyan)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text-mid)'">HOW WE MEASURE</a>
-    <a href="mailto:zorthex.official@gmail.com" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--text-mid);text-decoration:none;padding:6px 14px;border-radius:4px;border:1px solid var(--border2);transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(0,212,255,0.3)';this.style.color='var(--cyan)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text-mid)'">CONTACT</a>
-    <span class="header-tag">Public Attention Diffusion Lag</span>
     <span class="version-badge">V1.1</span>
   </div>
 </div>
@@ -700,12 +732,28 @@
       </div>
     </div>
 
+    <div class="metric-legend">
+      <div class="metric-legend-item"><strong>L — Diffusion Lag</strong>Months from first public appearance to first major attention peak (Google Trends ≥25). The core Zorthex metric.</div>
+      <div class="metric-legend-item"><strong>Peak Attention</strong>Highest Google Trends score ever recorded for this term (0–100). 100 = maximum relative search volume globally.</div>
+      <div class="metric-legend-item"><strong>Months Above Threshold</strong>Consecutive months with score ≥25/100. 12+ consecutive months = structural consolidation confirmed.</div>
+      <div class="metric-legend-item"><strong>Current Score</strong>Estimated Google Trends score May 2026. Below 25 = attention has receded. Above 25 = still in active public awareness.</div>
+    </div>
+
     <div class="chart-section">
       <div class="chart-header">
         <div class="chart-title">Public attention over time — Google Trends (0–100)</div>
         <div class="chart-note">Threshold: 25 · 12 consecutive months = structural consolidation</div>
       </div>
       <canvas id="trendChart" height="210"></canvas>
+    </div>
+
+    <div class="signal-block" id="signalBlock">
+      <div class="signal-block-header">
+        <span style="font-size:18px;color:var(--cyan);text-shadow:0 0 10px var(--cyan)">◈</span>
+        <div class="signal-block-title">Signal Intelligence — What's happening now</div>
+      </div>
+      <div class="signal-verdict" id="signalVerdict">—</div>
+      <div class="signal-points" id="signalPoints"></div>
     </div>
 
     <div class="sources">
@@ -743,6 +791,12 @@
       </div>
     </div>
 
+    <div class="wim-block" id="wimBlock" style="display:none">
+      <div class="wim-incipit" id="wimIncipit"></div>
+      <div class="wim-label">WHAT IT MEANS</div>
+      <div class="wim-body" id="wimBody"></div>
+    </div>
+
     <div class="disclaimer" id="disclaimer" style="display:none">
       <strong>Note:</strong> This analysis was generated by Claude AI applying the Zorthex v1.1 framework to its training knowledge. Values are estimates based on publicly available historical data. For verified Signal Reports, see <a class="doi-link" href="https://zorthex.com/research.html" target="_blank">zorthex.com/research.html</a>. Manual verification recommended before publication.
     </div>
@@ -758,7 +812,10 @@
 <div class="page-footer">
   <div class="page-footer-brand">ZORTH<em>EX</em> · BEYOND WHAT'S NEXT</div>
   <div>Built in public · No team · No investors · Est. MMXXVI</div>
-  <div>Powered by <a href="https://www.anthropic.com" target="_blank" style="color:var(--cyan);text-decoration:none;text-shadow:0 0 10px rgba(0,212,255,0.5);">Claude</a> · zorthex.com</div>
+  <div style="display:flex;align-items:center;gap:20px;">
+    <a href="mailto:zorthex.official@gmail.com" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--text-mid);text-decoration:none;padding:6px 14px;border-radius:4px;border:1px solid var(--border2);transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(0,212,255,0.3)';this.style.color='var(--cyan)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text-mid)'">CONTACT US</a>
+    <span>Powered by <a href="https://www.anthropic.com" target="_blank" style="color:var(--cyan);text-decoration:none;text-shadow:0 0 10px rgba(0,212,255,0.5);">Claude</a> · zorthex.com</span>
+  </div>
 </div>
 
 <script>
@@ -777,7 +834,8 @@ const PRESETS_DATA = {
     src2: 'Peak 894 views/day Aug 2025 vs baseline 418/day. Now 239/day. Wikipedia peaked one month before Google — deeper interest peaked first.',
     src3: 'High-vote posts cluster Aug–Oct 2025. Approx. 40–50% politically driven (RFK Jr. cuts). Declared limitation, not hidden.',
     interpretation: 'Nine of 12 months above threshold. May 2026 dropped to 17/100 — below the structural line. Whether this is a temporary dip or the start of a decline is the key open question. The next 8–12 weeks are the most informative window available.',
-    monitor: 'Does Google Trends return above 25 for June–July 2026? BioNTech/Moderna Phase 3 melanoma results expected summer 2026. A positive trial would likely restart the attention clock.'
+    monitor: 'Does Google Trends return above 25 for June–July 2026? BioNTech/Moderna Phase 3 melanoma results expected summer 2026. A positive trial would likely restart the attention clock.',
+    whatItMeans: 'Public attention to mRNA cancer vaccines peaked at 100/100 in September 2025 and has since declined to 17/100 in May 2026.\n\nWHAT IT MEANS\n\nNine consecutive months above threshold were recorded — three short of structural consolidation. The curve is in contraction. A phenomenon that reached maximum public visibility is losing oxygen at the same moment clinical development continues at pace. Attention and science are moving in opposite directions. Whether May 2026 marks a temporary contraction or the beginning of a structural exit from the attention cycle remains an open question. The summer 2026 clinical readouts are the next event capable of reversing the trajectory. These values reflect observed attention patterns — not projections.'
   },
   'bitcoin': {
     title: 'Bitcoin',
@@ -789,7 +847,8 @@ const PRESETS_DATA = {
     src2: 'Wikipedia "Bitcoin" among the top 1000 most visited pages globally. Consistent above-baseline traffic since 2017.',
     src3: 'r/Bitcoin has 6M+ members. Multiple active narratives: macro hedge, digital gold, speculation. Sustained high volume.',
     interpretation: 'Bitcoin has achieved structural consolidation — over 36 months above threshold. The public understanding has evolved from speculative bubble to macro hedge to institutional asset. L = 107 months from genesis block to first mainstream peak.',
-    monitor: 'CBDC developments and regulatory frameworks in major economies. ETF inflows as institutional attention proxy. Inflation expectations correlation.'
+    monitor: 'CBDC developments and regulatory frameworks in major economies. ETF inflows as institutional attention proxy. Inflation expectations correlation.',
+    whatItMeans: 'Bitcoin peaked at 100/100 in December 2017, reached a second peak of 95/100 in November 2021, and currently registers 42/100 in May 2026.\n\nWHAT IT MEANS\n\nThirty-six consecutive months above threshold confirm structural consolidation. This is not a phenomenon in formation — it is a phenomenon that has completed its diffusion cycle and entered a state of sustained public presence. The narrative has shifted multiple times: speculative asset, store of value, institutional hedge, macro instrument. Each shift has maintained attention above the structural floor. The lag of 107 months documents how long a technology can operate at scale before the public assigns it a stable frame. These values reflect observed attention patterns — not projections.'
   },
   'quantitative easing': {
     title: 'Quantitative Easing',
@@ -801,7 +860,8 @@ const PRESETS_DATA = {
     src2: 'Wikipedia "Quantitative easing" spiked dramatically Mar 2020. Sustained elevated interest vs pre-2008 baseline of near-zero.',
     src3: 'Reddit r/economics and r/wallstreetbets drove massive awareness 2020–2021. Meme format accelerated public comprehension of a complex monetary concept.',
     interpretation: 'The clearest case of meme-accelerated diffusion in the Zorthex dataset. A concept understood only by central bankers in 2008 became cultural common knowledge by 2020 via a three-word meme. L = 136 months — but the final compression happened in weeks.',
-    monitor: 'Fed balance sheet reduction (QT) and whether the public tracks the reversal. Inflation expectations as a proxy for monetary literacy in real time.'
+    monitor: 'Fed balance sheet reduction (QT) and whether the public tracks the reversal. Inflation expectations as a proxy for monetary literacy in real time.',
+    whatItMeans: 'Quantitative easing entered public discourse as a central bank tool in November 2008. Public attention reached its first significant peak in the 2010–2011 Fed QE era, then peaked at 89/100 in March 2020. It currently registers 28/100 in May 2026 — above the structural threshold.\n\nWHAT IT MEANS\n\nFourteen months above threshold have been recorded. A monetary mechanism that operated for over a decade in near-total public obscurity was compressed into cultural common knowledge in weeks — accelerated by a three-word meme in early 2020. The lag of 136 months is not a measure of how long it took for the policy to work. It is a measure of how long it took for the public to develop a vocabulary for it. Attention currently holds above threshold, sustained by ongoing debates on inflation, central bank credibility and the reversal of the same policies. These values reflect observed attention patterns — not projections.'
   },
   'crispr': {
     title: 'CRISPR Gene Editing',
@@ -813,19 +873,21 @@ const PRESETS_DATA = {
     src2: 'Wikipedia traffic reflects milestones: 2015 Science paper, 2018 scandal, 2020 Nobel Prize. Each event added a distinct layer of public understanding.',
     src3: 'r/science and r/genetics show consistent engagement. Ethics debates consistently drive larger spikes than scientific papers alone.',
     interpretation: 'CRISPR has achieved structural consolidation. Driven by scientific breakthroughs and ethical controversies in roughly equal measure. The 2020 Nobel Prize confirmed mainstream status. L = 82 months — one of the faster diffusions in the biotech dataset.',
-    monitor: 'Clinical results for CRISPR-based therapies. Regulatory developments for germline editing. Any major trial failure would test structural consolidation.'
+    monitor: 'Clinical results for CRISPR-based therapies. Regulatory developments for germline editing. Any major trial failure would test structural consolidation.',
+    whatItMeans: 'CRISPR gene editing emerged as a scientific tool in January 2012. Public attention reached a first significant peak in November 2018 and currently registers 31/100 in May 2026 — above the structural threshold.\n\nWHAT IT MEANS\n\nEighteen months above threshold confirm structural consolidation. The diffusion of CRISPR into public awareness was driven in roughly equal measure by scientific milestones and ethical controversy — the 2018 He Jiankui scandal generated more public attention than any peer-reviewed paper. The 2020 Nobel Prize anchored the concept in mainstream knowledge. At 82 months, this is one of the faster documented diffusions in the biotech dataset. Attention holds above threshold in May 2026, sustained by ongoing clinical development. The gap between what the science can now do and what the public understands remains open. These values reflect observed attention patterns — not projections.'
   },
   'nuclear fusion': {
     title: 'Nuclear Fusion',
     tStart: 'Jan 1950', tPeak: 'Dec 2022', L: 875,
     peakScore: 100, monthsAbove: 6, currentScore: 22,
-    status: 'observation',
+    status: 'bubble',
     chartData: [5,5,5,6,5,5,5,6,5,5,5,5,5,5,5,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,100,72,48,32,26,22,22,22,22],
     src1: 'Peak Dec 2022 (NIF ignition breakthrough, 100/100). May 2026: 22/100 — below threshold. First sustained public attention spike in 70+ years of active research.',
     src2: 'Wikipedia "Nuclear fusion" spike Dec 2022. Historically very low baseline despite decades of research and billions invested worldwide.',
     src3: 'Reddit r/fusion active but niche. Dec 2022 posts hit 50k+ votes. Now back to baseline community discussion levels.',
     interpretation: 'Nuclear fusion has the longest documented lag in the Zorthex dataset: L = 875 months — over 70 years. The Dec 2022 NIF ignition was the first real public attention spike. Currently below threshold. Structural consolidation not yet confirmed.',
-    monitor: 'NIF follow-up ignition experiments. Private sector: Commonwealth Fusion Systems, Helion Energy milestones. Any net-energy-gain replication by an independent lab would trigger a new attention cycle.'
+    monitor: 'NIF follow-up ignition experiments. Private sector: Commonwealth Fusion Systems, Helion Energy milestones. Any net-energy-gain replication by an independent lab would trigger a new attention cycle.',
+    whatItMeans: 'Nuclear fusion research began in earnest in the early 1950s. Public attention reached its first documented peak at 100/100 in December 2022, following the NIF ignition breakthrough. It currently registers 22/100 in May 2026 — below the structural threshold.\n\nWHAT IT MEANS\n\nSix months above threshold were recorded. Structural consolidation has not been confirmed. The December 2022 spike was the first time in over 70 years of active research that public attention reached maximum relative search volume globally. It did not hold. The attention cycle opened and closed without consolidating. A technology that has absorbed decades of institutional investment and scientific effort has not yet produced a durable frame in public consciousness. The lag of 875 months is the longest in the Zorthex dataset. Whether the next major experimental result generates a second cycle — and whether that cycle consolidates — is the open question. These values reflect observed attention patterns — not projections.'
   }
 };
 
@@ -858,7 +920,8 @@ Analyze "${query}" and respond ONLY with valid JSON, no other text:
   "src2": "2-3 sentence Wikipedia pageviews analysis — baseline, spikes, current level",
   "src3": "2-3 sentence Reddit community analysis — subreddits, activity level, notable discussions",
   "interpretation": "3-4 sentence interpretation in Zorthex tone: observational, precise, no hype. What does the data show? Where in the cycle?",
-  "monitor": "2-3 sentence: what specific events or signals to watch next that could change the classification"
+  "monitor": "2-3 sentence: what specific events or signals to watch next that could change the classification",
+  "whatItMeans": "A plain-language contextual reading for analysts, strategists and decision-makers. Structure: open with a one-sentence factual incipit stating the peak value, peak date, and current score. Then write WHAT IT MEANS on its own line. Then 3-4 sentences explaining what the attention data reveals about where this phenomenon sits in its public cycle — what has happened, what trajectory is visible, what remains open. Tone: observational, cold, precise. No prescriptions, no recommendations, no 'you should'. Close with: 'These values reflect observed attention patterns — not projections.' Never use the word 'revolutionary', 'game-changer', 'breakthrough' or 'predicts'."
 }
 
 Be precise and factual. Use your knowledge of when phenomena actually emerged and gained public attention. The tone for interpretation and monitor fields should be concise and observational — never sensationalist.`;
@@ -993,9 +1056,70 @@ function showResults(query, aiData) {
   document.getElementById('monitor').textContent = data.monitor;
   document.getElementById('analysisDate').textContent = 'Generated ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
+  // WHAT IT MEANS
+  if (data.whatItMeans) {
+    const wim = data.whatItMeans;
+    const marker = 'WHAT IT MEANS';
+    const idx = wim.indexOf(marker);
+    if (idx !== -1) {
+      document.getElementById('wimIncipit').textContent = wim.substring(0, idx).trim();
+      document.getElementById('wimBody').textContent = wim.substring(idx + marker.length).trim();
+    } else {
+      document.getElementById('wimIncipit').textContent = '';
+      document.getElementById('wimBody').textContent = wim.trim();
+    }
+    document.getElementById('wimBlock').style.display = 'block';
+  } else {
+    document.getElementById('wimBlock').style.display = 'none';
+  }
+
   drawChart(data.chartData);
+  buildSignalIntelligence(data);
   document.getElementById('results').classList.add('active');
   setTimeout(() => { document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+}
+
+function buildSignalIntelligence(data) {
+  const cur = parseInt(data.currentScore);
+  const months = parseInt(data.monthsAbove);
+  const L = parseInt(data.L);
+  const peak = parseInt(data.peakScore);
+  const lagQuality = L > 100 ? 'an exceptionally long' : L > 60 ? 'an above-average' : L > 30 ? 'a moderate' : 'a relatively fast';
+
+  let verdictHTML = '';
+  let points = [];
+
+  if (data.status === 'structural') {
+    verdictHTML = `<strong class="sv-cyan">${data.title}</strong> has reached <span class="sv-cyan">structural consolidation</span>. Public attention sustained above threshold for <strong>${months} months</strong>. The diffusion lag was <strong>${L} months</strong> — ${lagQuality} lag. The gap between the system change and public understanding is now closed.`;
+    points = [
+      { icon: '◉', text: `<strong>Lag closed: ${L} months.</strong> From first emergence to mainstream attention. ${L > 100 ? 'Over 8 years elapsed before the public caught up.' : L > 60 ? 'Over 5 years elapsed before the public caught up.' : 'Faster than most technologies in the Zorthex dataset.'}` },
+      { icon: '▲', text: `<strong>Peak: ${peak}/100.</strong> ${peak === 100 ? 'Maximum global search volume reached.' : peak > 75 ? 'High mainstream penetration confirmed.' : 'Moderate mainstream penetration.'}` },
+      { icon: cur >= 25 ? '●' : '○', text: `<strong>Current: ${cur}/100 (May 2026).</strong> ${cur >= 25 ? 'Still above threshold — sustained public interest confirmed.' : 'Below threshold — peak has passed, but structural classification holds.'}` },
+      { icon: '→', text: `<strong>Next signal:</strong> ${data.monitor.split('.')[0]}.` }
+    ];
+  } else if (data.status === 'observation') {
+    const remaining = 12 - months;
+    verdictHTML = `<strong class="sv-amber">${data.title}</strong> is in the <span class="sv-amber">observation window</span>. <strong>${months} of 12 consecutive months</strong> above threshold confirmed. <strong>${remaining} more months needed</strong> to reach structural consolidation. The diffusion lag is documented at <strong>${L} months</strong>.`;
+    points = [
+      { icon: '◎', text: `<strong>${months}/12 months above threshold.</strong> Structural status requires 12 consecutive months ≥25/100. ${remaining} months remain. The clock resets if attention drops below 25.` },
+      { icon: cur < 25 ? '▼' : '▲', text: `<strong>Current: ${cur}/100 (May 2026).</strong> ${cur < 25 ? 'Dropped below threshold. If sustained, structural consolidation will not be confirmed from this cycle.' : 'Still above threshold. The 12-month count continues.'}` },
+      { icon: '◈', text: `<strong>Lag so far: ${L} months.</strong> From first public emergence to peak attention. ${lagQuality} diffusion for this category.` },
+      { icon: '→', text: `<strong>Key signal to watch:</strong> ${data.monitor.split('.')[0]}.` }
+    ];
+  } else {
+    verdictHTML = `<strong class="sv-red">${data.title}</strong> is classified as a <span class="sv-red">structural bubble</span>. Attention peaked at <strong>${peak}/100</strong> but did not sustain 12 consecutive months above threshold. The diffusion lag was <strong>${L} months</strong>. The public attention cycle has completed without structural consolidation.`;
+    points = [
+      { icon: '▼', text: `<strong>Bubble confirmed.</strong> Peak was ${peak}/100 — high enough to register, but duration (${months} months) was insufficient for structural classification.` },
+      { icon: '○', text: `<strong>Current: ${cur}/100 (May 2026).</strong> Below threshold. The attention cycle for this phenomenon has closed.` },
+      { icon: '◈', text: `<strong>Lag: ${L} months.</strong> The documented gap between emergence and the peak of public attention.` },
+      { icon: '→', text: `<strong>Next cycle trigger:</strong> ${data.monitor.split('.')[0]}.` }
+    ];
+  }
+
+  document.getElementById('signalVerdict').innerHTML = verdictHTML;
+  document.getElementById('signalPoints').innerHTML = points.map(p =>
+    `<div class="signal-point"><span class="signal-point-icon">${p.icon}</span><div class="signal-point-text">${p.text}</div></div>`
+  ).join('');
 }
 
 function drawChart(data) {
