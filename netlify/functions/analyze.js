@@ -5,35 +5,59 @@ exports.handler = async function(event) {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
+  // CORS headers
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS'
+  };
+
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers, body: '' };
+  }
+
   try {
     const { query } = JSON.parse(event.body);
     const apiKey = process.env.ANTHROPIC_API_KEY;
-    
+
     if (!apiKey) {
-      return { statusCode: 500, body: JSON.stringify({ error: 'No API key' }) };
+      return { statusCode: 500, headers, body: JSON.stringify({ error: 'No API key configured' }) };
     }
 
-    const prompt = `Analyze "${query}" using Zorthex v1.1 framework. Respond ONLY with valid JSON:
+    const prompt = `You are applying the Zorthex v1.1 framework to analyze the public attention diffusion lag for: "${query}"
+
+Zorthex definitions:
+- t_start: first relevant public appearance
+- t_peak: first month Google Trends reached ≥25/100 sustained
+- L = t_peak - t_start in months
+- STRUCTURAL: ≥25/100 for 12+ consecutive months
+- OBSERVATION: above threshold but fewer than 12 consecutive months
+- BUBBLE: reached high attention but dropped below threshold without consolidating
+
+Respond ONLY with valid JSON, no other text, no markdown:
+
 {
-  "title": "${query}",
-  "tStart": "Jan 2010",
-  "tPeak": "Jan 2020",
-  "L": 120,
-  "peakScore": 75,
-  "monthsAbove": 18,
-  "currentScore": 35,
-  "status": "structural",
-  "chartData": [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,75,60,45,35,30,35],
-  "src1": "Google Trends analysis for ${query}.",
-  "src2": "Wikipedia pageviews analysis for ${query}.",
-  "src3": "Reddit community analysis for ${query}.",
-  "interpretation": "Analysis of ${query} based on Zorthex v1.1 framework.",
-  "monitor": "Monitor developments in ${query}."
+  "title": "clean display name",
+  "tStart": "approximate month/year",
+  "tPeak": "approximate month/year of first major peak",
+  "L": number,
+  "peakScore": number 0-100,
+  "monthsAbove": number,
+  "currentScore": number 0-100 estimated May 2026,
+  "status": "structural" or "observation" or "bubble",
+  "chartData": [array of 80 numbers 0-100 representing attention curve from tStart to May 2026],
+  "src1": "2-3 sentences Google Trends analysis",
+  "src2": "2-3 sentences Wikipedia pageviews analysis",
+  "src3": "2-3 sentences Reddit community analysis",
+  "interpretation": "3-4 sentences observational Zorthex tone, no hype",
+  "monitor": "2-3 sentences on what signals to watch next",
+  "whatItMeans": "One factual incipit sentence with peak value peak date and current score. Then the text WHAT IT MEANS on its own. Then 3-4 sentences: observational cold precise. Where is this phenomenon in its public cycle. No prescriptions no recommendations. End with: These values reflect observed attention patterns — not projections."
 }`;
 
     const body = JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1500,
+      model: 'claude-opus-4-5',
+      max_tokens: 2000,
       messages: [{ role: 'user', content: prompt }]
     });
 
@@ -57,31 +81,28 @@ exports.handler = async function(event) {
           try {
             const parsed = JSON.parse(data);
             if (parsed.error) {
-              resolve({ statusCode: 500, body: JSON.stringify({ error: parsed.error.message }) });
+              resolve({ statusCode: 500, headers, body: JSON.stringify({ error: parsed.error.message }) });
               return;
             }
             const text = parsed.content[0].text;
             const clean = text.replace(/```json|```/g, '').trim();
             const result = JSON.parse(clean);
-            resolve({
-              statusCode: 200,
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(result)
-            });
+            resolve({ statusCode: 200, headers, body: JSON.stringify(result) });
           } catch (err) {
-            resolve({ statusCode: 500, body: JSON.stringify({ error: err.message, raw: data.substring(0, 500) }) });
+            resolve({ statusCode: 500, headers, body: JSON.stringify({ error: err.message, raw: data.substring(0, 500) }) });
           }
         });
       });
 
       req.on('error', (err) => {
-        resolve({ statusCode: 500, body: JSON.stringify({ error: err.message }) });
+        resolve({ statusCode: 500, headers, body: JSON.stringify({ error: err.message }) });
       });
 
       req.write(body);
       req.end();
     });
+
   } catch (err) {
-    return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
   }
 };
