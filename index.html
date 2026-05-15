@@ -312,8 +312,9 @@
     box-shadow: 0 0 12px rgba(0,212,255,0.08);
   }
 
-  .loading { display: none; align-items: center; gap: 16px; padding: 32px 0; }
+  .loading { display: none; align-items: flex-start; gap: 16px; padding: 32px 0; flex-direction: column; }
   .loading.active { display: flex; }
+  .loading-row { display: flex; align-items: center; gap: 16px; }
 
   .spinner {
     width: 22px; height: 22px;
@@ -327,8 +328,27 @@
   }
 
   @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 
   .loading-text { font-size: 15px; color: var(--text-dim); letter-spacing: 0.04em; font-style: italic; }
+
+  .loading-hint {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px;
+    background: rgba(0,212,255,0.04);
+    border: 1px solid rgba(0,212,255,0.12);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 0.03em;
+    margin-top: 4px;
+  }
+  .loading-hint-arrow {
+    font-size: 16px;
+    color: var(--cyan);
+    animation: bounce 1.2s ease-in-out infinite;
+    display: inline-block;
+  }
 
   /* AI badge */
   .ai-badge {
@@ -696,8 +716,14 @@
 <div class="main">
 
   <div class="loading" id="loading">
-    <div class="spinner"></div>
-    <span class="loading-text" id="loadingText">Querying three independent sources...</span>
+    <div class="loading-row">
+      <div class="spinner"></div>
+      <span class="loading-text" id="loadingText">Querying three independent sources...</span>
+    </div>
+    <div class="loading-hint">
+      <span class="loading-hint-arrow">↓</span>
+      This takes around 20 seconds — results will appear below
+    </div>
   </div>
 
   <div class="results" id="results">
