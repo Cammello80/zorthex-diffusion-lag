@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZORTHEX — Research</title>
+  <title>ZORTHEX — Research & Signal Reports</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -13,6 +14,7 @@
       --accent2: #7b2d8b;
       --accent3: #2dc653;
       --warn: #e63946;
+      --amber: #ffaa44;
       --text: #e0e0ff;
       --muted: #6666aa;
       --border: #1a1a3a;
@@ -26,7 +28,39 @@
     nav a { color: var(--muted); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.1em; transition: color 0.2s; }
     nav a:hover { color: var(--accent); }
     main { position: relative; z-index: 1; padding-top: 5rem; }
-    .hero { padding: 5rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
+
+    /* ── SIGNAL REPORTS SECTION ── */
+    .reports-section { max-width: 900px; margin: 0 auto; padding: 4rem 2rem 3rem; border-bottom: 1px solid var(--border); }
+    .reports-eyebrow { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 0.8rem; text-transform: uppercase; }
+    .reports-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.1; margin-bottom: 1rem; }
+    .reports-title span { color: var(--accent); }
+    .reports-sub { font-size: 0.8rem; color: var(--muted); line-height: 1.8; max-width: 600px; margin-bottom: 2.5rem; }
+    .reports-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+    .report-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 1.8rem; position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+    .report-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .report-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+    .report-card.structural::before { background: linear-gradient(90deg, var(--accent), #7b2d8b); }
+    .report-card.observation::before { background: linear-gradient(90deg, var(--amber), #cc7700); }
+    .report-card-number { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 0.8rem; }
+    .report-card-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text); line-height: 1.3; }
+    .report-card-meta { font-size: 0.7rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+    .report-card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.2rem; }
+    .report-stat { background: rgba(0,180,216,0.04); border: 1px solid var(--border); padding: 0.6rem 0.8rem; }
+    .report-stat-val { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--accent); line-height: 1; margin-bottom: 0.2rem; }
+    .report-card.observation .report-stat-val { color: var(--amber); }
+    .report-stat-lbl { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+    .report-status-badge { display: inline-block; padding: 0.2rem 0.6rem; font-size: 0.6rem; letter-spacing: 0.12em; border: 1px solid; margin-bottom: 1rem; }
+    .badge-structural { color: var(--accent); border-color: var(--accent); }
+    .badge-observation { color: var(--amber); border-color: var(--amber); }
+    .report-desc { font-size: 0.72rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.4rem; }
+    .report-download-btn { display: inline-block; padding: 0.7rem 1.2rem; font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-decoration: none; border: 1px solid var(--accent); color: var(--accent); transition: all 0.2s; background: transparent; cursor: pointer; }
+    .report-download-btn:hover { background: var(--accent); color: var(--bg); }
+    .report-card.observation .report-download-btn { border-color: var(--amber); color: var(--amber); }
+    .report-card.observation .report-download-btn:hover { background: var(--amber); color: var(--bg); }
+    .coming-soon { text-align: center; padding: 1.5rem; border: 1px dashed var(--border); font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; }
+
+    /* ── HERO (framework) ── */
+    .hero { padding: 3rem 2rem 3rem; max-width: 900px; margin: 0 auto; }
     .status-badge { display: inline-block; padding: 0.3rem 0.8rem; border: 1px solid var(--accent3); color: var(--accent3); font-size: 0.65rem; letter-spacing: 0.15em; margin-bottom: 2rem; }
     .doi-badge { display: inline-block; padding: 0.3rem 0.8rem; border: 1px solid var(--accent); color: var(--accent); font-size: 0.65rem; letter-spacing: 0.1em; margin-bottom: 2rem; margin-left: 0.8rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; transition: background 0.2s; }
     .doi-badge:hover { background: rgba(0,180,216,0.1); }
@@ -78,11 +112,13 @@
     footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; }
     footer a { color: var(--accent); text-decoration: none; }
     @media (max-width: 600px) {
+      .reports-grid { grid-template-columns: 1fr; }
       .def-grid { grid-template-columns: 1fr; }
       .limit-grid { grid-template-columns: 1fr; }
       .domain-row { grid-template-columns: 100px 1fr 60px; }
       .domain-n { display: none; }
       .doi-badge { display: block; margin-left: 0; margin-top: 0.5rem; }
+      .report-card-stats { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -95,6 +131,81 @@
   </div>
 </nav>
 <main>
+
+  <!-- ══════════════════════════════════════════════
+       SIGNAL REPORTS SECTION
+  ══════════════════════════════════════════════ -->
+  <div class="reports-section">
+    <div class="reports-eyebrow">// signal reports · published</div>
+    <h1 class="reports-title">Signal <span>Reports</span></h1>
+    <p class="reports-sub">Applied Zorthex analyses on specific emerging phenomena. Each report maps the diffusion lag empirically across three independent sources — for investors, companies, and policy makers who need to act before the crowd notices.</p>
+
+    <div class="reports-grid">
+
+      <!-- REPORT #002 — PQC -->
+      <div class="report-card structural">
+        <div class="report-card-number">SIGNAL REPORT #002 · MAY 2026</div>
+        <div class="report-card-title">Post-Quantum Cryptography</div>
+        <div class="report-card-meta">Cybersecurity · Regulatory trigger · NIST August 2024</div>
+        <div class="report-card-stats">
+          <div class="report-stat">
+            <div class="report-stat-val">91 mo</div>
+            <div class="report-stat-lbl">Lag (L)</div>
+          </div>
+          <div class="report-stat">
+            <div class="report-stat-val">14</div>
+            <div class="report-stat-lbl">Months above threshold</div>
+          </div>
+          <div class="report-stat">
+            <div class="report-stat-val">48/100</div>
+            <div class="report-stat-lbl">Peak score</div>
+          </div>
+          <div class="report-stat">
+            <div class="report-stat-val">35/100</div>
+            <div class="report-stat-lbl">Current · May 2026</div>
+          </div>
+        </div>
+        <div class="report-status-badge badge-structural">■ STRUCTURAL</div>
+        <p class="report-desc">From 2017 to 2024, PQC existed in near-total public obscurity. The NIST final standard publication was the trigger — not a quantum attack. 91 months of lag closed in weeks. The clearest documented case of regulation as an attention trigger in the Zorthex dataset.</p>
+        <a href="reports/Zorthex_Signal_Report_002_PQC.pdf" download class="report-download-btn">↓ DOWNLOAD REPORT #002 (PDF)</a>
+      </div>
+
+      <!-- REPORT #001 — mRNA -->
+      <div class="report-card observation">
+        <div class="report-card-number">SIGNAL REPORT #001 · MAY 2026</div>
+        <div class="report-card-title">mRNA Cancer Vaccines</div>
+        <div class="report-card-meta">Biotech · Health emergency trigger · Aug 2025 breakout</div>
+        <div class="report-card-stats">
+          <div class="report-stat">
+            <div class="report-stat-val">~126 mo</div>
+            <div class="report-stat-lbl">Lag (L)</div>
+          </div>
+          <div class="report-stat">
+            <div class="report-stat-val">9</div>
+            <div class="report-stat-lbl">Months above threshold</div>
+          </div>
+          <div class="report-stat">
+            <div class="report-stat-val">100/100</div>
+            <div class="report-stat-lbl">Peak score</div>
+          </div>
+          <div class="report-stat">
+            <div class="report-stat-val">17/100</div>
+            <div class="report-stat-lbl">Current · May 2026</div>
+          </div>
+        </div>
+        <div class="report-status-badge badge-observation">◉ OBSERVATION</div>
+        <p class="report-desc">9 of 12 consecutive months above threshold confirmed. May 2026 dropped below 25/100 — critical inflection point. Whether this is a temporary dip or the beginning of a structural decline will determine if this technology enters mainstream consciousness or becomes a Structural Bubble.</p>
+        <a href="reports/Zorthex_Signal_Report_001_mRNA.pdf" download class="report-download-btn">↓ DOWNLOAD REPORT #001 (PDF)</a>
+      </div>
+
+    </div>
+
+    <div class="coming-soon">SIGNAL REPORT #003 — IN PREPARATION · Q3 2026</div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       FRAMEWORK SECTION
+  ══════════════════════════════════════════════ -->
   <div class="hero">
     <div>
       <span class="status-badge">PREPRINT PUBLISHED &#8212; ZENODO &#8212; v1.1</span>
