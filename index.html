@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -608,7 +609,7 @@
 <div class="header">
   <div class="brand">ZORTH<em>EX</em></div>
   <div class="header-right">
-    <a href="research.html" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--cyan);text-decoration:none;border:1px solid var(--cyan-mid);padding:6px 14px;border-radius:4px;transition:all 0.2s;" onmouseover="this.style.background='rgba(0,212,255,0.1)'" onmouseout="this.style.background='transparent'">→ SIGNAL REPORTS</a>
+    <a href="research.html" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--cyan);text-decoration:none;border:1px solid var(--cyan-mid);padding:6px 14px;border-radius:4px;transition:all 0.2s;" onmouseover="this.style.background='rgba(0,212,255,0.1)'" onmouseout="this.style.background='transparent'">→ RESEARCH</a>
     <a onclick="document.getElementById('howModal').style.display='flex'" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--text-mid);text-decoration:none;cursor:pointer;padding:6px 14px;border-radius:4px;border:1px solid var(--border2);transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(0,212,255,0.3)';this.style.color='var(--cyan)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text-mid)'">HOW WE MEASURE</a>
     <a href="mailto:zorthex.official@gmail.com?subject=Custom%20Zorthex%20Report" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--amber);text-decoration:none;border:1px solid rgba(255,170,68,0.4);padding:6px 14px;border-radius:4px;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,170,68,0.1)'" onmouseout="this.style.background='transparent'">✦ CUSTOM REPORT</a>
 <span class="version-badge">V1.1</span>
@@ -939,7 +940,6 @@ async function runAnalysis() {
   document.getElementById('aiBadge').style.display = 'none';
   document.getElementById('disclaimer').style.display = 'none';
 
-  // Check if it's a preset
   const qLower = query.toLowerCase().trim();
   let isPreset = false;
   for (const key of Object.keys(PRESETS_DATA)) {
@@ -947,13 +947,11 @@ async function runAnalysis() {
   }
 
   if (isPreset) {
-    // Use preset or simulate
     const msgs = ['Querying Google Trends...', 'Fetching Wikipedia pageviews...', 'Scanning Reddit signals...', 'Calculating diffusion lag (L)...', 'Applying Zorthex v1.1 framework...'];
     let i = 0;
     const iv = setInterval(() => { if (i < msgs.length) document.getElementById('loadingText').textContent = msgs[i++]; }, 640);
     setTimeout(() => { clearInterval(iv); document.getElementById('loading').classList.remove('active'); document.getElementById('analyzeHint').style.display = 'none'; document.getElementById('runBtn').disabled = false; showResults(query, null); }, 3200);
   } else {
-    // Use Claude API
     const msgs = ['Connecting to Claude API...', 'Applying Zorthex v1.1 framework...', 'Estimating diffusion lag (L)...', 'Generating three-source analysis...', 'Building interpretation...'];
     let i = 0;
     const iv = setInterval(() => { if (i < msgs.length) document.getElementById('loadingText').textContent = msgs[i++]; }, 800);
@@ -987,7 +985,6 @@ function showResults(query, aiData) {
   }
 
   if (!data) {
-    // No API key, no preset — generate placeholder
     const L = Math.floor(Math.random() * 80 + 20);
     const peak = Math.floor(Math.random() * 40 + 45);
     const months = Math.floor(Math.random() * 8 + 2);
@@ -1046,7 +1043,6 @@ function showResults(query, aiData) {
   document.getElementById('monitor').textContent = data.monitor;
   document.getElementById('analysisDate').textContent = 'Generated ' + new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
-  // WHAT IT MEANS
   if (data.whatItMeans) {
     const wim = data.whatItMeans;
     const marker = 'WHAT IT MEANS';
@@ -1197,11 +1193,9 @@ document.getElementById('queryInput').addEventListener('keydown', e => {
     <button onclick="document.getElementById('howModal').style.display='none'" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-dim);font-size:20px;cursor:pointer;">✕</button>
     <div style="font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:0.15em;color:var(--cyan);text-shadow:0 0 10px var(--cyan);margin-bottom:16px;">HOW WE MEASURE</div>
     <div style="font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:24px;line-height:1.3;">The Zorthex v1.1 Framework</div>
-
     <div style="font-size:15px;color:#c0c8e8;line-height:1.8;margin-bottom:20px;">
       Zorthex measures <strong style="color:var(--text)">public attention</strong> — not understanding, not adoption. Three independent sources. One metric.
     </div>
-
     <div style="display:grid;gap:12px;margin-bottom:24px;">
       <div style="background:var(--surface2);border:1px solid var(--border2);border-left:2px solid var(--cyan);padding:16px;border-radius:6px;">
         <div style="font-family:'Orbitron',sans-serif;font-size:11px;color:var(--cyan);letter-spacing:0.1em;margin-bottom:8px;">THREE SOURCES</div>
@@ -1220,7 +1214,6 @@ document.getElementById('queryInput').addEventListener('keydown', e => {
         <div style="font-size:13px;color:#c0c8e8;line-height:1.7;">L = t_peak − t_start (in months). t_peak is the first month of a 12-month consecutive window above 25. mRNA cancer vaccine: L = 126 months — 10 years between first clinical trials and sustained public attention.</div>
       </div>
     </div>
-
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:24px;">
       <div style="background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.2);border-radius:6px;padding:14px;text-align:center;">
         <div style="font-family:'Orbitron',sans-serif;font-size:10px;color:var(--cyan);letter-spacing:0.1em;margin-bottom:6px;">STRUCTURAL</div>
@@ -1235,7 +1228,6 @@ document.getElementById('queryInput').addEventListener('keydown', e => {
         <div style="font-size:11px;color:#c0c8e8;line-height:1.5;">Peak without consolidation</div>
       </div>
     </div>
-
     <div style="font-size:12px;color:var(--text-dim);border-top:1px solid var(--border2);padding-top:16px;">
       Framework v1.1 · Open method · <a href="https://doi.org/10.5281/zenodo.20072999" target="_blank" style="color:var(--cyan);text-decoration:none;">doi.org/10.5281/zenodo.20072999</a> · <a href="https://github.com/zorthex2026/zorthex-diffusion-lag" target="_blank" style="color:var(--cyan);text-decoration:none;">GitHub</a>
     </div>
