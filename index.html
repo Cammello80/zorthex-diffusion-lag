@@ -89,7 +89,20 @@
     text-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0,212,255,0.3);
   }
 
-  .header-right { display: flex; align-items: center; gap: 20px; }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--magenta);
+    text-decoration: none;
+    border: 1px solid rgba(204,68,255,0.6);
+    padding: 6px 14px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    animation: pulse-magenta 2s ease-in-out infinite;
+  }
+  .research-btn:hover { background: rgba(204,68,255,0.15); }
 
   .header-tag {
     font-size: 12px;
@@ -610,7 +623,7 @@
 <div class="header">
   <div class="brand">ZORTH<em>EX</em></div>
   <div class="header-right" style="gap:12px;">
-    <a href="research.html" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--magenta);text-decoration:none;border:1px solid rgba(204,68,255,0.6);padding:6px 14px;border-radius:4px;transition:all 0.2s;animation:pulse-magenta 2s ease-in-out infinite;margin-left:auto;" onmouseover="this.style.background='rgba(204,68,255,0.15)'" onmouseout="this.style.background='transparent'">→ RESEARCH</a>
+    <a href="research.html" class="research-btn" style="margin-left:auto;">→ RESEARCH</a>
     <a onclick="document.getElementById('howModal').style.display='flex'" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--text-mid);text-decoration:none;cursor:pointer;padding:6px 14px;border-radius:4px;border:1px solid var(--border2);transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(0,212,255,0.3)';this.style.color='var(--cyan)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text-mid)'">HOW WE MEASURE</a>
     <a href="/custom-report.html" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--amber);text-decoration:none;border:1px solid rgba(255,170,68,0.6);padding:6px 14px;border-radius:4px;transition:all 0.2s;animation:pulse-amber 2s ease-in-out infinite;" onmouseover="this.style.background='rgba(255,170,68,0.15)'" onmouseout="this.style.background='transparent'">✦ CUSTOM REPORTS</a>
 <span class="version-badge">V1.2</span>
