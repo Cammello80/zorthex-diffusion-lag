@@ -76,7 +76,7 @@
 
   .brand {
     font-family: 'Orbitron', sans-serif;
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 700;
     letter-spacing: 0.08em;
     color: var(--text);
@@ -335,6 +335,7 @@
   .results.active { display: block; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
   @keyframes pulse-amber { 0%,100% { box-shadow: 0 0 6px rgba(255,170,68,0.4); border-color: rgba(255,170,68,0.6); } 50% { box-shadow: 0 0 18px rgba(255,170,68,0.8), 0 0 32px rgba(255,170,68,0.3); border-color: rgba(255,170,68,1); } }
+  @keyframes pulse-magenta { 0%,100% { box-shadow: 0 0 6px rgba(204,68,255,0.4); border-color: rgba(204,68,255,0.6); } 50% { box-shadow: 0 0 18px rgba(204,68,255,0.8), 0 0 32px rgba(204,68,255,0.3); border-color: rgba(204,68,255,1); } }
 
   .result-header {
     display: flex;
@@ -608,8 +609,8 @@
 
 <div class="header">
   <div class="brand">ZORTH<em>EX</em></div>
-  <div class="header-right">
-    <a href="research.html" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--cyan);text-decoration:none;border:1px solid var(--cyan-mid);padding:6px 14px;border-radius:4px;transition:all 0.2s;" onmouseover="this.style.background='rgba(0,212,255,0.1)'" onmouseout="this.style.background='transparent'">→ RESEARCH</a>
+  <div class="header-right" style="gap:12px;">
+    <a href="research.html" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--magenta);text-decoration:none;border:1px solid rgba(204,68,255,0.6);padding:6px 14px;border-radius:4px;transition:all 0.2s;animation:pulse-magenta 2s ease-in-out infinite;margin-left:auto;" onmouseover="this.style.background='rgba(204,68,255,0.15)'" onmouseout="this.style.background='transparent'">→ RESEARCH</a>
     <a onclick="document.getElementById('howModal').style.display='flex'" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--text-mid);text-decoration:none;cursor:pointer;padding:6px 14px;border-radius:4px;border:1px solid var(--border2);transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(0,212,255,0.3)';this.style.color='var(--cyan)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text-mid)'">HOW WE MEASURE</a>
     <a href="/custom-report.html" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--amber);text-decoration:none;border:1px solid rgba(255,170,68,0.6);padding:6px 14px;border-radius:4px;transition:all 0.2s;animation:pulse-amber 2s ease-in-out infinite;" onmouseover="this.style.background='rgba(255,170,68,0.15)'" onmouseout="this.style.background='transparent'">✦ CUSTOM REPORTS</a>
 <span class="version-badge">V1.2</span>
@@ -1218,11 +1219,11 @@ document.getElementById('queryInput').addEventListener('keydown', e => {
     <div style="display:grid;gap:12px;margin-bottom:24px;">
       <div style="background:var(--surface2);border:1px solid var(--border2);border-left:2px solid var(--cyan);padding:16px;border-radius:6px;">
         <div style="font-family:'Orbitron',sans-serif;font-size:11px;color:var(--cyan);letter-spacing:0.1em;margin-bottom:8px;">THREE SOURCES</div>
-        <div style="font-size:13px;color:#c0c8e8;line-height:1.7;">Google Trends · Wikipedia Pageviews · Reddit — if all three point in the same direction, the signal is real.</div>
+        <div style="font-size:13px;color:#c0c8e8;line-height:1.7;">Google Trends · Wikipedia Pageviews · Reddit — three proxies of the same attention process. When all three are consistent, the signal is reinforced across independent attention channels.</div>
       </div>
       <div style="background:var(--surface2);border:1px solid var(--border2);border-left:2px solid var(--magenta);padding:16px;border-radius:6px;">
         <div style="font-family:'Orbitron',sans-serif;font-size:11px;color:var(--magenta);letter-spacing:0.1em;margin-bottom:8px;">THE THRESHOLD</div>
-        <div style="font-size:13px;color:#c0c8e8;line-height:1.7;">≥ 25/100 on Google Trends (normalised scale, Worldwide). Below 25 the signal is too weak to be meaningful.</div>
+        <div style="font-size:13px;color:#c0c8e8;line-height:1.7;">≥ 25/100 on Google Trends (normalised scale, Worldwide). Threshold empirically set based on sensitivity testing across dataset v1.2 — this value provides the most stable separation between sustained and transient attention patterns under tested conditions.</div>
       </div>
       <div style="background:var(--surface2);border:1px solid var(--border2);border-left:2px solid var(--amber);padding:16px;border-radius:6px;">
         <div style="font-family:'Orbitron',sans-serif;font-size:11px;color:var(--amber);letter-spacing:0.1em;margin-bottom:8px;">THE 12-MONTH RULE</div>
@@ -1230,10 +1231,10 @@ document.getElementById('queryInput').addEventListener('keydown', e => {
       </div>
       <div style="background:var(--surface2);border:1px solid var(--border2);border-left:2px solid var(--green, #44ffaa);padding:16px;border-radius:6px;">
         <div style="font-family:'Orbitron',sans-serif;font-size:11px;color:#44ffaa;letter-spacing:0.1em;margin-bottom:8px;">L — THE LAG</div>
-        <div style="font-size:13px;color:#c0c8e8;line-height:1.7;">L = t_peak − t_start (in months). t_peak is the first month of a 12-month consecutive window above 25. mRNA cancer vaccine: L = 126 months — 10 years between first clinical trials and sustained public attention.</div>
+        <div style="font-size:13px;color:#c0c8e8;line-height:1.7;">L = t_peak − t_start (in months). A descriptive lag metric — not a physical constant. Dependent on t_start definition and dataset selection. mRNA cancer vaccine: L = 126 months — 10 years between first clinical trials and sustained public attention.</div>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:24px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;">
       <div style="background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.2);border-radius:6px;padding:14px;text-align:center;">
         <div style="font-family:'Orbitron',sans-serif;font-size:10px;color:var(--cyan);letter-spacing:0.1em;margin-bottom:6px;">STRUCTURAL</div>
         <div style="font-size:11px;color:#c0c8e8;line-height:1.5;">12+ consecutive months above threshold</div>
@@ -1247,6 +1248,7 @@ document.getElementById('queryInput').addEventListener('keydown', e => {
         <div style="font-size:11px;color:#c0c8e8;line-height:1.5;">Peak without consolidation</div>
       </div>
     </div>
+    <div style="font-size:11px;color:var(--text-dim);padding:10px 12px;border:1px solid var(--border2);border-radius:4px;line-height:1.6;margin-bottom:16px;font-style:italic;">Classifications observed within dataset v1.2 — operational heuristics, not universal laws. L is a descriptive metric sensitive to t_start definition and selection bias. Results not generalizable beyond observed sample.</div>
     <div style="font-size:12px;color:var(--text-dim);border-top:1px solid var(--border2);padding-top:16px;">
       Framework v1.2 · Open method · <a href="https://doi.org/10.5281/zenodo.20270575" target="_blank" style="color:var(--cyan);text-decoration:none;">doi.org/10.5281/zenodo.20270575</a> · <a href="https://github.com/zorthex2026/zorthex-diffusion-lag" target="_blank" style="color:var(--cyan);text-decoration:none;">GitHub</a>
     </div>
