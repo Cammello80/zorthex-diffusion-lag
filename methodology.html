@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zorthex — Methodology & Policy</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#050510;--bg2:#0d0d28;--bg3:#131335;
+    --accent:#00b4d8;--amber:#ffaa44;--warn:#ff4466;
+    --green:#2dc653;--magenta:#cc44ff;
+    --text:#e0e0ff;--muted:#5a5a8a;--border:#2a2a5a;--border2:#383870;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden;font-size:15px;line-height:1.7;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,180,216,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,216,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;padding:1.2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:rgba(5,5,16,0.96);backdrop-filter:blur(16px);}
+  .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:0.15em;color:var(--text);text-decoration:none;}
+  .logo span{color:var(--accent);}
+  .nav-links{display:flex;gap:2rem;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:0.78rem;letter-spacing:0.1em;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--accent);}
+
+  /* LAYOUT */
+  .page{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:0 2rem 5rem;}
+
+  /* HERO */
+  .hero{padding:4.5rem 0 3.5rem;border-bottom:1px solid var(--border);margin-bottom:0;}
+  .eyebrow{font-size:0.62rem;letter-spacing:0.25em;color:var(--accent);margin-bottom:1rem;text-transform:uppercase;}
+  .hero-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.05;margin-bottom:1.2rem;}
+  .hero-title span{color:var(--accent);}
+  .hero-sub{font-size:0.85rem;color:#8888bb;line-height:1.9;max-width:620px;margin-bottom:2rem;}
+  .meta-row{display:flex;gap:1.5rem;flex-wrap:wrap;font-size:0.65rem;color:var(--muted);padding-top:1.5rem;border-top:1px solid var(--border);}
+  .meta-row a{color:var(--accent);text-decoration:none;}
+
+  /* QUICKSTART */
+  .quickstart{background:rgba(0,180,216,0.05);border:1px solid rgba(0,180,216,0.2);border-left:4px solid var(--accent);border-radius:4px;padding:1.4rem 1.8rem;margin:2.5rem 0;}
+  .qs-label{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem;}
+  .qs-text{font-size:0.88rem;color:#c0c0e8;line-height:1.8;}
+  .qs-text strong{color:var(--text);}
+  .qs-text a{color:var(--accent);text-decoration:none;}
+
+  /* TOC */
+  .toc{background:var(--bg2);border:1px solid rgba(0,180,216,0.2);border-radius:4px;padding:1.8rem 2.2rem;margin-bottom:3.5rem;}
+  .toc-label{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;}
+  .toc-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0.3rem;}
+  .toc-list li{font-size:0.81rem;}
+  .toc-list a{color:#aaaadd;text-decoration:none;transition:color 0.2s;display:flex;gap:0.5rem;align-items:baseline;}
+  .toc-list a:hover{color:var(--accent);}
+  .toc-num{color:var(--accent);font-size:0.65rem;flex-shrink:0;}
+
+  /* SECTIONS */
+  .msec{padding:3.5rem 0;border-top:1px solid rgba(0,180,216,0.12);}
+  .sec-eyebrow{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;}
+  .msec h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:1.4rem;color:var(--text);}
+  .msec h3{font-family:'Syne',sans-serif;font-weight:600;font-size:0.95rem;color:var(--amber);margin:2rem 0 0.7rem;}
+  .msec p{font-size:0.88rem;color:#c8c8e8;line-height:1.85;margin-bottom:1rem;}
+  .msec p strong{color:var(--text);}
+
+  /* DEF CARDS */
+  .def-card{background:var(--bg2);border:1px solid var(--border2);border-radius:4px;padding:1.4rem 1.6rem;margin-bottom:1rem;box-shadow:0 0 0 1px rgba(0,180,216,0.08);}
+  .def-term{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);margin-bottom:0.25rem;}
+  .def-formula{font-size:0.78rem;color:var(--amber);font-style:italic;margin-bottom:0.7rem;letter-spacing:0.03em;}
+  .def-body{font-size:0.86rem;color:#c8c8e8;line-height:1.8;}
+
+  /* SOURCE LEVELS */
+  .source-table{width:100%;border-collapse:collapse;margin-bottom:1rem;font-size:0.84rem;}
+  .source-table th{text-align:left;padding:0.7rem 1rem;border-bottom:2px solid var(--border);color:var(--muted);font-weight:400;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;}
+  .source-table td{padding:0.85rem 1rem;border-bottom:1px solid var(--border);vertical-align:top;color:#c8c8e8;line-height:1.65;}
+  .source-table tr:last-child td{border-bottom:none;}
+  .source-table tr:hover td{background:rgba(0,180,216,0.03);}
+  .lv{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;}
+  .lv-a{color:var(--green);}
+  .lv-b{color:var(--accent);}
+  .lv-c{color:var(--amber);}
+  .lv-d{color:var(--muted);}
+
+  /* RULE / POLICY BOXES */
+  .rule{background:rgba(255,170,68,0.04);border:1px solid rgba(255,170,68,0.2);border-left:3px solid var(--amber);border-radius:4px;padding:1.2rem 1.6rem;margin-bottom:1.2rem;font-size:0.86rem;color:#c8c8e8;line-height:1.85;}
+  .rule strong{color:var(--amber);}
+  .rule a{color:var(--accent);text-decoration:none;}
+
+  .policy{background:var(--bg3);border:1px solid rgba(0,180,216,0.2);border-radius:4px;padding:1.5rem 1.8rem;margin-bottom:1.4rem;}
+  .policy-label{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:0.8rem;display:block;}
+  .policy-text{font-size:0.83rem;color:#c8c8e8;line-height:1.9;}
+  .policy-text code{color:var(--amber);background:rgba(255,170,68,0.08);padding:0.1rem 0.4rem;border-radius:2px;font-size:0.73rem;}
+
+  /* TIER TABLE */
+  .tier-wrap{overflow-x:auto;margin-bottom:1.2rem;}
+  .tier-table{width:100%;border-collapse:collapse;font-size:0.83rem;}
+  .tier-table th{text-align:left;padding:0.7rem 1rem;background:var(--bg2);border-bottom:2px solid var(--border);color:var(--muted);font-weight:400;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;white-space:nowrap;}
+  .tier-table td{padding:0.85rem 1rem;border-bottom:1px solid var(--border);color:#c8c8e8;vertical-align:top;line-height:1.65;}
+  .tier-table tr:last-child td{border-bottom:none;}
+  .t-free{color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;}
+  .t-art{color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;}
+  .t-ess{color:var(--green);font-family:'Syne',sans-serif;font-weight:700;}
+  .t-pre{color:var(--amber);font-family:'Syne',sans-serif;font-weight:700;}
+
+  /* CLASSIFICATION CARDS */
+  .class-grid{display:grid;gap:1px;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.2);border-radius:4px;overflow:hidden;margin-bottom:1.4rem;}
+  .class-card{background:var(--bg2);padding:1.4rem 1.6rem;}
+  .class-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;margin-bottom:0.3rem;}
+  .class-rule{font-size:0.7rem;font-style:italic;margin-bottom:0.6rem;}
+  .class-body{font-size:0.84rem;color:#c8c8e8;line-height:1.75;}
+  .cn-structural{color:var(--accent);}
+  .cn-observation{color:var(--amber);}
+  .cn-bubble{color:var(--warn);}
+
+  /* NOTIF TABLE */
+  .notif-table{width:100%;border-collapse:collapse;font-size:0.83rem;margin-bottom:1.2rem;}
+  .notif-table th{text-align:left;padding:0.7rem 1rem;background:var(--bg2);border-bottom:2px solid var(--border);color:var(--muted);font-weight:400;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;}
+  .notif-table td{padding:0.85rem 1rem;border-bottom:1px solid var(--border);color:#c8c8e8;vertical-align:top;line-height:1.65;}
+  .notif-table tr:last-child td{border-bottom:none;}
+
+  /* AI BOX */
+  .ai-box{background:rgba(204,68,255,0.05);border:1px solid rgba(204,68,255,0.28);border-left:3px solid var(--magenta);border-radius:4px;padding:1.5rem 1.8rem;margin-bottom:1.2rem;}
+  .ai-label{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--magenta);margin-bottom:0.7rem;}
+  .ai-body{font-size:0.86rem;color:#c8c8e8;line-height:1.85;}
+  .ai-body p+p{margin-top:0.7rem;}
+
+  /* LIMITS */
+  .limits-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,68,102,0.15);border:1px solid rgba(255,68,102,0.2);border-radius:4px;overflow:hidden;margin-bottom:1.4rem;}
+  .limit{background:var(--bg2);padding:1.3rem 1.5rem;}
+  .limit-n{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:rgba(255,68,102,0.12);line-height:1;margin-bottom:0.4rem;}
+  .limit-t{font-size:0.68rem;color:var(--warn);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
+  .limit-b{font-size:0.81rem;color:var(--muted);line-height:1.7;}
+
+  /* CHANGELOG */
+  .cl-item{margin-bottom:2rem;}
+  .cl-version{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--accent);margin-bottom:0.2rem;}
+  .cl-date{font-size:0.65rem;color:var(--muted);margin-bottom:0.8rem;}
+  .cl-list{list-style:none;}
+  .cl-list li{font-size:0.84rem;color:#c8c8e8;line-height:1.75;padding-left:1.2rem;position:relative;margin-bottom:0.2rem;}
+  .cl-list li::before{content:'→';position:absolute;left:0;color:var(--accent);}
+
+  /* REPLICATION */
+  .replication{background:rgba(255,68,102,0.03);border:1px solid rgba(255,68,102,0.15);border-left:3px solid var(--warn);border-radius:4px;padding:1.2rem 1.6rem;margin-top:1.5rem;font-size:0.84rem;color:#c8c8e8;line-height:1.85;}
+  .replication strong{color:var(--warn);}
+  .replication a{color:var(--accent);text-decoration:none;}
+
+  /* FOOTER */
+  footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2.5rem;text-align:center;font-size:0.65rem;color:var(--muted);letter-spacing:0.08em;line-height:2;}
+  footer a{color:var(--accent);text-decoration:none;}
+
+  @media(max-width:640px){
+    nav{padding:1rem 1.2rem;}
+    .page{padding:0 1.2rem 4rem;}
+    .toc-list{grid-template-columns:1fr;}
+    .limits-grid{grid-template-columns:1fr;}
+    .source-table td:last-child{display:none;}
+    .source-table th:last-child{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">ZORTH<span>EX</span></a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/research.html">Research</a>
+    <a href="/custom-report.html" style="color:var(--amber);">Custom Reports</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">// methodology & policy · public document · v1.2</div>
+    <div class="hero-title">How Zorthex <span>measures</span><br>and what it promises</div>
+    <p class="hero-sub">Every methodological choice, every data policy, every limitation — declared publicly. This is the implicit contract between Zorthex and anyone who uses, cites, or purchases its outputs. Nothing is hidden. Everything can be verified.</p>
+    <div class="meta-row">
+      <span>Framework v1.2 · May 2026</span>
+      <span>DOI: <a href="https://doi.org/10.5281/zenodo.20270575" target="_blank">10.5281/zenodo.20270575</a></span>
+      <span>License: CC-BY-NC 4.0</span>
+      <span>© 2026 Zorthex™ — Renato Santi</span>
+    </div>
+  </div>
+
+  <!-- QUICKSTART -->
+  <div class="quickstart">
+    <div class="qs-label">Quick start — before you read</div>
+    <div class="qs-text"><strong>Zorthex is a methodological framework. Claude (Anthropic) is a tool used within it</strong> — for the free app and report drafting. Every verified value in a Custom Report is human-checked. Read <a href="#ai">Section 7</a> for the exact boundary between AI-estimated and human-verified outputs.</div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-label">Contents</div>
+    <ul class="toc-list">
+      <li><a href="#definitions"><span class="toc-num">01</span>Core Definitions — L, t_start, t_peak</a></li>
+      <li><a href="#tsource"><span class="toc-num">02</span>t_start Source Policy — Levels A–D</a></li>
+      <li><a href="#csv"><span class="toc-num">03</span>Google Trends CSV Policy</a></li>
+      <li><a href="#threshold"><span class="toc-num">04</span>The 25/100 Threshold</a></li>
+      <li><a href="#classifications"><span class="toc-num">05</span>Classifications</a></li>
+      <li><a href="#tiers"><span class="toc-num">06</span>Product Tiers — What Each Promises</a></li>
+      <li><a href="#ai"><span class="toc-num">07</span>How AI Is Used in This System</a></li>
+      <li><a href="#limitations"><span class="toc-num">08</span>Declared Limitations</a></li>
+      <li><a href="#changelog"><span class="toc-num">09</span>Version Changelog</a></li>
+    </ul>
+  </div>
+
+  <!-- 01 DEFINITIONS -->
+  <div class="msec" id="definitions">
+    <div class="sec-eyebrow">// 01</div>
+    <h2>Core Definitions</h2>
+    <p>These three definitions are locked across all Zorthex outputs. They cannot be modified between reports, between versions, or between clients. Any change requires a new version number and full dataset recalculation.</p>
+
+    <div class="def-card">
+      <div class="def-term">t_start</div>
+      <div class="def-formula">First documented public appearance of the phenomenon</div>
+      <div class="def-body">The earliest traceable public signal — defined as the date of a seminal paper, documented commercial launch, recognized founding event, or first operational deployment. Must be justified with a primary source (see Section 2). t_start is not the date the phenomenon became widely known — it is the date it first existed publicly in any documented form.</div>
+    </div>
+
+    <div class="def-card">
+      <div class="def-term">t_peak</div>
+      <div class="def-formula">First month of the first window of 12 consecutive months where Google Trends ≥ 25/100 Worldwide</div>
+      <div class="def-body">If 12 consecutive months above threshold are not reached, t_peak is defined as the month of the absolute maximum recorded score. t_peak is not the moment of highest awareness — it is the first month of sustained structural attention as defined by this framework.</div>
+    </div>
+
+    <div class="def-card">
+      <div class="def-term">L — Diffusion Lag</div>
+      <div class="def-formula">L = t_peak − t_start (months)</div>
+      <div class="def-body">A descriptive lag metric. Not a physical constant. Not a universal law. Not a prediction. L represents the observable gap between first documented public emergence and sustained mainstream attention. L is sensitive to t_start definition — alternative t_start candidates produce different L values, which is why t_start source and rationale are always declared explicitly in every report.</div>
+    </div>
+  </div>
+
+  <!-- 02 T_START -->
+  <div class="msec" id="tsource">
+    <div class="sec-eyebrow">// 02</div>
+    <h2>t_start Source Policy — Levels A–D</h2>
+    <p>Every t_start used in a Zorthex report must be justified with a documented primary source. Sources are classified into four defensibility levels. <strong>The level does not determine the choice — the date closest to the actual operational moment prevails.</strong> The level determines how defensible that choice is.</p>
+
+    <table class="source-table">
+      <thead>
+        <tr><th>Level</th><th>Source Type</th><th>Example</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="lv lv-a">A</span></td><td>Peer-reviewed academic paper with publication date</td><td style="color:var(--muted);font-size:0.78rem;">Nature, Science, arXiv with submission date</td></tr>
+        <tr><td><span class="lv lv-b">B</span></td><td>Official organizational announcement — government, regulatory, corporate</td><td style="color:var(--muted);font-size:0.78rem;">NIST publication, SEC filing, company press release</td></tr>
+        <tr><td><span class="lv lv-c">C</span></td><td>Primary journalism — named outlet, date, archived URL</td><td style="color:var(--muted);font-size:0.78rem;">Reuters, Financial Times, Nature News</td></tr>
+        <tr><td><span class="lv lv-d">D</span></td><td>Patent filing with registered date</td><td style="color:var(--muted);font-size:0.78rem;">USPTO, EPO, WIPO with filing date</td></tr>
+      </tbody>
+    </table>
+
+    <div class="rule">
+      <strong>Precedence Rule:</strong> Between two sources of different levels, the one closest to the actual operational moment prevails. Level determines defensibility — not chronological priority.<br><br>
+      <strong>Example:</strong> For Stablecoins, USDT became operational in October 2014 (Tether announcement — Level B). A peer-reviewed paper on stablecoins published in 2021 is Level A but postdates the operational moment by 7 years — it does not define t_start.<br><br>
+      <strong>Declaration format in every report:</strong> "t_start defined as [date]. Source: [name + URL]. Level: [A/B/C/D]. Rationale: [why this source and not alternatives]."
+    </div>
+
+    <p><strong>Not acceptable as t_start sources:</strong> Wikipedia, undated web articles, AI-generated summaries, secondary aggregators, sources without a verifiable publication date. These may be cited as supporting context — never as the defining source.</p>
+  </div>
+
+  <!-- 03 CSV -->
+  <div class="msec" id="csv">
+    <div class="sec-eyebrow">// 03</div>
+    <h2>Google Trends CSV Policy — Snapshot-Locked Data</h2>
+    <p>Google Trends produces normalized scores (0–100) relative to peak search volume within the selected time period and geography. The same query run on different dates or with different windows produces different absolute values. This is not a flaw — it is how the system works. Zorthex handles this through snapshot-locking.</p>
+
+    <div class="rule">
+      <strong>Snapshot-Locking:</strong> Every Zorthex report locks the specific CSV snapshot used for analysis. The analysis is reproducible from that CSV — not from a future re-run. If Google Trends recalculates historical values, our snapshot remains unchanged. The CSV is available on GitHub for independent verification.
+    </div>
+
+    <div class="policy">
+      <span class="policy-label">Standard Citation Format — Google Trends Data</span>
+      <div class="policy-text">
+        Google Trends data: query <code>'[search term]'</code>, geography: <code>[Worldwide / Country]</code>, period: <code>[start date] – [end date]</code>, downloaded: <code>[download date]</code>.<br><br>
+        Note: Values are normalized scores (0–100) relative to peak search volume in the selected period. Absolute values are snapshot-specific. This report uses the exact CSV downloaded on [date]. The CSV is available at <code>github.com/zorthex2026/zorthex-diffusion-lag</code> for independent verification.
+      </div>
+    </div>
+
+    <p>For Custom Reports, the verified CSV is included as an appendix or available via GitHub. The client receives the raw data — not just the analysis built on it.</p>
+  </div>
+
+  <!-- 04 THRESHOLD -->
+  <div class="msec" id="threshold">
+    <div class="sec-eyebrow">// 04</div>
+    <h2>The 25/100 Threshold</h2>
+    <p>The threshold of 25/100 on Google Trends (Worldwide, normalized) is the activation point for structural classification. It is not derived from theory — it is empirically set based on sensitivity testing across dataset v1.2.</p>
+
+    <h3>How it was tested</h3>
+    <p>Tested at 20, 25, and 30 across the historical dataset. At 25, the separation between confirmed structural phenomena and confirmed transient peaks (NFT, Metaverse, Clubhouse) is most stable. At 20, confirmed bubbles pass the threshold. At 30, confirmed structural phenomena like Bitcoin fail the test.</p>
+
+    <div class="rule">
+      <strong>Important limitation:</strong> Sensitivity test on n=12 structural and n=3 bubble cases. Not a statistically validated optimal threshold — it is the most stable value under tested conditions within this dataset. The threshold will be re-evaluated as the dataset grows.
+    </div>
+
+    <h3>What the threshold is — and is not</h3>
+    <p>25/100 is the activation threshold for one of three attention proxies. It does not alone determine classification — it triggers the 12-month consecutive window requirement. A phenomenon scoring 26/100 for one month and then dropping is not structural.</p>
+  </div>
+
+  <!-- 05 CLASSIFICATIONS -->
+  <div class="msec" id="classifications">
+    <div class="sec-eyebrow">// 05</div>
+    <h2>Classifications</h2>
+    <p>Classifications are operational heuristics observed within dataset v1.2. They describe the state of a signal — not a truth about the phenomenon itself.</p>
+
+    <div class="class-grid">
+      <div class="class-card">
+        <div class="class-name cn-structural">STRUCTURAL</div>
+        <div class="class-rule" style="color:var(--accent);">≥ 25/100 for 12+ consecutive months confirmed</div>
+        <div class="class-body">Permanent classification once acquired. Indicates sustained mainstream public attention. Does not imply the phenomenon is important, successful, or permanent — only that public attention consolidated at structural level for a documented period. Current Status (Active/Receding/Dormant) tracks today's attention independently.</div>
+      </div>
+      <div class="class-card">
+        <div class="class-name cn-observation">OBSERVATION</div>
+        <div class="class-rule" style="color:var(--amber);">Above threshold · fewer than 12 consecutive months</div>
+        <div class="class-body">Signal forming. Classification may change. If attention drops below 25 before 12 months, the count resets. If 12 months complete, upgrades permanently to STRUCTURAL. If attention drops and does not recover, becomes BUBBLE.</div>
+      </div>
+      <div class="class-card">
+        <div class="class-name cn-bubble">BUBBLE</div>
+        <div class="class-rule" style="color:var(--warn);">Peaked above threshold · dropped below 25 · no 12-month window</div>
+        <div class="class-body">Permanent classification. NFT (8 months), Metaverse (9 months), Clubhouse (4 months) are confirmed BUBBLE cases in dataset v1.2. BUBBLE does not mean the technology failed — only that public attention did not consolidate into structural phase.</div>
+      </div>
+    </div>
+
+    <h3>What happens when a classification changes</h3>
+    <table class="notif-table">
+      <thead>
+        <tr><th>Product</th><th>Notification</th><th>Policy</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--muted);">Free App · Signal Artifacts</td>
+          <td>None</td>
+          <td>Updated when Zorthex refreshes the dataset</td>
+        </tr>
+        <tr>
+          <td style="color:var(--green);">Custom Report Essential</td>
+          <td>None</td>
+          <td><strong style="color:var(--text);">Historical document.</strong> Valid as of delivery date. Report includes: "This report reflects verified data as of [date]. Signal classifications may evolve. Essential Reports answer: given the data available up to delivery date, what was the state of this signal? They do not incorporate events occurring after delivery."</td>
+        </tr>
+        <tr>
+          <td style="color:var(--amber);">Custom Report Premium</td>
+          <td>Quarterly · 12 months</td>
+          <td>If classification changes, Zorthex notifies on the next quarterly update date — not in real time. Update includes refreshed CSV snapshot and updated Current Status.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 06 TIERS -->
+  <div class="msec" id="tiers">
+    <div class="sec-eyebrow">// 06</div>
+    <h2>Product Tiers — What Each Level Promises</h2>
+    <p>Each tier delivers a different type of knowledge reduction. The promise is explicit and bounded. Each tier is non-reconstructable from the tier below.</p>
+
+    <div class="tier-wrap">
+      <table class="tier-table">
+        <thead>
+          <tr><th>Tier</th><th>What it answers</th><th>Data source</th><th>Classification update</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="t-free">Free App</span></td>
+            <td>What is happening?</td>
+            <td>AI estimates from training data</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td><span class="t-art">Signal Artifact</span></td>
+            <td>Where is this in the cycle?</td>
+            <td>Manually verified — Zorthex dataset</td>
+            <td>Dataset refresh only</td>
+          </tr>
+          <tr>
+            <td><span class="t-ess">Essential Report</span></td>
+            <td>What historically happens around phenomena in this position?</td>
+            <td>Manually verified from scratch · CSV included</td>
+            <td>None · historical document · valid at delivery date</td>
+          </tr>
+          <tr>
+            <td><span class="t-pre">Premium Package</span></td>
+            <td>How should an institution monitor this over time?</td>
+            <td>Manually verified · geographic supplement · 4th source</td>
+            <td>Quarterly for 12 months · ongoing relationship</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rule">
+      <strong>The fundamental rule:</strong> A user of the Free App cannot reliably infer the Decision Layer positioning without accessing the paid tier. This is guaranteed by prompt architecture — the Free Layer is explicitly designed to prevent temporal positioning or comparative inference. The paywall is semantic, not just a price.
+    </div>
+  </div>
+
+  <!-- 07 AI -->
+  <div class="msec" id="ai">
+    <div class="sec-eyebrow">// 07</div>
+    <h2>How AI Is Used in This System</h2>
+    <p>Zorthex uses Claude (Anthropic) as the analytical engine for the free app and as a drafting tool for report structure. This is declared explicitly and always. The distinction between AI-estimated and manually-verified outputs is the foundation of the pricing architecture.</p>
+
+    <div class="ai-box">
+      <div class="ai-label">Free App — AI Estimated</div>
+      <div class="ai-body">
+        <p>The free app uses Claude with the Zorthex v1.2 Free Layer Prompt. Claude estimates t_start, t_peak, L, and current scores from its training knowledge. These are estimates — not verified values. The prompt explicitly prohibits temporal positioning, comparative inference, and decision framing. Output is observational only.</p>
+        <p>The Free Layer Prompt is designed so that no interpretive positioning leaks into the free output. This is the architectural paywall — not a price, but a semantic boundary.</p>
+      </div>
+    </div>
+
+    <div class="ai-box">
+      <div class="ai-label">Custom Reports — Human Verified</div>
+      <div class="ai-body">
+        <p>No AI estimates appear in Custom Report data. t_start is verified by Renato Santi against primary sources. Google Trends CSVs are downloaded manually and locked. Wikipedia and Reddit signals are checked manually. Claude may be used for drafting narrative sections — but every factual value is human-verified before inclusion.</p>
+        <p>The value of a Custom Report is not more text — it is verified data that can be audited, cited, and defended.</p>
+      </div>
+    </div>
+
+    <h3>On "Powered by Claude"</h3>
+    <p>Zorthex declares its use of Claude as a matter of transparency, not marketing. The methodological value of Zorthex lies in the framework architecture — the locked definitions, the epistemically separated layers, the declared limitations, the snapshot-locked data policy. <strong>Claude is the tool. Zorthex is the method.</strong> This distinction is intentional and permanent.</p>
+  </div>
+
+  <!-- 08 LIMITATIONS -->
+  <div class="msec" id="limitations">
+    <div class="sec-eyebrow">// 08</div>
+    <h2>Declared Limitations</h2>
+    <p>These are not disclaimers. They are the most operationally honest part of this document. Understanding what Zorthex cannot do is as important as understanding what it can.</p>
+
+    <div class="limits-grid">
+      <div class="limit"><div class="limit-n">01</div><div class="limit-t">Survival Bias</div><div class="limit-b">Only technologies that reached mainstream attention are included. Technologies that failed to diffuse are not represented. Results cannot be generalized to the full population of emerging phenomena.</div></div>
+      <div class="limit"><div class="limit-n">02</div><div class="limit-t">Selection Bias</div><div class="limit-b">Technologies chosen for historical prominence, not random sampling. The dataset is curated, not representative. No statistical inference about the general population is valid from this dataset.</div></div>
+      <div class="limit"><div class="limit-n">03</div><div class="limit-t">Small Sample</div><div class="limit-b">n=12 structural cases. No robust statistical inference possible. Sector averages are descriptive only. Target for v2.0: n≥20 per cluster before sector-level claims are made.</div></div>
+      <div class="limit"><div class="limit-n">04</div><div class="limit-t">Proxy Limitation</div><div class="limit-b">Google Trends measures search interest — not understanding, adoption, or impact. All three sources are attention proxies, not adoption metrics or scientific validity measures.</div></div>
+      <div class="limit"><div class="limit-n">05</div><div class="limit-t">t_start Subjectivity</div><div class="limit-b">Identifying the founding event involves judgment. Two analysts may choose different t_start candidates, producing different L values. v2.0 will introduce confidence bands based on alternative candidates.</div></div>
+      <div class="limit"><div class="limit-n">06</div><div class="limit-t">English-Language Bias</div><div class="limit-b">Google Trends Worldwide data is biased toward English-speaking search behavior. Phenomena consolidating primarily in non-English regions may show distorted L values.</div></div>
+      <div class="limit"><div class="limit-n">07</div><div class="limit-t">No Predictive Claims</div><div class="limit-b">Zorthex does not predict. L is a descriptive historical metric. "Operational Window" and "Consensus Phase" describe observed historical position — they do not imply what happens next.</div></div>
+      <div class="limit"><div class="limit-n">08</div><div class="limit-t">Threshold Calibration Scope</div><div class="limit-b">The 25/100 threshold was tested on n=15 cases. It provides stable separation within this dataset under tested conditions. It has not been validated on a larger or independently collected dataset.</div></div>
+    </div>
+
+    <div class="replication">
+      <strong>Replication statement:</strong> All code, data, and methodology are publicly available at <a href="https://github.com/zorthex2026/zorthex-diffusion-lag" target="_blank">github.com/zorthex2026/zorthex-diffusion-lag</a>. If you follow this pipeline and obtain different results — that is a contribution, not a problem.<br>Contact: <a href="mailto:zorthex.official@gmail.com">zorthex.official@gmail.com</a>
+    </div>
+  </div>
+
+  <!-- 09 CHANGELOG -->
+  <div class="msec" id="changelog">
+    <div class="sec-eyebrow">// 09</div>
+    <h2>Version Changelog</h2>
+
+    <div class="cl-item">
+      <div class="cl-version">v1.2</div>
+      <div class="cl-date">May 2026 · DOI: 10.5281/zenodo.20270575</div>
+      <ul class="cl-list">
+        <li>Added Current Status classification (Active/Receding/Dormant)</li>
+        <li>STRUCTURAL classification declared permanent once acquired</li>
+        <li>Free Layer Prompt v1.0 — semantic separation between observational and interpretive outputs</li>
+        <li>t_start Source Policy (Levels A–D) formalized with precedence rule</li>
+        <li>Google Trends CSV snapshot-locking policy defined</li>
+        <li>Essential Report declared as historical document with delivery-date validity</li>
+        <li>Essential vs Premium: document vs ongoing relationship distinction formalized</li>
+        <li>"Powered by Claude" positioning clarified — Quick Start added</li>
+        <li>License updated to CC-BY-NC 4.0</li>
+      </ul>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-version">v1.1</div>
+      <div class="cl-date">May 2026 · DOI: 10.5281/zenodo.20072999</div>
+      <ul class="cl-list">
+        <li>12-month consecutive window introduced (updated from 3 months in v1.0)</li>
+        <li>Structural Bubble category added</li>
+        <li>n increased to 12 structural cases</li>
+      </ul>
+    </div>
+
+    <div class="cl-item">
+      <div class="cl-version">v1.0</div>
+      <div class="cl-date">April 2026 · DOI: 10.5281/zenodo.20049068</div>
+      <ul class="cl-list">
+        <li>Initial framework publication · 3-month threshold window · n=11 structural cases</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<footer>
+  ZORTHEX.COM — BEYOND WHAT'S NEXT — EST. MMXXVI<br>
+  © 2026 Zorthex™ — Renato Santi &nbsp;·&nbsp;
+  <a href="https://doi.org/10.5281/zenodo.20270575" target="_blank">doi.org/10.5281/zenodo.20270575</a> &nbsp;·&nbsp;
+  <a href="https://github.com/zorthex2026/zorthex-diffusion-lag" target="_blank">GitHub</a> &nbsp;·&nbsp;
+  Powered by Claude
+</footer>
+
+</body>
+</html>
