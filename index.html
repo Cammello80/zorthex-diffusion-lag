@@ -90,19 +90,60 @@
   }
 
   .header-right { display: flex; align-items: center; gap: 12px; }
+  
+  /* Bottoni pulsanti */
+  .pulse-btn {
     font-family: 'Orbitron', sans-serif;
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.1em;
-    color: var(--magenta);
     text-decoration: none;
-    border: 1px solid rgba(204,68,255,0.6);
-    padding: 6px 14px;
+    padding: 8px 18px;
     border-radius: 4px;
     transition: all 0.2s;
+    background: transparent;
+    white-space: nowrap;
+  }
+  
+  .how-btn {
+    color: var(--cyan);
+    border: 1px solid rgba(0,212,255,0.6);
+    animation: pulse-cyan 2s ease-in-out infinite;
+  }
+  
+  .how-btn:hover { background: rgba(0,212,255,0.15); }
+  
+  .research-btn {
+    color: var(--magenta);
+    border: 1px solid rgba(204,68,255,0.6);
     animation: pulse-magenta 2s ease-in-out infinite;
   }
+  
   .research-btn:hover { background: rgba(204,68,255,0.15); }
+  
+  .custom-btn {
+    color: var(--amber);
+    border: 1px solid rgba(255,170,68,0.6);
+    animation: pulse-amber 2s ease-in-out infinite;
+  }
+  
+  .custom-btn:hover { background: rgba(255,170,68,0.15); }
+  
+  .index-btn {
+    color: var(--green);
+    border: 1px solid rgba(68,255,170,0.6);
+    animation: pulse-green 2s ease-in-out infinite;
+    font-size: 13px;
+    padding: 10px 24px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+  
+  .index-btn:hover { 
+    background: rgba(68,255,170,0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(68,255,170,0.3);
+  }
 
   .header-tag {
     font-size: 12px;
@@ -349,6 +390,8 @@
   @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
   @keyframes pulse-amber { 0%,100% { box-shadow: 0 0 6px rgba(255,170,68,0.4); border-color: rgba(255,170,68,0.6); } 50% { box-shadow: 0 0 18px rgba(255,170,68,0.8), 0 0 32px rgba(255,170,68,0.3); border-color: rgba(255,170,68,1); } }
   @keyframes pulse-magenta { 0%,100% { box-shadow: 0 0 6px rgba(204,68,255,0.4); border-color: rgba(204,68,255,0.6); } 50% { box-shadow: 0 0 18px rgba(204,68,255,0.8), 0 0 32px rgba(204,68,255,0.3); border-color: rgba(204,68,255,1); } }
+  @keyframes pulse-cyan { 0%,100% { box-shadow: 0 0 6px rgba(0,212,255,0.4); border-color: rgba(0,212,255,0.6); } 50% { box-shadow: 0 0 18px rgba(0,212,255,0.8), 0 0 32px rgba(0,212,255,0.3); border-color: rgba(0,212,255,1); } }
+  @keyframes pulse-green { 0%,100% { box-shadow: 0 0 6px rgba(68,255,170,0.4); border-color: rgba(68,255,170,0.6); } 50% { box-shadow: 0 0 18px rgba(68,255,170,0.8), 0 0 32px rgba(68,255,170,0.3); border-color: rgba(68,255,170,1); } }
 
   .result-header {
     display: flex;
@@ -620,29 +663,27 @@
 </head>
 <body>
 
-</style>
-</head>
-<body>
-
 <div class="header">
-  <div class="header-left">
-    <div class="brand">ZORTH<em>EX</em></div>
-    <a href="research.html" class="nav-btn research-main-btn">◈ RESEARCH →</a>
-  </div>
+  <div class="brand">ZORTH<em>EX</em></div>
   <div class="header-right">
-    <a onclick="document.getElementById('howModal').style.display='flex'" class="nav-btn how-btn">◈ HOW WE MEASURE</a>
-    <a href="custom-report.html" class="nav-btn custom-btn">✦ CUSTOM REPORTS</a>
+    <a onclick="document.getElementById('howModal').style.display='flex'" class="pulse-btn how-btn">HOW WE MEASURE</a>
+    <a href="/custom-report.html" class="pulse-btn custom-btn">✦ CUSTOM REPORTS</a>
+    <a href="/research.html" class="pulse-btn research-btn">✦ RESEARCH</a>
+    <a href="/index.html" class="pulse-btn index-btn">⌂ INDEX</a>
     <span class="version-badge">V1.2</span>
   </div>
 </div>
+
 <div class="hero">
-  <div class="hero-eyebrow">Open Research Framework · Est. MMXXVI</div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.8rem;">
+    <div class="hero-eyebrow" style="margin-bottom:0;">Open Research Framework · Est. MMXXVI</div>
+  </div>
   <div class="hero-title">
     How long before the world<br>
     starts <span class="cyan">paying</span><br>
     <span class="magenta">attention?</span>
   </div>
-  <div class="hero-desc">Measuring the delay between reality and public awareness. Three independent sources. Open method. Replicable data.</div>
+ <div class="hero-desc">Measuring the delay between reality and public awareness. Three independent sources. Open method. Replicable data.</div>
 </div>
 
 <!-- INPUT SECTION - between hero and why -->
@@ -946,11 +987,7 @@ Analyze "${query}" and respond ONLY with valid JSON, no other text, no markdown:
   "interpretation": "State only what the three sources show in aggregate. Describe the current observable state of the signal. No lifecycle positioning, no comparison, no inference about what this implies. Maximum 3 sentences. Each sentence states a fact derived directly from the metrics.",
   "monitor": "List 3 specific observable events or data points that, if they occur, would change the current classification or recorded metrics. State what would change and why. No predictions — only conditional observations. Example: 'If Google Trends score returns to ≥25 for June 2026: OBSERVATION status would resume. If 12 consecutive months above threshold are completed: classification upgrades to STRUCTURAL permanently.'",
   "whatItMeans": "State the recorded peak value, the date of peak, and the current score in one factual sentence. Then write WHAT IT MEANS on its own line. Then write 2-3 sentences describing only what the observable data shows about the current state of public attention — not what it means for anyone, not where it sits in history, not what to do. Close with: 'These values reflect observed attention patterns — not projections.' Never use: revolutionary, game-changer, breakthrough, predicts, suggests, implies, means that."
-}
-
-Use your training knowledge to estimate values as accurately as possible. All values are observational estimates based on publicly available historical data. Be factual and precise.`;
-
-
+}`;
 
   const response = await fetch('/.netlify/functions/analyze', {
     method: 'POST',
