@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zorthex — Privacy Policy</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#050510;--bg2:#0d0d28;--accent:#00b4d8;--amber:#ffaa44;--warn:#ff4466;
+    --green:#2dc653;--magenta:#cc44ff;--text:#e0e0ff;--muted:#5a5a8a;--border:#252548;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden;font-size:15px;line-height:1.7;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,180,216,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,216,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+
+  nav{position:sticky;top:0;z-index:100;padding:1.2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:rgba(5,5,16,0.96);backdrop-filter:blur(16px);}
+  .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:0.15em;color:var(--text);text-decoration:none;}
+  .logo span{color:var(--accent);}
+  nav a{color:var(--muted);text-decoration:none;font-size:0.72rem;letter-spacing:0.1em;transition:color 0.2s;}
+  nav a:hover{color:var(--accent);}
+
+  .page{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .hero{padding:4rem 0 3rem;border-bottom:1px solid var(--border);margin-bottom:3rem;}
+  .eyebrow{font-size:0.62rem;letter-spacing:0.25em;color:var(--accent);margin-bottom:1rem;text-transform:uppercase;}
+  .hero-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.05;margin-bottom:1rem;}
+  .hero-title span{color:var(--accent);}
+  .hero-sub{font-size:0.84rem;color:#8888bb;line-height:1.85;max-width:600px;margin-bottom:1.5rem;}
+  .meta-row{font-size:0.65rem;color:var(--muted);}
+  .meta-row a{color:var(--accent);text-decoration:none;}
+
+  .msec{padding:2.5rem 0;border-top:1px solid rgba(0,180,216,0.12);}
+  .sec-eyebrow{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;}
+  .msec h2{font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:1.2rem;}
+  .msec p{font-size:0.84rem;color:#c0c0e0;line-height:1.9;margin-bottom:0.9rem;}
+  .msec p strong{color:var(--text);}
+  .msec p a{color:var(--accent);text-decoration:none;}
+  .msec p a:hover{text-decoration:underline;}
+
+  .info-card{background:var(--bg2);border:1px solid rgba(0,180,216,0.2);border-radius:4px;padding:1.4rem 1.6rem;margin-bottom:1rem;}
+  .info-label{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem;}
+  .info-body{font-size:0.82rem;color:#c0c0e0;line-height:1.8;}
+
+  .highlight{background:rgba(255,170,68,0.05);border:1px solid rgba(255,170,68,0.25);border-left:3px solid var(--amber);border-radius:4px;padding:1.2rem 1.5rem;margin-bottom:1rem;font-size:0.82rem;color:#c8c8e8;line-height:1.85;}
+  .highlight strong{color:var(--amber);}
+
+  .rights-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(0,180,216,0.1);border:1px solid rgba(0,180,216,0.2);border-radius:4px;overflow:hidden;margin-bottom:1rem;}
+  .right-item{background:var(--bg2);padding:1.2rem 1.4rem;}
+  .right-title{font-size:0.72rem;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;}
+  .right-body{font-size:0.78rem;color:#b0b0d0;line-height:1.65;}
+
+  footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2.5rem;text-align:center;font-size:0.65rem;color:var(--muted);letter-spacing:0.08em;line-height:2;}
+  footer a{color:var(--accent);text-decoration:none;}
+
+  @media(max-width:640px){
+    nav{padding:1rem 1.2rem;}
+    .page{padding:0 1.2rem 4rem;}
+    .rights-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">ZORTH<span>EX</span></a>
+  <div style="display:flex;gap:2rem;">
+    <a href="/">Home</a>
+    <a href="/research.html">Research</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="hero">
+    <div class="eyebrow">// privacy policy · GDPR compliant</div>
+    <div class="hero-title">What we collect.<br>What we <span>don't</span>.</div>
+    <p class="hero-sub">Zorthex is built on transparency. That applies to data too. This page tells you exactly what information this site collects, why, and what your rights are.</p>
+    <div class="meta-row">Last updated: May 2026 · Controller: Renato Santi · <a href="mailto:zorthex.official@gmail.com">zorthex.official@gmail.com</a></div>
+  </div>
+
+  <!-- WHO WE ARE -->
+  <div class="msec">
+    <div class="sec-eyebrow">// 01</div>
+    <h2>Who We Are</h2>
+    <div class="info-card">
+      <div class="info-label">Data Controller</div>
+      <div class="info-body">
+        <strong>Renato Santi</strong> — operating as Zorthex™<br>
+        Sassari, Italy<br>
+        Email: <a href="mailto:zorthex.official@gmail.com" style="color:var(--accent);">zorthex.official@gmail.com</a><br>
+        Website: <a href="https://zorthex.com" style="color:var(--accent);">zorthex.com</a>
+      </div>
+    </div>
+    <p>Zorthex is an independent research project. No company, no team, no investors. One person — Renato Santi — is responsible for all data processing described in this policy.</p>
+  </div>
+
+  <!-- WHAT WE COLLECT -->
+  <div class="msec">
+    <div class="sec-eyebrow">// 02</div>
+    <h2>What We Collect — And What We Don't</h2>
+
+    <div class="highlight">
+      <strong>The short version:</strong> Zorthex does not use cookies, does not track users, does not collect personal data for marketing, and does not sell any data to third parties. Ever.
+    </div>
+
+    <p><strong>The free app (zorthex.com)</strong> — When you use the analysis tool, your query is sent to a Netlify serverless function which calls the Anthropic Claude API. We do not store your queries. We do not log your IP address for analytical purposes. The query is processed and discarded.</p>
+
+    <p><strong>Email contact (zorthex.official@gmail.com)</strong> — When you contact us by email, your email address and message content are stored in Gmail (Google). This data is used only to respond to your inquiry. It is not shared with third parties, not used for marketing, and not transferred outside of Google's infrastructure.</p>
+
+    <p><strong>GitHub (github.com/zorthex2026)</strong> — Our code and data repository is hosted on GitHub (Microsoft). If you access or fork the repository, GitHub's own privacy policy applies.</p>
+
+    <p><strong>Netlify</strong> — The site is hosted on Netlify. Netlify may collect standard server logs (IP addresses, page requests, timestamps) for security and performance purposes. This is governed by <a href="https://www.netlify.com/privacy/" target="_blank">Netlify's Privacy Policy</a>. Zorthex does not access or process these logs.</p>
+  </div>
+
+  <!-- ANTHROPIC API -->
+  <div class="msec">
+    <div class="sec-eyebrow">// 03</div>
+    <h2>The Claude API and Your Queries</h2>
+    <p>When you submit a query in the free analysis app, that query is sent to the Anthropic Claude API via a Netlify serverless function. <strong>Zorthex does not store your query.</strong> The function sends it to Anthropic, receives the response, and returns it to your browser.</p>
+    <p>Anthropic processes your query according to their own privacy policy and API terms. Anthropic may use API inputs to improve their models unless you have opted out under their enterprise terms. For more information: <a href="https://www.anthropic.com/privacy" target="_blank">anthropic.com/privacy</a>.</p>
+    <p><strong>What this means practically:</strong> Do not include personally identifiable information, confidential business data, or sensitive information in your query. Treat the free app as a public research tool, not a confidential channel.</p>
+  </div>
+
+  <!-- LEGAL BASIS -->
+  <div class="msec">
+    <div class="sec-eyebrow">// 04</div>
+    <h2>Legal Basis for Processing (GDPR Art. 6)</h2>
+    <p>Where personal data is processed, the legal basis is:</p>
+    <p><strong>Legitimate interest (Art. 6.1.f)</strong> — for standard server logs collected by Netlify for security and performance purposes.</p>
+    <p><strong>Contract performance (Art. 6.1.b)</strong> — for email correspondence related to Custom Report inquiries and delivery.</p>
+    <p><strong>Consent (Art. 6.1.a)</strong> — where you voluntarily provide information by contacting us.</p>
+  </div>
+
+  <!-- YOUR RIGHTS -->
+  <div class="msec">
+    <div class="sec-eyebrow">// 05</div>
+    <h2>Your Rights Under GDPR</h2>
+    <p>If you are located in the European Union or European Economic Area, you have the following rights regarding your personal data:</p>
+
+    <div class="rights-grid">
+      <div class="right-item">
+        <div class="right-title">Access</div>
+        <div class="right-body">You can request a copy of any personal data we hold about you.</div>
+      </div>
+      <div class="right-item">
+        <div class="right-title">Rectification</div>
+        <div class="right-body">You can request correction of inaccurate personal data.</div>
+      </div>
+      <div class="right-item">
+        <div class="right-title">Erasure</div>
+        <div class="right-body">You can request deletion of your personal data where there is no overriding legal basis to retain it.</div>
+      </div>
+      <div class="right-item">
+        <div class="right-title">Portability</div>
+        <div class="right-body">You can request your data in a structured, machine-readable format.</div>
+      </div>
+      <div class="right-item">
+        <div class="right-title">Objection</div>
+        <div class="right-body">You can object to processing based on legitimate interests.</div>
+      </div>
+      <div class="right-item">
+        <div class="right-title">Complaint</div>
+        <div class="right-body">You have the right to lodge a complaint with the Italian Data Protection Authority (Garante): <a href="https://www.garanteprivacy.it" target="_blank">garanteprivacy.it</a></div>
+      </div>
+    </div>
+
+    <p>To exercise any of these rights, contact: <a href="mailto:zorthex.official@gmail.com">zorthex.official@gmail.com</a>. We will respond within 30 days.</p>
+  </div>
+
+  <!-- NO COOKIES -->
+  <div class="msec">
+    <div class="sec-eyebrow">// 06</div>
+    <h2>Cookies</h2>
+    <div class="highlight">
+      <strong>Zorthex does not use cookies.</strong> No tracking cookies, no analytics cookies, no marketing cookies. No cookie banner is needed because there are no cookies to consent to.
+    </div>
+    <p>Netlify may set technical cookies necessary for CDN and security functionality. These are strictly necessary and do not require consent under GDPR.</p>
+  </div>
+
+  <!-- THIRD PARTIES -->
+  <div class="msec">
+    <div class="sec-eyebrow">// 07</div>
+    <h2>Third-Party Services</h2>
+    <p>Zorthex uses the following third-party services. Each has its own privacy policy:</p>
+    <div class="info-card">
+      <div class="info-body" style="display:grid;gap:0.6rem;">
+        <div><strong style="color:var(--text);">Netlify</strong> — hosting and serverless functions · <a href="https://www.netlify.com/privacy/" target="_blank">netlify.com/privacy</a></div>
+        <div><strong style="color:var(--text);">Anthropic (Claude API)</strong> — AI analysis engine · <a href="https://www.anthropic.com/privacy" target="_blank">anthropic.com/privacy</a></div>
+        <div><strong style="color:var(--text);">Google (Gmail)</strong> — email correspondence · <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></div>
+        <div><strong style="color:var(--text);">GitHub (Microsoft)</strong> — code and data repository · <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank">github privacy statement</a></div>
+        <div><strong style="color:var(--text);">Google Fonts</strong> — typography · fonts are loaded from Google servers, which may log requests · <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></div>
+      </div>
+    </div>
+    <p>Zorthex does not sell, rent, or share personal data with any third party beyond the services listed above and only to the extent necessary for the service to function.</p>
+  </div>
+
+  <!-- CHANGES -->
+  <div class="msec">
+    <div class="sec-eyebrow">// 08</div>
+    <h2>Changes to This Policy</h2>
+    <p>If this policy changes materially, the "Last updated" date at the top of this page will be updated. For significant changes affecting your rights, we will note them explicitly. The current version is always available at <a href="https://zorthex.com/privacy.html">zorthex.com/privacy.html</a>.</p>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="msec">
+    <div class="sec-eyebrow">// 09</div>
+    <h2>Contact</h2>
+    <p>For any privacy-related questions, requests, or complaints:</p>
+    <div class="info-card">
+      <div class="info-body">
+        <strong>Renato Santi — Zorthex™</strong><br>
+        <a href="mailto:zorthex.official@gmail.com">zorthex.official@gmail.com</a><br>
+        Response time: within 30 days as required by GDPR Art. 12
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  ZORTHEX.COM — BEYOND WHAT'S NEXT — EST. MMXXVI<br>
+  © 2026 Zorthex™ — Renato Santi &nbsp;·&nbsp;
+  <a href="/methodology.html">Methodology</a> &nbsp;·&nbsp;
+  <a href="https://doi.org/10.5281/zenodo.20270575" target="_blank">DOI</a> &nbsp;·&nbsp;
+  <a href="https://github.com/zorthex2026/zorthex-diffusion-lag" target="_blank">GitHub</a>
+</footer>
+
+</body>
+</html>
