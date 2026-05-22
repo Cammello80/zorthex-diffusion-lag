@@ -132,6 +132,268 @@
 <main>
 
   <!-- ══════════════════════════════════════════════
+       SIGNAL ARTIFACTS SECTION
+  ══════════════════════════════════════════════ -->
+  <style>
+    .sa-section { max-width: 900px; margin: 0 auto; padding: 4rem 2rem 3rem; border-bottom: 1px solid var(--border); }
+    .sa-eyebrow { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 0.8rem; text-transform: uppercase; }
+    .sa-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.1; margin-bottom: 0.6rem; }
+    .sa-title span { color: var(--accent); }
+    .sa-sub { font-size: 0.78rem; color: var(--muted); line-height: 1.8; max-width: 620px; margin-bottom: 2.5rem; }
+    .sa-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+    .sa-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .sa-card:hover { border-color: var(--accent); }
+    .sa-card-top {
+      border-top: 2px solid var(--accent);
+      padding: 1.6rem 1.8rem 1.2rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      border-bottom: 1px solid var(--border);
+    }
+    .sa-card.bubble .sa-card-top { border-top-color: var(--warn); }
+    .sa-id { font-size: 0.6rem; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 0.4rem; text-transform: uppercase; }
+    .sa-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; color: var(--text); margin-bottom: 0.3rem; }
+    .sa-domain { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.08em; }
+    .sa-status-badge {
+      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.3rem 0.7rem; border: 1px solid; border-radius: 2px; white-space: nowrap;
+    }
+    .sa-status-badge.operational { color: var(--accent); border-color: var(--accent); }
+    .sa-status-badge.compression { color: var(--amber); border-color: var(--amber); }
+    .sa-status-badge.consensus { color: var(--muted); border-color: var(--muted); }
+    .sa-blocks { display: grid; grid-template-columns: 1fr 1fr; }
+    .sa-block {
+      padding: 1rem 1.4rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+    }
+    .sa-block:nth-child(even) { border-right: none; }
+    .sa-block:nth-last-child(-n+2) { border-bottom: none; }
+    .sa-block-label {
+      font-size: 0.58rem; letter-spacing: 0.18em; color: var(--muted);
+      text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .sa-block-val { color: var(--accent); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; line-height: 1.2; margin-bottom: 0.2rem; }
+    .sa-block-val.amber { color: var(--amber); }
+    .sa-block-val.muted { color: var(--muted); }
+    .sa-block-sub { font-size: 0.65rem; color: var(--muted); line-height: 1.5; }
+    .sa-block-text { color: #9999cc; line-height: 1.65; }
+    .sa-block-text li { list-style: none; padding-left: 0; margin-bottom: 0.3rem; }
+    .sa-block-text li::before { content: '→ '; color: var(--muted); }
+    .sa-constraint {
+      padding: 0.8rem 1.4rem;
+      font-size: 0.62rem; color: var(--muted); line-height: 1.6;
+      border-top: 1px solid var(--border);
+      letter-spacing: 0.02em;
+    }
+    .sa-metrics-row {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      border-bottom: 1px solid var(--border);
+    }
+    .sa-metric {
+      padding: 0.9rem 1rem;
+      border-right: 1px solid var(--border);
+      text-align: center;
+    }
+    .sa-metric:last-child { border-right: none; }
+    .sa-metric-val { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--accent); line-height: 1; margin-bottom: 0.2rem; }
+    .sa-metric-val.amber { color: var(--amber); }
+    .sa-metric-val.green { color: var(--accent3); }
+    .sa-metric-lbl { font-size: 0.58rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.3; }
+    @media (max-width: 600px) {
+      .sa-blocks { grid-template-columns: 1fr; }
+      .sa-block { border-right: none; }
+      .sa-block:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+      .sa-block:last-child { border-bottom: none; }
+      .sa-metrics-row { grid-template-columns: repeat(3, 1fr); }
+      .sa-card-top { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <div class="sa-section">
+    <div class="sa-eyebrow">// signal artifacts · standard format v1.0</div>
+    <h1 class="sa-title">Signal <span>Artifacts</span></h1>
+    <p class="sa-sub">Standardized output units — 8 fixed blocks, identical structure across every phenomenon. Directly comparable. No narrative variation. Method: Zorthex v1.2 + Decision Layer v1.0.</p>
+
+    <div class="sa-grid">
+
+      <!-- ── ZSA-2026-001 · PQC ── -->
+      <div class="sa-card">
+        <div class="sa-card-top">
+          <div>
+            <div class="sa-id">ZSA-2026-001 · May 2026 · Zorthex v1.2 + Decision Layer v1.0</div>
+            <div class="sa-name">Post-Quantum Cryptography</div>
+            <div class="sa-domain">Security / Cryptography</div>
+          </div>
+          <div class="sa-status-badge operational">Operational Window</div>
+        </div>
+
+        <!-- Block 2: Core Metrics -->
+        <div class="sa-metrics-row">
+          <div class="sa-metric"><div class="sa-metric-val">91 mo</div><div class="sa-metric-lbl">L — Diffusion Lag</div></div>
+          <div class="sa-metric"><div class="sa-metric-val">STRUCTURAL</div><div class="sa-metric-lbl">Status</div></div>
+          <div class="sa-metric"><div class="sa-metric-val">35/100</div><div class="sa-metric-lbl">Current Score</div></div>
+          <div class="sa-metric"><div class="sa-metric-val green">Active</div><div class="sa-metric-lbl">Trend State</div></div>
+          <div class="sa-metric"><div class="sa-metric-val">Above</div><div class="sa-metric-lbl">Threshold Status</div></div>
+        </div>
+
+        <!-- Blocks 3–7 -->
+        <div class="sa-blocks">
+          <div class="sa-block">
+            <div class="sa-block-label">Block 3 · Temporal Position</div>
+            <div class="sa-block-val">Operational Window</div>
+            <div class="sa-block-sub">STRUCTURAL + Active · L below sector baseline (~105 mo) · Attention stable, not declining</div>
+          </div>
+          <div class="sa-block">
+            <div class="sa-block-label">Block 4 · Sector Benchmark</div>
+            <div class="sa-block-val">~105 mo</div>
+            <div class="sa-block-sub">Security/Financial baseline L · PQC: faster consolidation than sector average</div>
+          </div>
+          <div class="sa-block" style="grid-column: 1 / -1;">
+            <div class="sa-block-label">Block 5 · Signal Summary</div>
+            <ul class="sa-block-text">
+              <li>Regulatory action (NIST 2024) acted as primary diffusion accelerator — not a quantum attack</li>
+              <li>Transition from technical niche to institutional compliance phase completed</li>
+              <li>Attention stabilized rather than peaked — indicates structural integration in progress</li>
+            </ul>
+          </div>
+          <div class="sa-block" style="grid-column: 1 / -1;">
+            <div class="sa-block-label">Block 6 · Historical Interpretation</div>
+            <div class="sa-block-text">Historically consistent with technologies entering regulated adoption phase after delayed institutional recognition.</div>
+          </div>
+          <div class="sa-block" style="grid-column: 1 / -1;">
+            <div class="sa-block-label">Block 7 · Monitoring Signals</div>
+            <ul class="sa-block-text">
+              <li>Enterprise migration deadlines and PQC adoption cycles</li>
+              <li>Security compliance budget allocation trends</li>
+              <li>Quantum computing milestone announcements</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sa-constraint">Block 8 · Constraint Note — No predictive claims · No prescriptive recommendations · No causal attribution · Outputs derived strictly from Zorthex v1.2 + Decision Layer v1.0</div>
+      </div>
+
+      <!-- ── ZSA-2026-002 · AI Agents ── -->
+      <div class="sa-card">
+        <div class="sa-card-top">
+          <div>
+            <div class="sa-id">ZSA-2026-002 · May 2026 · Zorthex v1.2 + Decision Layer v1.0</div>
+            <div class="sa-name">AI Agents</div>
+            <div class="sa-domain">Artificial Intelligence</div>
+          </div>
+          <div class="sa-status-badge operational">Operational Window</div>
+        </div>
+
+        <div class="sa-metrics-row">
+          <div class="sa-metric"><div class="sa-metric-val">26 mo</div><div class="sa-metric-lbl">L — Diffusion Lag</div></div>
+          <div class="sa-metric"><div class="sa-metric-val">STRUCTURAL</div><div class="sa-metric-lbl">Status</div></div>
+          <div class="sa-metric"><div class="sa-metric-val">72/100</div><div class="sa-metric-lbl">Current Score</div></div>
+          <div class="sa-metric"><div class="sa-metric-val green">Active</div><div class="sa-metric-lbl">Trend State</div></div>
+          <div class="sa-metric"><div class="sa-metric-val">Above</div><div class="sa-metric-lbl">Threshold Status</div></div>
+        </div>
+
+        <div class="sa-blocks">
+          <div class="sa-block">
+            <div class="sa-block-label">Block 3 · Temporal Position</div>
+            <div class="sa-block-val">Operational Window</div>
+            <div class="sa-block-sub">STRUCTURAL + Active · L significantly below sector baseline (~119 mo) · Fast-track diffusion confirmed</div>
+          </div>
+          <div class="sa-block">
+            <div class="sa-block-label">Block 4 · Sector Benchmark</div>
+            <div class="sa-block-val amber">~119 mo</div>
+            <div class="sa-block-sub">AI/Scientific baseline L · AI Agents: 4.6× faster than sector average</div>
+          </div>
+          <div class="sa-block" style="grid-column: 1 / -1;">
+            <div class="sa-block-label">Block 5 · Signal Summary</div>
+            <ul class="sa-block-text">
+              <li>Dependency on prior generative AI infrastructure confirmed — infrastructure-dependent diffusion pattern</li>
+              <li>Transition from concept to product ecosystem completed in anomalously short timeframe</li>
+              <li>Emerging segmentation between general agents and product-specific systems visible in attention data</li>
+            </ul>
+          </div>
+          <div class="sa-block" style="grid-column: 1 / -1;">
+            <div class="sa-block-label">Block 6 · Historical Interpretation</div>
+            <div class="sa-block-text">Historically consistent with fast-adoption software layers built on pre-existing foundational infrastructure.</div>
+          </div>
+          <div class="sa-block" style="grid-column: 1 / -1;">
+            <div class="sa-block-label">Block 7 · Monitoring Signals</div>
+            <ul class="sa-block-text">
+              <li>Enterprise deployment rates for agentic workflows</li>
+              <li>Regulatory responses to autonomous agent systems</li>
+              <li>Attention divergence between general agents and vertical-specific deployments</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sa-constraint">Block 8 · Constraint Note — No predictive claims · No prescriptive recommendations · No causal attribution · Outputs derived strictly from Zorthex v1.2 + Decision Layer v1.0</div>
+      </div>
+
+      <!-- ── ZSA-2026-003 · Generative AI ── -->
+      <div class="sa-card">
+        <div class="sa-card-top">
+          <div>
+            <div class="sa-id">ZSA-2026-003 · May 2026 · Zorthex v1.2 + Decision Layer v1.0</div>
+            <div class="sa-name">Generative AI</div>
+            <div class="sa-domain">Artificial Intelligence</div>
+          </div>
+          <div class="sa-status-badge compression">Consensus Phase</div>
+        </div>
+
+        <div class="sa-metrics-row">
+          <div class="sa-metric"><div class="sa-metric-val">69 mo</div><div class="sa-metric-lbl">L — Diffusion Lag</div></div>
+          <div class="sa-metric"><div class="sa-metric-val">STRUCTURAL</div><div class="sa-metric-lbl">Status</div></div>
+          <div class="sa-metric"><div class="sa-metric-val amber">28/100</div><div class="sa-metric-lbl">Current Score</div></div>
+          <div class="sa-metric"><div class="sa-metric-val amber">Receding</div><div class="sa-metric-lbl">Trend State</div></div>
+          <div class="sa-metric"><div class="sa-metric-val">Above</div><div class="sa-metric-lbl">Threshold Status</div></div>
+        </div>
+
+        <div class="sa-blocks">
+          <div class="sa-block">
+            <div class="sa-block-label">Block 3 · Temporal Position</div>
+            <div class="sa-block-val amber">Consensus Phase</div>
+            <div class="sa-block-sub">STRUCTURAL + Receding · Attention declining from peak · Structural classification permanent</div>
+          </div>
+          <div class="sa-block">
+            <div class="sa-block-label">Block 4 · Sector Benchmark</div>
+            <div class="sa-block-val">~119 mo</div>
+            <div class="sa-block-sub">AI/Scientific baseline L · GenAI: faster than sector average · Receding from peak regime</div>
+          </div>
+          <div class="sa-block" style="grid-column: 1 / -1;">
+            <div class="sa-block-label">Block 5 · Signal Summary</div>
+            <ul class="sa-block-text">
+              <li>Peak attention phase passed — attention declining toward structural floor</li>
+              <li>Concept migrated from mass-media to specialist discourse</li>
+              <li>Sub-concepts (AI Agents, multimodal, reasoning models) now driving independent attention cycles</li>
+            </ul>
+          </div>
+          <div class="sa-block" style="grid-column: 1 / -1;">
+            <div class="sa-block-label">Block 6 · Historical Interpretation</div>
+            <div class="sa-block-text">Historically consistent with platform technologies that consolidate into infrastructure after peak media saturation.</div>
+          </div>
+          <div class="sa-block" style="grid-column: 1 / -1;">
+            <div class="sa-block-label">Block 7 · Monitoring Signals</div>
+            <ul class="sa-block-text">
+              <li>Whether current score stabilizes above 25 or continues declining toward Dormant threshold</li>
+              <li>Emergence of new sub-concept attention cycles as proxy for continued structural relevance</li>
+              <li>Regulatory framework announcements as potential attention re-triggers</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sa-constraint">Block 8 · Constraint Note — No predictive claims · No prescriptive recommendations · No causal attribution · Outputs derived strictly from Zorthex v1.2 + Decision Layer v1.0</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
        SIGNAL REPORTS SECTION
   ══════════════════════════════════════════════ -->
   <div class="reports-section">
@@ -166,7 +428,7 @@
         </div>
         <div class="report-status-badge badge-structural">■ STRUCTURAL</div>
         <p class="report-desc">From 2017 to 2024, PQC existed in near-total public obscurity. The NIST final standard publication was the trigger — not a quantum attack. 91 months of lag closed in weeks. The clearest documented case of regulation as an attention trigger in the Zorthex dataset.</p>
-        <a href="Zorthex_Signal_Report_002_PQC.pdf" download class="report-download-btn">↓ DOWNLOAD REPORT #002 (PDF)</a>
+        <a href="ZSA-2026-001-PQC (2).html" target="_blank" class="report-download-btn">↓ VIEW SIGNAL ARTIFACT #002</a>
       </div>
 
       <!-- REPORT #001 — mRNA -->
@@ -194,7 +456,7 @@
         </div>
         <div class="report-status-badge badge-observation">◉ OBSERVATION</div>
         <p class="report-desc">9 of 12 consecutive months above threshold confirmed. May 2026 dropped below 25/100 — critical inflection point. Whether this is a temporary dip or the beginning of a structural decline will determine if this technology enters mainstream consciousness or becomes a Structural Bubble.</p>
-        <a href="Zorthex_Signal_Report_001_mRNA.pdf" download class="report-download-btn">↓ DOWNLOAD REPORT #001 (PDF)</a>
+        <a href="ZSA-2026-002-mRNA.html" target="_blank" class="report-download-btn">↓ VIEW SIGNAL ARTIFACT #001</a>
       </div>
 
     </div>
