@@ -620,16 +620,21 @@
 </head>
 <body>
 
+</style>
+</head>
+<body>
+
 <div class="header">
-  <div class="brand">ZORTH<em>EX</em></div>
-  <div class="header-right" style="gap:12px;">
-    <a href="research.html" class="research-btn" style="margin-left:auto;">→ RESEARCH</a>
-    <a onclick="document.getElementById('howModal').style.display='flex'" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--text-mid);text-decoration:none;cursor:pointer;padding:6px 14px;border-radius:4px;border:1px solid var(--border2);transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(0,212,255,0.3)';this.style.color='var(--cyan)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text-mid)'">HOW WE MEASURE</a>
-    <a href="/custom-report.html" style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--amber);text-decoration:none;border:1px solid rgba(255,170,68,0.6);padding:6px 14px;border-radius:4px;transition:all 0.2s;animation:pulse-amber 2s ease-in-out infinite;" onmouseover="this.style.background='rgba(255,170,68,0.15)'" onmouseout="this.style.background='transparent'">✦ CUSTOM REPORTS</a>
-<span class="version-badge">V1.2</span>
+  <div class="header-left">
+    <div class="brand">ZORTH<em>EX</em></div>
+    <a href="research.html" class="nav-btn research-main-btn">◈ RESEARCH →</a>
+  </div>
+  <div class="header-right">
+    <a onclick="document.getElementById('howModal').style.display='flex'" class="nav-btn how-btn">◈ HOW WE MEASURE</a>
+    <a href="custom-report.html" class="nav-btn custom-btn">✦ CUSTOM REPORTS</a>
+    <span class="version-badge">V1.2</span>
   </div>
 </div>
-
 <div class="hero">
   <div class="hero-eyebrow">Open Research Framework · Est. MMXXVI</div>
   <div class="hero-title">
@@ -637,7 +642,7 @@
     starts <span class="cyan">paying</span><br>
     <span class="magenta">attention?</span>
   </div>
- <div class="hero-desc">Measuring the delay between reality and public awareness. Three independent sources. Open method. Replicable data.</div>
+  <div class="hero-desc">Measuring the delay between reality and public awareness. Three independent sources. Open method. Replicable data.</div>
 </div>
 
 <!-- INPUT SECTION - between hero and why -->
@@ -1269,4 +1274,4 @@ document.getElementById('queryInput').addEventListener('keydown', e => {
 </div>
 
 </body>
-</html> 
+</html>
