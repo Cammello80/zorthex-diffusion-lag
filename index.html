@@ -114,22 +114,6 @@
   .how-btn:hover { background: rgba(0,212,255,0.15); }
   
   .research-btn {
-    color: var(--magenta);
-    border: 1px solid rgba(204,68,255,0.6);
-    animation: pulse-magenta 2s ease-in-out infinite;
-  }
-  
-  .research-btn:hover { background: rgba(204,68,255,0.15); }
-  
-  .custom-btn {
-    color: var(--amber);
-    border: 1px solid rgba(255,170,68,0.6);
-    animation: pulse-amber 2s ease-in-out infinite;
-  }
-  
-  .custom-btn:hover { background: rgba(255,170,68,0.15); }
-  
-  .index-btn {
     color: var(--green);
     border: 1px solid rgba(68,255,170,0.6);
     animation: pulse-green 2s ease-in-out infinite;
@@ -138,12 +122,25 @@
     font-weight: 700;
     letter-spacing: 0.12em;
   }
-  
-  .index-btn:hover { 
+  .research-btn:hover { 
     background: rgba(68,255,170,0.15);
     transform: translateY(-2px);
     box-shadow: 0 0 20px rgba(68,255,170,0.3);
   }
+  
+  .custom-btn {
+    color: var(--amber);
+    border: 1px solid rgba(255,170,68,0.6);
+    animation: pulse-amber 2s ease-in-out infinite;
+  }
+  .custom-btn:hover { background: rgba(255,170,68,0.15); }
+  
+  .index-btn {
+    color: var(--magenta);
+    border: 1px solid rgba(204,68,255,0.6);
+    animation: pulse-magenta 2s ease-in-out infinite;
+  }
+  .index-btn:hover { background: rgba(204,68,255,0.15); }
 
   .header-tag {
     font-size: 12px;
@@ -667,7 +664,7 @@
   <div class="brand">ZORTH<em>EX</em></div>
   <div class="header-right">
     <a onclick="document.getElementById('howModal').style.display='flex'" class="pulse-btn how-btn">HOW WE MEASURE</a>
-    <a href="/custom-report.html" class="pulse-btn custom-btn">✦ CUSTOM REPORTS</a>
+    <a href="mailto:zorthex.official@gmail.com" class="pulse-btn custom-btn">✦ CUSTOM REPORTS</a>
     <a href="/research.html" class="pulse-btn research-btn">✦ RESEARCH</a>
     <a href="/index.html" class="pulse-btn index-btn">⌂ INDEX</a>
     <span class="version-badge">V1.2</span>
