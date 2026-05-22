@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZSA-2026-002 · mRNA Cancer Vaccines · Zorthex Signal Artifact</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06060f;
+    --bg2: #0c0c1e;
+    --bg3: #101028;
+    --accent: #00b4d8;
+    --amber: #ffaa44;
+    --warn: #ff4466;
+    --green: #2dc653;
+    --magenta: #cc44ff;
+    --text: #e0e0ff;
+    --muted: #5a5a8a;
+    --border: #1c1c3c;
+    --border2: #252545;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 3rem 2rem;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,180,216,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,180,216,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 1.2rem; margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.65rem; letter-spacing: 0.12em; color: var(--muted);
+    text-transform: uppercase;
+  }
+  .top-bar a { color: var(--accent); text-decoration: none; }
+  .top-bar-status {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.65rem; color: var(--amber); letter-spacing: 0.1em;
+  }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); animation: blink 1.8s ease-in-out infinite; }
+  @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+  /* ── HERO ── */
+  .hero { margin-bottom: 2.5rem; }
+  .hero-eyebrow { font-size: 0.62rem; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 0.8rem; text-transform: uppercase; }
+  .hero-name {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    line-height: 1.05; color: var(--text); margin-bottom: 0.5rem;
+  }
+  .hero-name span { color: var(--accent); }
+  .hero-sub { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1rem; }
+  .hero-interpretive { font-size: 0.95rem; color: #8888cc; font-style: italic; line-height: 1.5; margin-bottom: 1.2rem; border-left: 2px solid var(--amber); padding-left: 1rem; }
+  .hero-phase {
+    display: inline-block; font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 0.35rem 1rem;
+    border: 1px solid var(--amber); color: var(--amber); border-radius: 2px;
+  }
+
+  /* ── METRICS ── */
+  .metrics-row {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    border: 1px solid var(--border); border-radius: 3px;
+    overflow: hidden; margin-bottom: 1.5rem;
+  }
+  .metric {
+    padding: 1.2rem 0.8rem; text-align: center;
+    background: var(--bg2); border-right: 1px solid var(--border);
+  }
+  .metric:last-child { border-right: none; }
+  .metric-val {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 1.3rem; line-height: 1; margin-bottom: 0.35rem;
+    color: var(--accent);
+  }
+  .metric-val.amber { color: var(--amber); }
+  .metric-val.warn { color: var(--warn); }
+  .metric-val.green { color: var(--green); }
+  .metric-lbl { font-size: 0.58rem; color: var(--muted); letter-spacing: 0.07em; text-transform: uppercase; line-height: 1.4; }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 1.2rem; }
+  .section-label {
+    font-size: 0.58rem; letter-spacing: 0.2em; color: var(--muted);
+    text-transform: uppercase; margin-bottom: 0.6rem;
+    padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);
+  }
+  .section-body {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 3px; padding: 1.2rem 1.4rem;
+    font-size: 0.8rem; color: #aaaacc; line-height: 1.8;
+  }
+  .section-body p + p { margin-top: 0.8rem; }
+
+  /* ── TWO COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
+  .col-block {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 3px; padding: 1.2rem;
+  }
+  .col-label { font-size: 0.58rem; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; margin-bottom: 0.6rem; }
+  .col-val { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--accent); margin-bottom: 0.3rem; }
+  .col-val.amber { color: var(--amber); }
+  .col-text { font-size: 0.75rem; color: #9999cc; line-height: 1.65; }
+
+  /* ── BULLET LIST ── */
+  .bullet-list { list-style: none; }
+  .bullet-list li { font-size: 0.78rem; color: #aaaacc; line-height: 1.7; padding-left: 1.2rem; position: relative; margin-bottom: 0.3rem; }
+  .bullet-list li::before { content: '→'; position: absolute; left: 0; color: var(--muted); }
+
+  /* ── SCENARIOS ── */
+  .scenarios { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-bottom: 1.2rem; }
+  .scenario {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 3px; padding: 1rem 1.1rem;
+  }
+  .scenario.optimistic { border-top: 2px solid var(--green); }
+  .scenario.neutral { border-top: 2px solid var(--amber); }
+  .scenario.pessimistic { border-top: 2px solid var(--warn); }
+  .scenario-label { font-size: 0.58rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .scenario-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; margin-bottom: 0.4rem; }
+  .scenario.optimistic .scenario-name { color: var(--green); }
+  .scenario.neutral .scenario-name { color: var(--amber); }
+  .scenario.pessimistic .scenario-name { color: var(--warn); }
+  .scenario-text { font-size: 0.7rem; color: #8888bb; line-height: 1.6; }
+
+  /* ── TIMELINE TABLE ── */
+  .tl-table { width: 100%; border-collapse: collapse; }
+  .tl-table th { font-size: 0.6rem; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--border); text-align: left; font-weight: 400; }
+  .tl-table td { font-size: 0.75rem; color: #aaaacc; padding: 0.55rem 0.8rem; border-bottom: 1px solid rgba(28,28,60,0.6); vertical-align: top; }
+  .tl-table tr:last-child td { border-bottom: none; }
+  .tl-table .tl-date { color: var(--accent); font-weight: 700; white-space: nowrap; }
+  .tl-table .tl-date.amber { color: var(--amber); }
+  .tl-table .tl-date.warn { color: var(--warn); }
+
+  /* ── DECISION LAYER PREVIEW ── */
+  .dlp {
+    border: 1px solid rgba(204,68,255,0.3);
+    border-left: 3px solid var(--magenta);
+    background: rgba(204,68,255,0.04);
+    border-radius: 3px; padding: 1.2rem 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+  .dlp-header { font-size: 0.62rem; letter-spacing: 0.18em; color: var(--magenta); text-transform: uppercase; margin-bottom: 0.8rem; }
+  .dlp-row { display: grid; grid-template-columns: 160px 1fr; gap: 0.8rem; margin-bottom: 0.6rem; font-size: 0.75rem; }
+  .dlp-row:last-child { margin-bottom: 0; }
+  .dlp-audience { color: var(--muted); font-size: 0.7rem; }
+  .dlp-obs { color: #9999cc; line-height: 1.6; }
+  .dlp-note { font-size: 0.65rem; color: var(--muted); margin-top: 0.8rem; font-style: italic; border-top: 1px solid rgba(204,68,255,0.15); padding-top: 0.6rem; }
+
+  /* ── CONSTRAINT ── */
+  .constraint {
+    background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+    border-radius: 3px; padding: 0.9rem 1.2rem;
+    font-size: 0.65rem; color: var(--muted); line-height: 1.7;
+    font-style: italic; margin-bottom: 2rem;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 0.8rem;
+    padding-top: 1.2rem; border-top: 1px solid var(--border);
+    font-size: 0.62rem; color: var(--muted);
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #fff; color: #111; padding: 1.5cm; font-size: 11pt; }
+    body::before { display: none; }
+    .wrap { max-width: 100%; }
+    .bg2, .section-body, .col-block, .scenario, .dlp, .constraint { background: #f8f8f8 !important; border-color: #ddd !important; }
+    .metric { background: #f8f8f8 !important; border-color: #ddd !important; }
+    .metric-val, .col-val { color: #005580 !important; }
+    .metric-val.amber, .col-val.amber, .hero-phase, .status-dot { color: #b87000 !important; }
+    .metric-val.warn { color: #cc0033 !important; }
+    .hero-name { color: #111 !important; }
+    .hero-name span { color: #005580 !important; }
+    .hero-interpretive { border-color: #b87000; }
+    .dlp { border-color: #9933cc !important; background: #fdf8ff !important; }
+    .dlp-header { color: #9933cc !important; }
+    .tl-date { color: #005580 !important; }
+    .tl-date.amber { color: #b87000 !important; }
+    .tl-date.warn { color: #cc0033 !important; }
+    body::before { display: none; }
+    .top-bar-status .status-dot { display: none; }
+    a { color: #005580 !important; }
+  }
+
+  @media (max-width: 620px) {
+    .metrics-row { grid-template-columns: repeat(3,1fr); }
+    .metric:nth-child(3) { border-right: none; }
+    .metric:nth-child(4), .metric:nth-child(5) { border-top: 1px solid var(--border); }
+    .two-col { grid-template-columns: 1fr; }
+    .scenarios { grid-template-columns: 1fr; }
+    .dlp-row { grid-template-columns: 1fr; gap: 0.2rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <span><a href="https://zorthex.com">zorthex.com</a> · Signal Artifact · ZSA-2026-002</span>
+    <div class="top-bar-status">
+      <div class="status-dot"></div>
+      <span>Active monitoring · May 2026</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">// ZSA-2026-002 · Zorthex v1.2 · Signal Artifact format v1.0</div>
+    <div class="hero-name">mRNA Cancer <span>Vaccines</span></div>
+    <div class="hero-sub">Biotech · Public Attention · May 2026 · Preliminary — Not peer reviewed</div>
+    <div class="hero-interpretive">Nine months of structural attention. One month below threshold. The next 90 days determine classification.</div>
+    <div class="hero-phase">◉ Observation Phase</div>
+  </div>
+
+  <!-- METRICS -->
+  <div class="metrics-row">
+    <div class="metric">
+      <div class="metric-val amber">~126 mo</div>
+      <div class="metric-lbl">Diffusion Lag (L)</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val amber">OBSERVATION</div>
+      <div class="metric-lbl">Status</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">100/100</div>
+      <div class="metric-lbl">Peak Score</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val warn">17/100</div>
+      <div class="metric-lbl">Current · May 2026</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val amber">9 of 12</div>
+      <div class="metric-lbl">Months Above Threshold</div>
+    </div>
+  </div>
+
+  <!-- BLOCK 3+4 -->
+  <div class="two-col">
+    <div class="col-block">
+      <div class="col-label">Block 3 · Temporal Position</div>
+      <div class="col-val amber">Observation Phase</div>
+      <div class="col-text">9 consecutive months above threshold confirmed (Aug 2025 – Apr 2026). May 2026 dropped below 25/100. Structural classification requires 12 consecutive months. 3 months remain unconfirmed.</div>
+    </div>
+    <div class="col-block">
+      <div class="col-label">Block 4 · Sector Benchmark</div>
+      <div class="col-val">~60 mo</div>
+      <div class="col-text">Biotech/Medical sector average L. mRNA Cancer Vaccines at ~126 months is significantly above sector average — consistent with high-complexity, high-scrutiny technologies. CV 0.222 — most stable domain in dataset.</div>
+    </div>
+  </div>
+
+  <!-- BLOCK 5: SIGNAL SUMMARY -->
+  <div class="section">
+    <div class="section-label">Block 5 · Signal Summary — Three Sources</div>
+    <div class="section-body">
+      <p><strong style="color:var(--accent);">Google Trends.</strong> Peak of 100/100 in September 2025 — maximum normalized score. Breakout began August 2025. 9 months above threshold through April 2026. May 2026: 17/100 — below threshold. Critical inflection point. Note: May 2026 data may be incomplete — monthly data often underreported until month closes.</p>
+      <p><strong style="color:var(--accent);">Wikipedia Pageviews.</strong> August 2025: 894 views/day (peak). September 2025: 734 views/day. Both significantly above 2025 baseline of 418 views/day. Current: 239 views/day — declining. Wikipedia peaked one month before Google Trends, suggesting informed interest preceded general public attention.</p>
+      <p><strong style="color:var(--accent);">Reddit.</strong> Peak community engagement in August–October 2025. Posts exceeding 30,000 votes cluster in this window. Important caveat: estimated 40–50% of high-vote posts were politically driven (RFK Jr. funding cuts, anti-vaccine debates). Political amplification is a declared methodological confound — the August 2025 spike may partially reflect controversy rather than scientific consolidation.</p>
+    </div>
+  </div>
+
+  <!-- BLOCK 6: HISTORICAL INTERPRETATION -->
+  <div class="section">
+    <div class="section-label">Block 6 · Historical Interpretation</div>
+    <div class="section-body">
+      <p>At ~126 months, mRNA Cancer Vaccines show one of the longest diffusion lags in the dataset — consistent with technologies requiring extended clinical validation before public attention consolidates. The L value reflects the distance between first therapeutic trials (January 2015) and sustained public attention (August 2025).</p>
+      <p>The political amplification component (RFK Jr., anti-vaccine discourse) is historically atypical. Most STRUCTURAL technologies in the dataset were triggered by product launches, regulatory acts, or scientific milestones. Political controversy as an attention trigger introduces upward bias in peak scores and may reduce structural durability.</p>
+    </div>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div class="section">
+    <div class="section-label">Classification Scenarios — Current State</div>
+    <div class="scenarios">
+      <div class="scenario optimistic">
+        <div class="scenario-label">Scenario A</div>
+        <div class="scenario-name">Structural Consolidation</div>
+        <div class="scenario-text">May 2026 is a temporary dip. June–July 2026 return above 25/100. 12-month window completes. L ≈ 126 months. t_peak: Aug 2025.</div>
+      </div>
+      <div class="scenario neutral">
+        <div class="scenario-label">Scenario B</div>
+        <div class="scenario-name">Delayed Consolidation</div>
+        <div class="scenario-text">Attention oscillates around threshold for 6–12 months. Classification window remains open. Decision period extended.</div>
+      </div>
+      <div class="scenario pessimistic">
+        <div class="scenario-label">Scenario C</div>
+        <div class="scenario-name">Structural Bubble</div>
+        <div class="scenario-text">May 2026 marks start of sustained decline. 12-month window never completes. L uncalculable. Bubble classification applies permanently.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAG TIMELINE -->
+  <div class="section">
+    <div class="section-label">Lag Timeline</div>
+    <div class="section-body" style="padding:0; overflow:hidden;">
+      <table class="tl-table">
+        <thead>
+          <tr><th>Period</th><th>Event</th><th>Attention State</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tl-date">Jan 2015</td><td>First mRNA therapeutic cancer trials begin</td><td>Near zero — scientific community only</td></tr>
+          <tr><td>2015–2025</td><td>~10 years of clinical development</td><td>Flat — below 25/100 globally</td></tr>
+          <tr><td class="tl-date amber">Aug 2025</td><td>Breakout — sustained threshold crossing begins</td><td>93/100 — first above-threshold month</td></tr>
+          <tr><td class="tl-date">Sep 2025</td><td>Peak attention</td><td>100/100 — maximum normalized score</td></tr>
+          <tr><td>Oct 2025–Apr 2026</td><td>Sustained above threshold</td><td>28–64/100 — 9 months confirmed</td></tr>
+          <tr><td class="tl-date warn">May 2026</td><td>Below threshold — critical inflection</td><td>17/100 — classification undetermined</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BLOCK 7: MONITORING SIGNALS -->
+  <div class="section">
+    <div class="section-label">Block 7 · Monitoring Signals — June–August 2026</div>
+    <div class="section-body">
+      <ul class="bullet-list">
+        <li>Google Trends: does "mRNA cancer vaccine" return above 25/100 for June and July 2026? If yes — 9-month window resumes, structural classification becomes likely. If no — Structural Bubble classification applies.</li>
+        <li>Wikipedia Pageviews: does daily average return above 400 views/day? This was the baseline preceding the August 2025 breakout.</li>
+        <li>Clinical news: BioNTech and Moderna Phase 3 results for melanoma and lung cancer expected Q3 2026. A significant positive result would likely trigger a new attention spike — potentially restarting the 12-month clock.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DECISION LAYER PREVIEW -->
+  <div class="dlp">
+    <div class="dlp-header">// Decision Layer Preview — Observational framing by audience</div>
+    <div class="dlp-row">
+      <div class="dlp-audience">Biotech PR agencies</div>
+      <div class="dlp-obs">The 9-month observation window and May 2026 drop below threshold are the relevant data points for campaign timing decisions. Structural classification unconfirmed.</div>
+    </div>
+    <div class="dlp-row">
+      <div class="dlp-audience">Oncology comms teams</div>
+      <div class="dlp-obs">Content pipeline decisions intersect with the June–July 2026 monitoring window. Structural or Bubble classification will be determinable within 60 days.</div>
+    </div>
+    <div class="dlp-row">
+      <div class="dlp-audience">Early-stage investors</div>
+      <div class="dlp-obs">Political amplification confound (est. 40–50% of peak Reddit activity) is a declared data quality issue relevant to signal durability assessment.</div>
+    </div>
+    <div class="dlp-row">
+      <div class="dlp-audience">Regulators / policy</div>
+      <div class="dlp-obs">Attention lag does not reflect clinical progress. Science advancing on an independent track from public attention. The two metrics measure different phenomena.</div>
+    </div>
+    <div class="dlp-note">Full Decision Layer available in Custom Report · zorthex.official@gmail.com</div>
+  </div>
+
+  <!-- METHODOLOGY -->
+  <div class="section">
+    <div class="section-label">Methodology & Replication</div>
+    <div class="section-body" style="font-size:0.72rem; line-height:1.9;">
+      Framework: Zorthex v1.2 · Google Trends query: "mRNA cancer vaccine" — Worldwide — 2015-01-01 to 2026-05-08<br>
+      Wikipedia: en.wikipedia.org — "mRNA vaccine" — 2025-01-01 to 2026-05-07 · Reddit: manual search, sorted by top, last 12 months<br>
+      Threshold: ≥25/100 empirically set based on sensitivity testing across dataset v1.2<br>
+      t_start: January 2015 (first therapeutic trials) · t_peak: pending — August 2025 candidate if structural confirmed<br>
+      License: CC-BY 4.0 ·
+      <a href="https://doi.org/10.5281/zenodo.20270575" target="_blank">doi.org/10.5281/zenodo.20270575</a> ·
+      <a href="https://github.com/zorthex2026/zorthex-diffusion-lag" target="_blank">GitHub</a>
+    </div>
+  </div>
+
+  <!-- BLOCK 8: CONSTRAINT NOTE -->
+  <div class="constraint">
+    Block 8 · Constraint Note — No predictive claims · No prescriptive recommendations · No causal attribution · Classifications are operational heuristics observed within dataset v1.2 — not universal laws · L is a descriptive metric sensitive to t_start definition and selection bias · Political amplification declared as methodological confound · Outputs derived from Zorthex v1.2. May 2026 data preliminary — subject to revision when month closes.
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>© 2026 Zorthex™ — Renato Santi · <a href="https://zorthex.com">zorthex.com</a> · Powered by Claude</span>
+    <span>ZSA-2026-002 · Signal Artifact v1.0 · May 2026</span>
+  </div>
+
+</div>
+</body>
+</html>
