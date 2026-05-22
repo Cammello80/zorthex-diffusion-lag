@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZSA-2026-001 · Post-Quantum Cryptography · Zorthex Signal Artifact</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#06060f;--bg2:#0c0c1e;--accent:#00b4d8;--amber:#ffaa44;--warn:#ff4466;
+    --green:#2dc653;--magenta:#cc44ff;--text:#e0e0ff;--muted:#5a5a8a;--border:#1c1c3c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;font-size:14px;line-height:1.6;padding:3rem 2rem;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,180,216,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,216,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+  .wrap{position:relative;z-index:1;max-width:780px;margin:0 auto;}
+
+  .top-bar{display:flex;justify-content:space-between;align-items:center;padding-bottom:1.2rem;margin-bottom:2rem;border-bottom:1px solid var(--border);font-size:0.65rem;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;}
+  .top-bar a{color:var(--accent);text-decoration:none;}
+  .top-bar-status{display:flex;align-items:center;gap:0.6rem;font-size:0.65rem;color:var(--green);letter-spacing:0.1em;}
+  .status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);}
+
+  .hero{margin-bottom:2.5rem;}
+  .hero-eyebrow{font-size:0.62rem;letter-spacing:0.2em;color:var(--muted);margin-bottom:0.8rem;text-transform:uppercase;}
+  .hero-name{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,5vw,2.8rem);line-height:1.05;color:var(--text);margin-bottom:0.5rem;}
+  .hero-name span{color:var(--accent);}
+  .hero-sub{font-size:0.78rem;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:1rem;}
+  .hero-interpretive{font-size:0.95rem;color:#8888cc;font-style:italic;line-height:1.5;margin-bottom:1.2rem;border-left:2px solid var(--accent);padding-left:1rem;}
+  .hero-phase{display:inline-block;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.35rem 1rem;border:1px solid var(--accent);color:var(--accent);border-radius:2px;}
+
+  .metrics-row{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:1.5rem;}
+  .metric{padding:1.2rem 0.8rem;text-align:center;background:var(--bg2);border-right:1px solid var(--border);}
+  .metric:last-child{border-right:none;}
+  .metric-val{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;line-height:1;margin-bottom:0.35rem;color:var(--accent);}
+  .metric-val.green{color:var(--green);}
+  .metric-val.amber{color:var(--amber);}
+  .metric-lbl{font-size:0.58rem;color:var(--muted);letter-spacing:0.07em;text-transform:uppercase;line-height:1.4;}
+
+  .section{margin-bottom:1.4rem;}
+  .section-label{font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.6rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);}
+  .section-label.cyan{color:var(--accent);}
+  .section-label.amber{color:var(--amber);}
+  .section-label.green{color:var(--green);}
+  .section-label.magenta{color:var(--magenta);}
+  .section-label.muted{color:var(--muted);}
+
+  .section-body{background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:1.3rem 1.5rem;font-size:0.82rem;color:#aaaacc;line-height:1.85;}
+  .section-body p+p{margin-top:0.9rem;}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.4rem;}
+  .col-block{background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:1.2rem;}
+  .col-label{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.6rem;}
+  .col-label.cyan{color:var(--accent);}
+  .col-label.amber{color:var(--amber);}
+  .col-val{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:var(--accent);margin-bottom:0.4rem;}
+  .col-val.amber{color:var(--amber);}
+  .col-text{font-size:0.77rem;color:#9999cc;line-height:1.7;}
+
+  .bullet-list{list-style:none;}
+  .bullet-list li{font-size:0.8rem;color:#aaaacc;line-height:1.75;padding-left:1.3rem;position:relative;margin-bottom:0.4rem;}
+  .bullet-list li::before{content:'→';position:absolute;left:0;color:var(--amber);}
+
+  .tl-table{width:100%;border-collapse:collapse;}
+  .tl-table th{font-size:0.6rem;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;padding:0.6rem 0.9rem;border-bottom:1px solid var(--border);text-align:left;font-weight:400;}
+  .tl-table td{font-size:0.77rem;color:#aaaacc;padding:0.6rem 0.9rem;border-bottom:1px solid rgba(28,28,60,0.6);vertical-align:top;}
+  .tl-table tr:last-child td{border-bottom:none;}
+  .tl-date{color:var(--accent);font-weight:700;white-space:nowrap;}
+  .tl-date.amber{color:var(--amber);}
+  .tl-date.green{color:var(--green);}
+
+  .source-block{background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:1.1rem 1.4rem;margin-bottom:0.8rem;}
+  .source-title{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.4rem;}
+  .source-title.cyan{color:var(--accent);}
+  .source-title.green{color:var(--green);}
+  .source-title.amber{color:var(--amber);}
+  .source-text{font-size:0.8rem;color:#aaaacc;line-height:1.75;}
+
+  .dlp{border:1px solid rgba(204,68,255,0.3);border-left:3px solid var(--magenta);background:rgba(204,68,255,0.04);border-radius:3px;padding:1.3rem 1.5rem;margin-bottom:1.4rem;}
+  .dlp-header{font-size:0.62rem;letter-spacing:0.18em;color:var(--magenta);text-transform:uppercase;margin-bottom:1rem;}
+  .dlp-row{display:grid;grid-template-columns:150px 1fr;gap:1rem;margin-bottom:0.7rem;font-size:0.78rem;}
+  .dlp-row:last-of-type{margin-bottom:0;}
+  .dlp-audience{color:var(--amber);font-size:0.72rem;line-height:1.5;}
+  .dlp-obs{color:#9999cc;line-height:1.65;}
+  .dlp-note{font-size:0.65rem;color:var(--muted);margin-top:0.9rem;font-style:italic;border-top:1px solid rgba(204,68,255,0.15);padding-top:0.7rem;}
+
+  .constraint{background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:3px;padding:1rem 1.3rem;font-size:0.67rem;color:var(--muted);line-height:1.75;font-style:italic;margin-bottom:2rem;}
+
+  .footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;padding-top:1.2rem;border-top:1px solid var(--border);font-size:0.62rem;color:var(--muted);}
+  .footer a{color:var(--accent);text-decoration:none;}
+
+  @media print{
+    body{background:#fff;color:#111;padding:1.5cm;font-size:11pt;}
+    body::before{display:none;}
+    .wrap{max-width:100%;}
+    .section-body,.col-block,.dlp,.constraint,.metric,.source-block{background:#f8f8f8!important;border-color:#ddd!important;}
+    .metric-val,.col-val{color:#005580!important;}
+    .metric-val.green,.col-val.green{color:#1a7a3a!important;}
+    .metric-val.amber,.col-val.amber,.dlp-audience,.tl-date.amber{color:#b87000!important;}
+    .hero-name{color:#111!important;}
+    .hero-name span,.tl-date{color:#005580!important;}
+    .dlp{background:#fdf8ff!important;border-color:#9933cc!important;}
+    .dlp-header{color:#9933cc!important;}
+    .bullet-list li::before{color:#b87000!important;}
+    a{color:#005580!important;}
+  }
+  @media(max-width:620px){
+    .metrics-row{grid-template-columns:repeat(3,1fr);}
+    .two-col{grid-template-columns:1fr;}
+    .dlp-row{grid-template-columns:1fr;gap:0.2rem;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top-bar">
+    <span><a href="https://zorthex.com">zorthex.com</a> · Signal Artifact · ZSA-2026-001</span>
+    <div class="top-bar-status"><div class="status-dot"></div><span>Structural · Active</span></div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-eyebrow">// ZSA-2026-001 · Zorthex v1.2 · Signal Artifact format v1.0</div>
+    <div class="hero-name">Post-Quantum <span>Cryptography</span></div>
+    <div class="hero-sub">Security · Cryptography · May 2026</div>
+    <div class="hero-interpretive">Regulation drove public awareness before the threat arrived. 91 months of lag closed in weeks.</div>
+    <div class="hero-phase">■ Operational Window</div>
+  </div>
+
+  <div class="metrics-row">
+    <div class="metric"><div class="metric-val">91 mo</div><div class="metric-lbl">Diffusion Lag (L)</div></div>
+    <div class="metric"><div class="metric-val amber">STRUCTURAL</div><div class="metric-lbl">Status</div></div>
+    <div class="metric"><div class="metric-val">48/100</div><div class="metric-lbl">Peak Score</div></div>
+    <div class="metric"><div class="metric-val">35/100</div><div class="metric-lbl">Current · May 2026</div></div>
+    <div class="metric"><div class="metric-val green">Active</div><div class="metric-lbl">Trend State</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="col-block">
+      <div class="col-label cyan">Block 3 · Temporal Position</div>
+      <div class="col-val">Operational Window</div>
+      <div class="col-text">STRUCTURAL + Active. L below sector baseline (~105 mo). Attention stable above threshold. Compliance-driven absorption phase in progress.</div>
+    </div>
+    <div class="col-block">
+      <div class="col-label amber">Block 4 · Sector Benchmark</div>
+      <div class="col-val amber">~105 mo</div>
+      <div class="col-text">Security/Financial sector average L. PQC consolidated faster than sector average. 14 months above threshold confirmed — structural classification permanent.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label cyan">Block 5 · Signal Summary — Three Sources</div>
+    <div class="source-block">
+      <div class="source-title cyan">Google Trends</div>
+      <div class="source-text">t_start: January 2017 (NIST PQC competition). t_peak: August 2024 (NIST final standard). L: 91 months. Peak score: 48/100. Current: 35/100 — above threshold, stable. 14 consecutive months confirmed.</div>
+    </div>
+    <div class="source-block">
+      <div class="source-title green">Wikipedia Pageviews</div>
+      <div class="source-text">Sustained above 2023 baseline. Elevated professional reads consistent with institutional adoption phase — organizations reading to implement, not to discover.</div>
+    </div>
+    <div class="source-block">
+      <div class="source-title amber">Reddit</div>
+      <div class="source-text">r/netsec, r/crypto — discourse shifted from "what is PQC" to "how do we migrate". Implementation discussions dominant. Community engagement consistent with compliance-driven adoption.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label amber">Block 6 · Historical Interpretation</div>
+    <div class="section-body">
+      <p>Historically consistent with technologies entering regulated adoption phase after delayed institutional recognition. The PQC pattern differs from speculative triggers (Bitcoin), ethical controversy (CRISPR), and health emergencies (mRNA vaccines) — attention was created by institutional mandate, not market or media dynamics.</p>
+      <p>This is the clearest documented case of regulation as an attention trigger in the Zorthex dataset v1.2. Attention is unlikely to spike further absent a quantum computing milestone or a new regulatory deadline with hard implementation dates.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label muted">Lag Timeline</div>
+    <div class="section-body" style="padding:0;overflow:hidden;">
+      <table class="tl-table">
+        <thead><tr><th>Period</th><th>Event</th><th>Attention State</th></tr></thead>
+        <tbody>
+          <tr><td class="tl-date">Jan 2017</td><td>NIST PQC competition launched</td><td>Near zero — technical community only</td></tr>
+          <tr><td>2017–2023</td><td>6 years of standardization development</td><td>Flat — below 25/100 globally</td></tr>
+          <tr><td class="tl-date amber">Aug 2024</td><td>NIST final standards published</td><td>Breakout — structural threshold crossed</td></tr>
+          <tr><td>Aug 2024–May 2026</td><td>14 months above threshold</td><td>STRUCTURAL confirmed — permanent</td></tr>
+          <tr><td class="tl-date green">May 2026</td><td>Current status</td><td>35/100 — stable, compliance-driven</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label green">Block 7 · Monitoring Signals</div>
+    <div class="section-body">
+      <ul class="bullet-list">
+        <li>Enterprise migration deadlines and PQC adoption cycle announcements</li>
+        <li>Security compliance budget allocation trends in enterprise reporting</li>
+        <li>Quantum computing milestone announcements as potential attention re-trigger</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="dlp">
+    <div class="dlp-header">// Decision Layer Preview — Observational framing by audience</div>
+    <div class="dlp-row">
+      <div class="dlp-audience">Investors & VC</div>
+      <div class="dlp-obs">Structural window opened August 2024. 14 months of confirmed structural attention above threshold. Enterprise adoption driven by compliance is the observable pattern.</div>
+    </div>
+    <div class="dlp-row">
+      <div class="dlp-audience">Cybersecurity / Cloud</div>
+      <div class="dlp-obs">Current score 35/100: stable, above threshold. The attention data shows shift from discovery to implementation phase across all three sources.</div>
+    </div>
+    <div class="dlp-row">
+      <div class="dlp-audience">Policy makers</div>
+      <div class="dlp-obs">91 months is the documented interval between NIST competition launch and structural public attention. This is the observable institutional delay for this category of security technology.</div>
+    </div>
+    <div class="dlp-note">Full Decision Layer available in Custom Report · zorthex.official@gmail.com</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label muted">Methodology & Replication</div>
+    <div class="section-body" style="font-size:0.75rem;line-height:1.9;">
+      Framework: Zorthex v1.2 · Google Trends: "post-quantum cryptography" — Worldwide — 2017-01-01 to 2026-05-01<br>
+      Threshold: ≥25/100 empirically set based on sensitivity testing across dataset v1.2<br>
+      t_start: January 2017 · t_peak: August 2024 · L: 91 months · License: CC-BY 4.0<br>
+      <a href="https://doi.org/10.5281/zenodo.20270575" target="_blank">doi.org/10.5281/zenodo.20270575</a> · <a href="https://github.com/zorthex2026/zorthex-diffusion-lag" target="_blank">GitHub</a>
+    </div>
+  </div>
+
+  <div class="constraint">Block 8 · Constraint Note — No predictive claims · No prescriptive recommendations · No causal attribution · Classifications are operational heuristics observed within dataset v1.2 — not universal laws · L is a descriptive metric sensitive to t_start definition and selection bias · Outputs derived from Zorthex v1.2.</div>
+
+  <div class="footer">
+    <span>© 2026 Zorthex™ — Renato Santi · <a href="https://zorthex.com">zorthex.com</a> · Powered by Claude</span>
+    <span>ZSA-2026-001 · Signal Artifact v1.0 · May 2026</span>
+  </div>
+
+</div>
+</body>
+</html>
