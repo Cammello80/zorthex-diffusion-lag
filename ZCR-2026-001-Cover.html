@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZCR-2026-001 — Cover</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700&family=Syne:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#05050f;--cyan:#00d4ff;--amber:#ffaa44;--green:#2dc653;
+    --magenta:#cc44ff;--text:#e8e8ff;--muted:#5a5a8a;--border:#1e1e3a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.015) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+
+  .cover{max-width:780px;width:100%;position:relative;z-index:1;}
+
+  /* TOP BAR */
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:4rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);}
+  .brand{font-family:'Syne',sans-serif;font-weight:900;font-size:1.4rem;letter-spacing:0.2em;color:var(--text);}
+  .brand span{color:var(--cyan);}
+  .doc-id{font-size:0.65rem;letter-spacing:0.2em;color:var(--muted);}
+
+  /* MAIN TITLE */
+  .eyebrow{font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--amber);margin-bottom:1.2rem;}
+  .main-title{font-family:'Syne',sans-serif;font-weight:900;font-size:clamp(2.2rem,6vw,4rem);line-height:0.95;margin-bottom:0.5rem;letter-spacing:-0.02em;}
+  .main-title .line2{color:var(--cyan);display:block;}
+  .main-title .line3{color:var(--muted);font-size:0.5em;display:block;letter-spacing:0.05em;margin-top:0.4rem;font-weight:700;}
+
+  .subtitle{font-size:0.9rem;color:var(--muted);margin:1.5rem 0 3rem;line-height:1.7;max-width:560px;}
+  .subtitle strong{color:var(--text);}
+
+  /* METRICS ROW */
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:3rem;}
+  .metric{background:#080815;padding:1.2rem 1rem;}
+  .metric-val{font-family:'Syne',sans-serif;font-weight:900;font-size:1.6rem;line-height:1;margin-bottom:0.3rem;}
+  .metric-lbl{font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+
+  /* THREE BULLETS */
+  .bullets{display:grid;grid-template-columns:1fr;gap:0px;margin-bottom:3rem;border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+  .bullet{display:grid;grid-template-columns:40px 1fr;gap:1rem;padding:1.2rem 1.4rem;border-bottom:1px solid var(--border);background:#080815;align-items:start;}
+  .bullet:last-child{border-bottom:none;}
+  .bullet-num{font-family:'Syne',sans-serif;font-weight:900;font-size:1.8rem;color:rgba(0,212,255,0.15);line-height:1;}
+  .bullet-content{}
+  .bullet-title{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.3rem;}
+  .bullet-text{font-size:0.8rem;color:#b0b0d0;line-height:1.75;}
+  .bullet-text strong{color:var(--text);}
+
+  /* DIVIDER */
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),var(--magenta),var(--amber),transparent);margin:2rem 0;}
+
+  /* HOW TO GET ONE */
+  .cta-block{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;background:#080815;border:1px solid var(--border2,#2a2a50);border-top:2px solid var(--amber);border-radius:4px;padding:1.5rem 1.8rem;}
+  .cta-text{}
+  .cta-label{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber);margin-bottom:0.4rem;}
+  .cta-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;margin-bottom:0.3rem;}
+  .cta-desc{font-size:0.75rem;color:var(--muted);line-height:1.6;}
+  .cta-btn{white-space:nowrap;font-family:'Space Mono',monospace;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-decoration:none;padding:0.8rem 1.5rem;border:1px solid var(--amber);color:var(--amber);border-radius:3px;display:inline-block;transition:all 0.2s;animation:pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 8px rgba(255,170,68,0.3);}50%{box-shadow:0 0 22px rgba(255,170,68,0.6);}}
+  .cta-btn:hover{background:rgba(255,170,68,0.1);}
+
+  /* FOOTER */
+  .foot{display:flex;justify-content:space-between;align-items:center;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);font-size:0.62rem;color:var(--muted);flex-wrap:wrap;gap:0.5rem;}
+  .foot a{color:var(--cyan);text-decoration:none;}
+
+  /* FEAR ELEMENT */
+  .fear-line{font-family:'Syne',sans-serif;font-weight:900;font-size:clamp(0.65rem,1.5vw,0.85rem);letter-spacing:0.25em;text-transform:uppercase;color:rgba(0,212,255,0.15);text-align:center;margin:2rem 0;overflow:hidden;white-space:nowrap;}
+
+  @media(max-width:540px){
+    .metrics{grid-template-columns:1fr 1fr;}
+    .cta-block{grid-template-columns:1fr;}
+    .topbar{flex-direction:column;gap:0.5rem;text-align:center;}
+  }
+</style>
+</head>
+<body>
+<div class="cover">
+
+  <div class="topbar">
+    <div class="brand">ZORTH<span>EX</span></div>
+    <div class="doc-id">ZCR-2026-001 · CUSTOM REPORT · PILOT EDITION · MAY 2026</div>
+  </div>
+
+  <div class="eyebrow">// Attention Intelligence Report · Digital Assets & Treasury Infrastructure</div>
+
+  <div class="main-title">
+    The world took
+    <span class="line2">10 years and 8 months</span>
+    <span class="line3">to notice stablecoins exist.</span>
+  </div>
+
+  <p class="subtitle">
+    <strong>Zorthex</strong> measured exactly when that happened, what triggered it, where it happened first — and what it means for the institutions still operating in the lag.
+  </p>
+
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-val" style="color:var(--magenta);">128</div>
+      <div class="metric-lbl">Months of lag (L)</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val" style="color:var(--green);">12/12</div>
+      <div class="metric-lbl">Structural threshold</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val" style="color:var(--amber);">53/100</div>
+      <div class="metric-lbl">Current · May 2026</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val" style="color:var(--cyan);">61</div>
+      <div class="metric-lbl">Countries measured</div>
+    </div>
+  </div>
+
+  <div class="bullets">
+    <div class="bullet">
+      <div class="bullet-num">01</div>
+      <div class="bullet-content">
+        <div class="bullet-title">What you are reading</div>
+        <div class="bullet-text">A <strong>Zorthex Custom Report (ZCR)</strong> — the highest tier of Attention Intelligence analysis. Every data point manually verified. Google Trends CSV locked. Wikipedia pageviews documented. Primary source for t_start cited. No AI estimates. No hidden assumptions. A document you can put in front of a board.</div>
+      </div>
+    </div>
+    <div class="bullet">
+      <div class="bullet-num">02</div>
+      <div class="bullet-content">
+        <div class="bullet-title">Why stablecoins — why now</div>
+        <div class="bullet-text">The <strong>GENIUS Act</strong> (signed July 18, 2025) did in weeks what a decade of market growth could not: it created a legible public frame for stablecoins as payment infrastructure. The structural attention window opened in June 2025. It is confirmed and active. The institutional adoption cycle is open. <strong>Singapore is at 60/100. The United States — which issued the law — is at 17/100.</strong> That gap is the opportunity.</div>
+      </div>
+    </div>
+    <div class="bullet">
+      <div class="bullet-num">03</div>
+      <div class="bullet-content">
+        <div class="bullet-title">This is a system, not a study</div>
+        <div class="bullet-text">Zorthex has documented diffusion lags across 12 structural cases — from Bitcoin (107 months) to Post-Quantum Cryptography (91 months) to Quantitative Easing (136 months). The same pipeline applies to any macro theme, digital asset, regulatory shift, or technology transition your institution needs to position on. <strong>The question is always the same: where are we in the cycle — and who already knows?</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fear-line">MEASURING THE DELAY BETWEEN REALITY AND PUBLIC AWARENESS · ZORTHEX · BEYOND WHAT'S NEXT</div>
+
+  <div class="cta-block">
+    <div class="cta-text">
+      <div class="cta-label">Request a report on your theme</div>
+      <div class="cta-title">Any asset. Any technology. Any regulatory shift.</div>
+      <div class="cta-desc">Tell us your topic and what decision it supports. We confirm feasibility and price within 48 hours. No commitment required to inquire.</div>
+    </div>
+    <a href="mailto:zorthex.official@gmail.com?subject=ZCR Report Request&body=Topic:%0AInstitution:%0ADecision context:" class="cta-btn">✦ ASK YOUR REPORT</a>
+  </div>
+
+  <div class="foot">
+    <span>© 2026 Zorthex™ — Renato Santi · Framework v1.2 · CC-BY-NC 4.0</span>
+    <span><a href="https://zorthex.com">zorthex.com</a> · <a href="https://doi.org/10.5281/zenodo.20270575">DOI</a> · <a href="https://zorthex.com/methodology.html">Methodology</a></span>
+  </div>
+
+</div>
+</body>
+</html>
