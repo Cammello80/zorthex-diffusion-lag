@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZORTHEX — Dataset v1.2</title>
+  <title>ZORTHEX — Dataset v1.3</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root { --bg:#050510;--bg2:#0a0a1f;--accent:#00b4d8;--accent2:#7b2d8b;--accent3:#2dc653;--warn:#e63946;--amber:#ffaa44;--text:#e0e0ff;--muted:#6666aa;--border:#1a1a3a; }
+    :root{--bg:#050510;--bg2:#0a0a1f;--accent:#00b4d8;--accent2:#7b2d8b;--accent3:#2dc653;--warn:#e63946;--amber:#ffaa44;--magenta:#cc44ff;--text:#e0e0ff;--muted:#6666aa;--border:#1a1a3a;}
     *{margin:0;padding:0;box-sizing:border-box;}
     body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden;}
     body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,180,216,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,216,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
@@ -17,62 +17,62 @@
     nav a:hover{color:var(--accent);}
     main{position:relative;z-index:1;padding-top:5rem;}
 
-    .hero{padding:3rem 2rem 2rem;max-width:900px;margin:0 auto;border-bottom:1px solid var(--border);}
+    .hero{padding:3rem 2rem 2rem;max-width:1000px;margin:0 auto;border-bottom:1px solid var(--border);}
     .eyebrow{font-size:0.65rem;letter-spacing:0.2em;color:var(--amber);margin-bottom:0.8rem;text-transform:uppercase;}
     h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.1;margin-bottom:1rem;}
     h1 span{color:var(--amber);}
-    .hero-sub{font-size:0.88rem;line-height:1.8;color:var(--muted);max-width:640px;margin-bottom:1rem;}
+    .hero-sub{font-size:0.88rem;line-height:1.8;color:var(--muted);max-width:700px;margin-bottom:1rem;}
     .dataset-meta{font-size:0.72rem;color:var(--amber);letter-spacing:0.08em;}
 
-    section{max-width:900px;margin:0 auto;padding:3rem 2rem;}
+    section{max-width:1000px;margin:0 auto;padding:3rem 2rem;}
     section+section{border-top:1px solid var(--border);}
     .section-label{font-size:0.65rem;letter-spacing:0.2em;color:var(--amber);margin-bottom:1rem;text-transform:uppercase;}
     h2{font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;margin-bottom:1.5rem;color:var(--text);}
+    h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--amber);margin:2rem 0 1rem;}
 
-    /* Domain bars */
-    .chart-container{background:var(--bg2);border:1px solid var(--border);padding:2rem;margin-bottom:2rem;}
-    .chart-title{font-size:0.72rem;color:var(--muted);margin-bottom:1.5rem;letter-spacing:0.08em;}
-    .domain-grid{display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1.5rem;}
-    .domain-row{display:grid;grid-template-columns:160px 1fr 80px 60px;align-items:center;gap:1rem;font-size:0.75rem;}
-    .domain-name{color:var(--muted);text-align:right;}
-    .domain-bar-wrap{position:relative;height:24px;background:rgba(255,255,255,0.03);}
-    .domain-bar{height:100%;position:relative;transition:width 1s ease;}
-    .domain-bar::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2px;background:rgba(255,255,255,0.3);}
-    .domain-cv{color:var(--muted);font-size:0.7rem;text-align:right;}
-    .domain-n{color:var(--muted);font-size:0.7rem;}
-    .chart-note{font-size:0.65rem;color:var(--muted);}
+    /* LAYER TABS */
+    .layer-intro{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:2rem;}
+    .layer-card{background:var(--bg2);padding:1.3rem;}
+    .layer-tag{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.4rem;}
+    .layer-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;margin-bottom:0.4rem;}
+    .layer-desc{font-size:0.75rem;color:var(--muted);line-height:1.7;}
 
-    /* Tech table */
-    .tech-table{width:100%;border-collapse:collapse;font-size:0.75rem;margin-bottom:1.5rem;}
-    .tech-table th{text-align:left;padding:0.6rem 0.8rem;border-bottom:1px solid var(--border);color:var(--muted);font-weight:400;letter-spacing:0.1em;font-size:0.65rem;}
-    .tech-table td{padding:0.6rem 0.8rem;border-bottom:1px solid rgba(26,26,58,0.5);color:#aaaacc;}
-    .tech-table tr:hover td{background:rgba(0,180,216,0.03);}
-    .badge{display:inline-block;padding:0.15rem 0.5rem;font-size:0.6rem;letter-spacing:0.1em;border:1px solid;}
-    .badge-sci{color:var(--accent);border-color:var(--accent);}
-    .badge-ai{color:var(--accent2);border-color:var(--accent2);}
-    .badge-prod{color:#f4a261;border-color:#f4a261;}
-    .badge-slow{color:#ffd166;border-color:#ffd166;}
-    .badge-cens{color:var(--warn);border-color:var(--warn);}
+    /* TABLES */
+    .tech-table{width:100%;border-collapse:collapse;font-size:0.72rem;margin-bottom:1.5rem;}
+    .tech-table th{text-align:left;padding:0.6rem 0.8rem;border-bottom:1px solid var(--border);color:var(--muted);font-weight:400;letter-spacing:0.08em;font-size:0.6rem;text-transform:uppercase;}
+    .tech-table td{padding:0.6rem 0.8rem;border-bottom:1px solid rgba(26,26,58,0.5);color:#aaaacc;vertical-align:middle;}
+    .tech-table tr:hover td{background:rgba(0,180,216,0.02);}
 
-    /* Sector cards */
-    .sector-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;}
-    .sector-card{background:var(--bg2);border:1px solid var(--border);padding:1.5rem;}
-    .sector-name{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.8rem;}
-    .sector-l{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;line-height:1;}
-    .sector-sub{font-size:0.7rem;color:var(--muted);margin-bottom:1rem;}
-    .sector-badges{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.8rem;}
-    .sector-tech{font-size:0.7rem;color:var(--muted);line-height:1.6;}
+    .badge{display:inline-block;padding:0.15rem 0.45rem;font-size:0.58rem;letter-spacing:0.08em;border:1px solid;border-radius:2px;white-space:nowrap;}
+    .b-structural{color:var(--accent3);border-color:var(--accent3);}
+    .b-observation{color:var(--amber);border-color:var(--amber);}
+    .b-bubble{color:var(--warn);border-color:var(--warn);}
+    .b-active{color:var(--accent3);border-color:var(--accent3);}
+    .b-receding{color:var(--amber);border-color:var(--amber);}
+    .b-dormant{color:var(--muted);border-color:var(--muted);}
+    .b-stable{color:var(--accent);border-color:var(--accent);}
+    .b-semi{color:var(--amber);border-color:var(--amber);}
+    .b-nonstat{color:var(--warn);border-color:var(--warn);}
+    .b-r1{color:var(--accent);border-color:var(--accent);}
+    .b-r2{color:var(--magenta);border-color:var(--magenta);}
+    .b-r3{color:var(--amber);border-color:var(--amber);}
+    .b-r4{color:var(--warn);border-color:var(--warn);}
 
-    /* Status legend */
-    .status-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);margin-bottom:1rem;}
-    .status-item{background:var(--bg2);padding:1.2rem;}
-    .status-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.3rem;}
-    .status-rule{font-size:0.72rem;color:var(--muted);margin-bottom:0.5rem;}
-    .status-desc{font-size:0.72rem;color:#aaaacc;line-height:1.6;}
+    .disclaimer{font-size:0.65rem;color:var(--muted);padding:0.8rem;border:1px solid var(--border);line-height:1.8;margin-bottom:1.5rem;border-left:3px solid var(--amber);}
 
-    .disclaimer{font-size:0.65rem;color:var(--muted);padding:0.8rem;border:1px solid var(--border);line-height:1.8;margin-bottom:2rem;}
+    /* REGIME LEGEND */
+    .regime-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:2rem;}
+    .regime-item{background:var(--bg2);padding:1rem;}
+    .regime-num{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.3rem;}
+    .regime-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;margin-bottom:0.3rem;}
+    .regime-ex{font-size:0.68rem;color:var(--muted);line-height:1.5;}
 
-    .back-row{display:flex;gap:1rem;flex-wrap:wrap;padding:2rem;max-width:900px;margin:0 auto;}
+    .stat-legend{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:2rem;}
+    .stat-item{background:var(--bg2);padding:1rem;}
+    .stat-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;margin-bottom:0.3rem;}
+    .stat-rule{font-size:0.68rem;color:var(--muted);line-height:1.5;}
+
+    .back-row{display:flex;gap:1rem;flex-wrap:wrap;padding:2rem;max-width:1000px;margin:0 auto;}
     .btn{display:inline-block;padding:0.7rem 1.4rem;font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:0.1em;text-decoration:none;transition:all 0.2s;border:1px solid;}
     .btn-amber{color:var(--amber);border-color:var(--amber);}
     .btn-amber:hover{background:var(--amber);color:var(--bg);}
@@ -82,7 +82,7 @@
     footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem;text-align:center;font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;}
     footer a{color:var(--accent);text-decoration:none;}
 
-    @media(max-width:600px){.sector-grid,.status-grid{grid-template-columns:1fr;}.domain-row{grid-template-columns:100px 1fr 60px;}.domain-n{display:none;}}
+    @media(max-width:640px){.layer-intro,.regime-legend,.stat-legend{grid-template-columns:1fr;}.tech-table{font-size:0.65rem;}}
   </style>
 </head>
 <body>
@@ -96,149 +96,199 @@
 <main>
 
   <div class="hero">
-    <div class="eyebrow">// dataset v1.2 · results & distribution</div>
+    <div class="eyebrow">// dataset v1.3 · phase 1 complete · n=32</div>
     <h1>The <span>Data</span></h1>
-    <p class="hero-sub">12 structural technologies. 3 structural bubbles. 1 censored. Measured with the same method. Directly comparable.</p>
-    <div class="dataset-meta">n=12 structural · n=3 bubble · verified May 2026 · Zorthex v1.2</div>
+    <p class="hero-sub">32 documented cases across 4 diffusion regimes. Separated into Layer A (hard infrastructure, L-comparable) and Layer B (attention phenomena, regime-classifiable). Every case carries a mandatory Stationarity Flag. All data manually verified or CSV-locked.</p>
+    <div class="dataset-meta">n=32 total · Layer A: 18 · Layer B: 14 · verified May 2026 · Zorthex v1.3</div>
   </div>
 
+  <!-- LEGEND SECTION -->
   <section>
-    <div class="section-label">// domain distribution</div>
-    <h2>L by Cluster</h2>
-    <div class="chart-container">
-      <div class="chart-title">Bar length proportional to mean L. Lower CV = more stable distribution within domain.</div>
-      <div class="domain-grid">
-        <div class="domain-row">
-          <div class="domain-name">biotech_medical</div>
-          <div class="domain-bar-wrap"><div class="domain-bar" style="width:36%;background:linear-gradient(90deg,#e63946,#c1121f);"></div></div>
-          <div class="domain-cv">CV 0.222</div>
-          <div class="domain-n">n=2</div>
-        </div>
-        <div class="domain-row">
-          <div class="domain-name">consumer_tech</div>
-          <div class="domain-bar-wrap"><div class="domain-bar" style="width:29%;background:linear-gradient(90deg,#a8a8a8,#666666);"></div></div>
-          <div class="domain-cv">CV 0.438</div>
-          <div class="domain-n">n=4</div>
-        </div>
-        <div class="domain-row">
-          <div class="domain-name">AI/scientific</div>
-          <div class="domain-bar-wrap"><div class="domain-bar" style="width:72%;background:linear-gradient(90deg,#7b2d8b,#4a1a6b);"></div></div>
-          <div class="domain-cv">CV 0.452</div>
-          <div class="domain-n">n=3</div>
-        </div>
-        <div class="domain-row">
-          <div class="domain-name">financial_tech</div>
-          <div class="domain-bar-wrap"><div class="domain-bar" style="width:74%;background:linear-gradient(90deg,#f4a261,#c47a3a);"></div></div>
-          <div class="domain-cv">CV 0.292</div>
-          <div class="domain-n">n=2</div>
-        </div>
+    <div class="section-label">// framework · legends</div>
+    <h2>How to Read This Dataset</h2>
+
+    <h3>Layer Classification</h3>
+    <div class="layer-intro">
+      <div class="layer-card" style="border-top:2px solid var(--accent);">
+        <div class="layer-tag" style="color:var(--accent);">Layer A — Hard Infrastructure</div>
+        <div class="layer-title">L-Comparable Cases</div>
+        <div class="layer-desc">Phenomena with documented operational emergence and institutional legibility trajectory. L values are cross-comparable within this layer. Eligible for sector averaging and benchmark calculations. t_start defined as operational launch or regulatory first recognition.</div>
       </div>
-      <div class="chart-note">CV = Coefficient of Variation. Measures dispersion within each domain. Lower CV = more predictable diffusion timing.</div>
+      <div class="layer-card" style="border-top:2px solid var(--amber);">
+        <div class="layer-tag" style="color:var(--amber);">Layer B — Attention Phenomena</div>
+        <div class="layer-title">Regime-Classifiable Only</div>
+        <div class="layer-desc">Phenomena driven by speculation, cultural moments, or exogenous shocks. L values are not cross-comparable with Layer A. Eligible for regime classification and pattern analysis. Included to document the full spectrum of diffusion dynamics — not excluded because they are less valid.</div>
+      </div>
     </div>
+
+    <h3>4-Regime Taxonomy</h3>
+    <div class="regime-legend">
+      <div class="regime-item" style="border-top:2px solid var(--accent);">
+        <div class="regime-num" style="color:var(--accent);">Regime 1</div>
+        <div class="regime-name" style="color:var(--accent);">Policy-Trigger</div>
+        <div class="regime-ex">Slow ramp → regulatory breakout → sustained consolidation<br><br>PQC, Stablecoins, CBDC, ESG, EU AI Act</div>
+      </div>
+      <div class="regime-item" style="border-top:2px solid var(--magenta);">
+        <div class="regime-num" style="color:var(--magenta);">Regime 2</div>
+        <div class="regime-name" style="color:var(--magenta);">Institutional Mass</div>
+        <div class="regime-ex">Multi-year invisibility → explosive single-month breakout<br><br>RWA, Tokenized Deposits, EV Infra, Quantum Computing</div>
+      </div>
+      <div class="regime-item" style="border-top:2px solid var(--amber);">
+        <div class="regime-num" style="color:var(--amber);">Regime 3</div>
+        <div class="regime-name" style="color:var(--amber);">Market-Narrative</div>
+        <div class="regime-ex">Speculation cycles, media amplification, price events<br><br>Bitcoin, Crypto, DeFi, Remote Work, GenAI</div>
+      </div>
+      <div class="regime-item" style="border-top:2px solid var(--warn);">
+        <div class="regime-num" style="color:var(--warn);">Regime 4</div>
+        <div class="regime-name" style="color:var(--warn);">Shock / Spoke</div>
+        <div class="regime-ex">Single-event spike → memory-zero collapse<br><br>GDPR, NFT partial, Clubhouse</div>
+      </div>
+    </div>
+
+    <h3>Stationarity Flag</h3>
+    <div class="stat-legend">
+      <div class="stat-item" style="border-top:2px solid var(--accent);">
+        <div class="stat-name" style="color:var(--accent);">STABLE</div>
+        <div class="stat-rule">Organic diffusion. No exogenous shock. L fully comparable cross-cluster. Eligible for sector averaging.</div>
+      </div>
+      <div class="stat-item" style="border-top:2px solid var(--amber);">
+        <div class="stat-name" style="color:var(--amber);">SEMI-STABLE</div>
+        <div class="stat-rule">Partial external influence. L usable with declared caution. Flagged in cross-cluster comparisons.</div>
+      </div>
+      <div class="stat-item" style="border-top:2px solid var(--warn);">
+        <div class="stat-name" style="color:var(--warn);">NON-STATIONARY</div>
+        <div class="stat-rule">Exogenous shock dominant. L excluded from averaging. Included in regime classification only.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAYER A TABLE -->
+  <section>
+    <div class="section-label">// layer A · hard infrastructure · L-comparable</div>
+    <h2>Layer A — 18 Cases</h2>
 
     <table class="tech-table">
       <thead>
-        <tr><th>Technology</th><th>Cluster</th><th>t_start</th><th>L (months)</th><th>Classification</th><th>Current Status</th></tr>
+        <tr>
+          <th>Phenomenon</th>
+          <th>Domain</th>
+          <th>t_start</th>
+          <th>L (mo)</th>
+          <th>Classification</th>
+          <th>May 2026</th>
+          <th>Regime</th>
+          <th>Stationarity</th>
+        </tr>
       </thead>
       <tbody>
-        <tr><td>mRNA vaccine</td><td>biotech_medical</td><td>Jan 2015</td><td>70</td><td><span class="badge badge-sci">structural</span></td><td><span class="badge" style="color:#ffaa44;border-color:#ffaa44;">receding</span></td></tr>
-        <tr><td>CRISPR</td><td>biotech_medical</td><td>Jun 2012</td><td>51</td><td><span class="badge badge-sci">structural</span></td><td><span class="badge" style="color:#ffaa44;border-color:#ffaa44;">receding</span></td></tr>
-        <tr><td>LLM</td><td>AI/scientific</td><td>Jun 2017</td><td>69</td><td><span class="badge badge-ai">structural</span></td><td><span class="badge" style="color:#2dc653;border-color:#2dc653;">active</span></td></tr>
-        <tr><td>Deep Learning</td><td>AI/scientific</td><td>Sep 2012</td><td>112</td><td><span class="badge badge-ai">structural</span></td><td><span class="badge" style="color:#2dc653;border-color:#2dc653;">active</span></td></tr>
-        <tr><td>Autonomous Vehicle</td><td>AI/scientific</td><td>Oct 2010</td><td>176</td><td><span class="badge badge-slow">outlier</span></td><td><span class="badge" style="color:#ffaa44;border-color:#ffaa44;">receding</span></td></tr>
-        <tr><td>Virtual Reality</td><td>consumer_tech</td><td>Jan 2010</td><td>71</td><td><span class="badge badge-prod">structural</span></td><td><span class="badge" style="color:#ffaa44;border-color:#ffaa44;">receding</span></td></tr>
-        <tr><td>iPhone</td><td>consumer_tech</td><td>Jan 2007</td><td>29</td><td><span class="badge badge-prod">structural</span></td><td><span class="badge" style="color:#2dc653;border-color:#2dc653;">active</span></td></tr>
-        <tr><td>Cloud Computing</td><td>consumer_tech</td><td>Mar 2006</td><td>31</td><td><span class="badge badge-prod">structural</span></td><td><span class="badge" style="color:#2dc653;border-color:#2dc653;">active</span></td></tr>
-        <tr><td>Facebook</td><td>consumer_tech</td><td>Feb 2004</td><td>59</td><td><span class="badge badge-prod">structural</span></td><td><span class="badge" style="color:#ffaa44;border-color:#ffaa44;">receding</span></td></tr>
-        <tr><td>Bitcoin</td><td>financial_tech</td><td>Oct 2008</td><td>146</td><td><span class="badge badge-prod">structural</span></td><td><span class="badge" style="color:#ffaa44;border-color:#ffaa44;">receding</span></td></tr>
-        <tr><td>Cryptocurrency</td><td>financial_tech</td><td>Jan 2013</td><td>96</td><td><span class="badge badge-prod">structural</span></td><td><span class="badge" style="color:#2dc653;border-color:#2dc653;">active</span></td></tr>
-        <tr><td>Post-Quantum Cryptography</td><td>security_tech</td><td>Jan 2017</td><td>91</td><td><span class="badge badge-sci">structural</span></td><td><span class="badge" style="color:#2dc653;border-color:#2dc653;">active</span></td></tr>
-        <tr><td>NFT</td><td>structural bubble</td><td>—</td><td>N/A</td><td><span class="badge badge-cens">bubble</span></td><td><span class="badge" style="color:#6666aa;border-color:#6666aa;">dormant</span></td></tr>
-        <tr><td>Metaverse</td><td>structural bubble</td><td>—</td><td>N/A</td><td><span class="badge badge-cens">bubble</span></td><td><span class="badge" style="color:#6666aa;border-color:#6666aa;">dormant</span></td></tr>
-        <tr><td>Clubhouse</td><td>structural bubble</td><td>—</td><td>N/A</td><td><span class="badge badge-cens">bubble</span></td><td><span class="badge" style="color:#6666aa;border-color:#6666aa;">dormant</span></td></tr>
-        <tr><td>Nanotechnology</td><td>censored</td><td>—</td><td>N/A</td><td><span class="badge badge-cens">censored</span></td><td><span class="badge" style="color:#6666aa;border-color:#6666aa;">—</span></td></tr>
+        <!-- FINANCIAL INFRASTRUCTURE -->
+        <tr><td colspan="8" style="background:rgba(0,180,216,0.03);color:var(--accent);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Financial Infrastructure</td></tr>
+        <tr><td><strong style="color:var(--text);">Stablecoins</strong> ★ ZCR-001</td><td>Financial</td><td>Oct 2014</td><td style="color:var(--magenta);">128</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">53/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td><strong style="color:var(--text);">RWA Tokenization</strong> ★ ZCR-003</td><td>Financial</td><td>Jan 2017</td><td style="color:var(--magenta);">103</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">53/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Bitcoin</td><td>Financial</td><td>Oct 2008</td><td style="color:var(--magenta);">107</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-receding">Receding</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Cryptocurrency</td><td>Financial</td><td>Jan 2013</td><td style="color:var(--magenta);">96</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">Active</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>CBDC</td><td>Financial</td><td>Aug 2014</td><td style="color:var(--magenta);">~89</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">48/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Tokenized Deposits</td><td>Financial</td><td>Feb 2019</td><td style="color:var(--magenta);">~78</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">53/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Quantitative Easing</td><td>Financial</td><td>Nov 2008</td><td style="color:var(--magenta);">136</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">Active</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+
+        <!-- SECURITY / TECH INFRA -->
+        <tr><td colspan="8" style="background:rgba(0,180,216,0.03);color:var(--accent);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Security / Tech Infrastructure</td></tr>
+        <tr><td><strong style="color:var(--text);">Post-Quantum Crypto</strong> ★ ZCR-002</td><td>Security</td><td>Jan 2017</td><td style="color:var(--magenta);">91</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">35/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Edge Computing</td><td>Tech Infra</td><td>~2015</td><td style="color:var(--magenta);">~120</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">69/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Quantum Computing</td><td>Tech Infra</td><td>May 2016</td><td style="color:var(--magenta);">~113</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">29/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+
+        <!-- ENERGY / INFRASTRUCTURE -->
+        <tr><td colspan="8" style="background:rgba(0,180,216,0.03);color:var(--accent);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Energy / Physical Infrastructure</td></tr>
+        <tr><td>SMR (Small Modular Reactor)</td><td>Energy</td><td>Jan 2009</td><td style="color:var(--magenta);">199</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">69/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Green Hydrogen</td><td>Energy</td><td>~2005</td><td style="color:var(--magenta);">~198</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">74/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Carbon Capture</td><td>Energy</td><td>~2004</td><td style="color:var(--magenta);">~204</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">66/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>EV Infrastructure</td><td>Energy</td><td>Oct 2012</td><td style="color:var(--magenta);">~154</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">79/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+
+        <!-- BIOTECH -->
+        <tr><td colspan="8" style="background:rgba(0,180,216,0.03);color:var(--accent);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Biotech / Medical</td></tr>
+        <tr><td>Liquid Biopsy</td><td>Biotech</td><td>Nov 2010</td><td style="color:var(--magenta);">~174</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">73/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>CRISPR</td><td>Biotech</td><td>Jun 2012</td><td style="color:var(--magenta);">82</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-receding">Receding</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
       </tbody>
     </table>
+
+    <div class="disclaimer">★ = Verified Custom Report available. L values marked ~ are AI-estimated pending full manual verification. Sector averages for Layer A only. Non-stationary cases excluded from L averaging per methodology v1.3.</div>
   </section>
 
+  <!-- LAYER B TABLE -->
   <section>
-    <div class="section-label">// sector overview · may 2026</div>
-    <h2>Average L by Domain</h2>
-    <div class="sector-grid">
-      <div class="sector-card" style="border-top:3px solid #e63946;">
-        <div class="sector-name" style="color:#e63946;">Biotech Medical · n=2</div>
-        <div class="sector-l" style="color:#e63946;">~60 mo</div>
-        <div class="sector-sub">avg diffusion lag · 5 years</div>
-        <div class="sector-badges">
-          <span class="badge" style="color:#ffaa44;border-color:#ffaa44;">2 Receding</span>
-          <span class="badge" style="color:#6666aa;border-color:#6666aa;">0 Active</span>
-        </div>
-        <div class="sector-tech">mRNA vaccine · CRISPR<br>CV 0.222 — most stable domain</div>
-      </div>
-      <div class="sector-card" style="border-top:3px solid #7b2d8b;">
-        <div class="sector-name" style="color:#7b2d8b;">AI / Scientific · n=3</div>
-        <div class="sector-l" style="color:#7b2d8b;">~119 mo</div>
-        <div class="sector-sub">avg diffusion lag · 10 years</div>
-        <div class="sector-badges">
-          <span class="badge" style="color:#2dc653;border-color:#2dc653;">2 Active</span>
-          <span class="badge" style="color:#ffaa44;border-color:#ffaa44;">1 Receding</span>
-        </div>
-        <div class="sector-tech">LLM · Deep Learning · Autonomous Vehicle<br>CV 0.452 — highest heterogeneity</div>
-      </div>
-      <div class="sector-card" style="border-top:3px solid #a8a8a8;">
-        <div class="sector-name" style="color:#a8a8a8;">Consumer Tech · n=4</div>
-        <div class="sector-l" style="color:#a8a8a8;">~47 mo</div>
-        <div class="sector-sub">avg diffusion lag · 4 years</div>
-        <div class="sector-badges">
-          <span class="badge" style="color:#2dc653;border-color:#2dc653;">2 Active</span>
-          <span class="badge" style="color:#ffaa44;border-color:#ffaa44;">2 Receding</span>
-        </div>
-        <div class="sector-tech">iPhone · Cloud · Facebook · Virtual Reality<br>CV 0.438 — fastest adoption domain</div>
-      </div>
-      <div class="sector-card" style="border-top:3px solid #f4a261;">
-        <div class="sector-name" style="color:#f4a261;">Financial / Security · n=4</div>
-        <div class="sector-l" style="color:#f4a261;">~105 mo</div>
-        <div class="sector-sub">avg diffusion lag · 8.7 years</div>
-        <div class="sector-badges">
-          <span class="badge" style="color:#2dc653;border-color:#2dc653;">2 Active</span>
-          <span class="badge" style="color:#ffaa44;border-color:#ffaa44;">2 Receding</span>
-        </div>
-        <div class="sector-tech">Bitcoin · Cryptocurrency · PQC · RWA*<br>CV 0.273 — institutional adoption pattern</div>
-      </div>
-    </div>
-    <div class="disclaimer">* RWA (Real World Asset Tokenization) is under analysis for inclusion in v1.3. Current app estimate: L=72 months, STRUCTURAL Active. Manual verification pending.<br>Sector averages are descriptive only. Small n per cluster limits statistical inference.</div>
+    <div class="section-label">// layer B · attention phenomena · regime-classifiable only</div>
+    <h2>Layer B — 14 Cases</h2>
+    <div class="disclaimer">Layer B cases are included for regime classification and pattern analysis. L values are NOT cross-comparable with Layer A. Stationarity flags apply. These cases document the full spectrum of diffusion dynamics — including bubbles, shock events, and speculation cycles.</div>
+
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>Phenomenon</th>
+          <th>Domain</th>
+          <th>t_start</th>
+          <th>L (mo)</th>
+          <th>Classification</th>
+          <th>May 2026</th>
+          <th>Regime</th>
+          <th>Stationarity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- AI / NARRATIVE -->
+        <tr><td colspan="8" style="background:rgba(255,170,68,0.03);color:var(--amber);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">AI / Tech Narrative</td></tr>
+        <tr><td>LLM / GenAI</td><td>AI</td><td>Jun 2017</td><td>69</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">Active</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
+        <tr><td>Deep Learning</td><td>AI</td><td>Sep 2012</td><td>112</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">Active</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Autonomous Vehicle</td><td>AI</td><td>Oct 2010</td><td>176</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-receding">Receding</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>EU AI Act</td><td>Policy</td><td>Apr 2021</td><td>~52</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">31/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+
+        <!-- CONSUMER / SOCIAL -->
+        <tr><td colspan="8" style="background:rgba(255,170,68,0.03);color:var(--amber);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Consumer / Social</td></tr>
+        <tr><td>iPhone</td><td>Consumer</td><td>Jan 2007</td><td>29</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">Active</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Cloud Computing</td><td>Consumer</td><td>Mar 2006</td><td>31</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">Active</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Facebook / Social Media</td><td>Consumer</td><td>Feb 2004</td><td>59</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-receding">Receding</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Virtual Reality</td><td>Consumer</td><td>Jan 2010</td><td>71</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-receding">Receding</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Remote Work</td><td>Social</td><td>~2004</td><td>~216</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">78/100</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-nonstat">NON-STAT</span></td></tr>
+
+        <!-- BIOTECH SEMI -->
+        <tr><td colspan="8" style="background:rgba(255,170,68,0.03);color:var(--amber);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Biotech Semi-Stable</td></tr>
+        <tr><td>mRNA Cancer Vaccines</td><td>Biotech</td><td>Jan 2015</td><td>126</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-receding">17/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
+        <tr><td>Gene Therapy</td><td>Biotech</td><td>~1990</td><td>—</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">67/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+
+        <!-- BUBBLES / SHOCK -->
+        <tr><td colspan="8" style="background:rgba(230,57,70,0.03);color:var(--warn);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Bubbles &amp; Shock Events</td></tr>
+        <tr><td>NFT</td><td>Crypto</td><td>2017</td><td>N/A</td><td><span class="badge b-bubble">BUBBLE</span></td><td><span class="badge b-dormant">5/100</span></td><td><span class="badge b-r4">Shock</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
+        <tr><td>Metaverse</td><td>Consumer</td><td>2014</td><td>N/A</td><td><span class="badge b-bubble">BUBBLE</span></td><td><span class="badge b-dormant">Dormant</span></td><td><span class="badge b-r4">Shock</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
+        <tr><td>GDPR</td><td>Policy</td><td>Apr 2016</td><td>~23</td><td><span class="badge b-bubble">BUBBLE</span></td><td><span class="badge b-active">36/100</span></td><td><span class="badge b-r4">Shock</span></td><td><span class="badge b-nonstat">NON-STAT</span></td></tr>
+
+        <!-- OBSERVATION PHASE 1 -->
+        <tr><td colspan="8" style="background:rgba(255,170,68,0.03);color:var(--amber);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Phase 1 Observation (ESG / DeFi)</td></tr>
+        <tr><td>ESG Reporting</td><td>Policy</td><td>~2006</td><td>~212</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">53/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>DeFi Summer</td><td>Crypto</td><td>~2015</td><td>~124</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">29/100</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="disclaimer">Non-stationary cases (Remote Work, GDPR) are excluded from L averaging. Semi-stable cases are flagged in cross-cluster comparisons. All Layer B L values where marked ~ are estimates pending full verification.</div>
   </section>
 
+  <!-- STATUS LEGEND -->
   <section>
-    <div class="section-label">// current status · legend</div>
-    <h2>Status Definitions</h2>
-    <div class="status-grid">
-      <div class="status-item">
-        <div class="status-name" style="color:#2dc653;">Active</div>
-        <div class="status-rule">Current score ≥ 25/100</div>
-        <div class="status-desc">Sustained attention confirmed. Topic present in mainstream public discourse.</div>
-      </div>
-      <div class="status-item">
-        <div class="status-name" style="color:#ffaa44;">Receding</div>
-        <div class="status-rule">Current score 10–24/100</div>
-        <div class="status-desc">Attention declining. Topic present but no longer dominant in public discourse.</div>
-      </div>
-      <div class="status-item">
-        <div class="status-name" style="color:#6666aa;">Dormant</div>
-        <div class="status-rule">Current score &lt; 10/100</div>
-        <div class="status-desc">Attention returned to technical baseline. STRUCTURAL classification still holds historically.</div>
-      </div>
+    <div class="section-label">// status definitions</div>
+    <h2>Current Status</h2>
+    <div class="stat-legend">
+      <div class="stat-item"><div class="stat-name" style="color:var(--accent3);">Active</div><div class="stat-rule">Current score ≥ 25/100. Sustained attention in mainstream discourse.</div></div>
+      <div class="stat-item"><div class="stat-name" style="color:var(--amber);">Receding</div><div class="stat-rule">Current score 10–24/100. Attention declining but present.</div></div>
+      <div class="stat-item"><div class="stat-name" style="color:var(--muted);">Dormant</div><div class="stat-rule">Current score &lt; 10/100. Returned to technical baseline.</div></div>
     </div>
-    <div class="disclaimer">Once acquired, the STRUCTURAL classification is permanent. Current Status tracks today's attention level independently from historical classification.</div>
+    <div class="disclaimer">STRUCTURAL classification is permanent once acquired. Current Status tracks today's attention independently from historical classification.</div>
   </section>
 
   <div class="back-row">
-    <a href="research.html" class="btn btn-amber">← Back to Research</a>
-    <a href="framework.html" class="btn btn-muted">→ Framework</a>
-    <a href="https://github.com/zorthex2026/zorthex-diffusion-lag" target="_blank" class="btn btn-muted">↗ Raw Data on GitHub</a>
+    <a href="research.html" class="btn btn-amber">← Research</a>
+    <a href="methodology.html" class="btn btn-muted">→ Methodology</a>
+    <a href="https://github.com/zorthex2026/zorthex-diffusion-lag" target="_blank" class="btn btn-muted">↗ Raw Data GitHub</a>
   </div>
 
 </main>
-<footer>ZORTHEX.COM — BEYOND WHAT'S NEXT — EST. MMXXVI — <a href="https://zorthex.com">zorthex.com</a> — POWERED BY CLAUDE</footer>
+<footer>ZORTHEX.COM — BEYOND WHAT'S NEXT — EST. MMXXVI — <a href="https://zorthex.com">zorthex.com</a> — POWERED BY CLAUDE &nbsp;·&nbsp; <a href="/methodology.html">Methodology</a> &nbsp;·&nbsp; <a href="/privacy.html">Privacy</a></footer>
 </body>
 </html>
