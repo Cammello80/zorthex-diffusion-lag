@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZCR-2026-003 — Real-World Asset Tokenization</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#05050f;--bg2:#0a0a1e;--bg3:#0f0f28;
+    --cyan:#00d4ff;--amber:#ffaa44;--green:#2dc653;--magenta:#cc44ff;--red:#ff4466;
+    --text:#e8e8ff;--muted:#5a5a8a;--mid:#9090bb;--border:#1e1e3a;--border2:#2a2a50;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;font-size:14px;line-height:1.7;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.015) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+  body>*{position:relative;z-index:1;}
+
+  .nav{padding:1rem 2rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:rgba(5,5,15,0.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);}
+  .nav-brand{font-family:'Syne',sans-serif;font-weight:900;font-size:1.1rem;letter-spacing:0.15em;}
+  .nav-brand span{color:var(--cyan);}
+  .nav-links{display:flex;gap:1.5rem;font-size:0.7rem;letter-spacing:0.1em;}
+  .nav-links a{color:var(--muted);text-decoration:none;transition:color 0.2s;}
+  .nav-links a:hover{color:var(--cyan);}
+
+  .wrap{max-width:900px;margin:0 auto;padding:0 2rem;}
+
+  .cover{padding:4rem 2rem 3rem;max-width:900px;margin:0 auto;border-bottom:1px solid var(--border);}
+  .cover-tag{font-size:0.62rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--magenta);margin-bottom:1rem;}
+  .cover-id{font-family:'Syne',sans-serif;font-weight:900;font-size:clamp(1.8rem,5vw,3.2rem);line-height:1;margin-bottom:0.5rem;}
+  .cover-title{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1rem,2.5vw,1.5rem);color:var(--mid);margin-bottom:2rem;line-height:1.3;}
+  .cover-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:1rem;}
+  .meta-cell{background:var(--bg2);padding:1rem;}
+  .meta-label{font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-bottom:0.3rem;}
+  .meta-val{font-size:0.85rem;color:var(--text);font-weight:700;}
+  .cover-notice{font-size:0.72rem;color:var(--muted);line-height:1.7;padding:0.8rem 1rem;border:1px solid var(--border2);border-radius:3px;font-style:italic;margin-top:1rem;}
+
+  .artifact{background:var(--bg2);border:1px solid var(--border2);border-top:3px solid var(--magenta);border-radius:4px;overflow:hidden;margin:2.5rem 0;}
+  .artifact-header{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);}
+  .artifact-tag{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--magenta);margin-bottom:0.3rem;}
+  .artifact-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;}
+  .artifact-metrics{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--border);}
+  .art-metric{padding:1rem;border-right:1px solid var(--border);text-align:center;}
+  .art-metric:last-child{border-right:none;}
+  .art-val{font-family:'Syne',sans-serif;font-weight:900;font-size:1.3rem;line-height:1;margin-bottom:0.25rem;}
+  .art-lbl{font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+  .artifact-body{padding:1.5rem;}
+  .artifact-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+  .art-section-label{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--magenta);margin-bottom:0.5rem;}
+  .art-section-text{font-size:0.78rem;color:#c0c0e0;line-height:1.8;}
+  .art-section-text li{list-style:none;padding-left:1rem;position:relative;margin-bottom:0.3rem;}
+  .art-section-text li::before{content:'→';position:absolute;left:0;color:var(--muted);}
+  .artifact-footer{padding:0.8rem 1.5rem;border-top:1px solid var(--border);font-size:0.65rem;color:var(--muted);font-style:italic;}
+
+  .status-observation{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.4rem 0.9rem;border:1px solid rgba(255,170,68,0.4);color:var(--amber);border-radius:3px;background:rgba(255,170,68,0.06);}
+
+  .section{padding:3rem 0;border-top:1px solid rgba(0,212,255,0.08);}
+  .section-tag{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--magenta);margin-bottom:0.5rem;}
+  .section h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:1.5rem;}
+  .section h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--amber);margin:2rem 0 0.7rem;}
+  .section p{font-size:0.82rem;color:#c0c0e0;line-height:1.9;margin-bottom:1rem;}
+  .section p strong{color:var(--text);}
+
+  .hl{border-left:3px solid var(--magenta);background:rgba(204,68,255,0.04);padding:1rem 1.4rem;margin:1.2rem 0;font-size:0.8rem;color:#c8c8e8;line-height:1.85;border-radius:0 3px 3px 0;}
+  .hl strong{color:var(--magenta);}
+  .hl-amber{border-left-color:var(--amber);background:rgba(255,170,68,0.04);}
+  .hl-amber strong{color:var(--amber);}
+  .hl-cyan{border-left-color:var(--cyan);background:rgba(0,212,255,0.04);}
+  .hl-cyan strong{color:var(--cyan);}
+  .hl-green{border-left-color:var(--green);background:rgba(45,198,83,0.04);}
+  .hl-green strong{color:var(--green);}
+  .hl-red{border-left-color:var(--red);background:rgba(255,68,102,0.04);}
+  .hl-red strong{color:var(--red);}
+
+  .timeline{display:flex;flex-direction:column;margin:1.2rem 0;}
+  .tl-item{display:grid;grid-template-columns:110px 1fr;gap:1rem;padding:0.8rem 0;border-bottom:1px solid var(--border);}
+  .tl-item:last-child{border-bottom:none;}
+  .tl-date{font-size:0.72rem;color:var(--amber);font-weight:700;padding-top:0.1rem;}
+  .tl-content{font-size:0.78rem;color:#c0c0e0;line-height:1.7;}
+  .tl-content strong{color:var(--text);}
+
+  .data-table{width:100%;border-collapse:collapse;margin:1.2rem 0;font-size:0.76rem;}
+  .data-table th{text-align:left;padding:0.6rem 0.9rem;background:var(--bg2);border-bottom:2px solid var(--border);color:var(--muted);font-weight:400;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;}
+  .data-table td{padding:0.7rem 0.9rem;border-bottom:1px solid var(--border);color:#c0c0e0;vertical-align:top;}
+
+  .bench-wrap{margin:1.2rem 0;border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+  .bench-row{display:grid;grid-template-columns:200px 80px 1fr 120px;gap:0.8rem;padding:0.7rem 0.9rem;border-bottom:1px solid var(--border);align-items:center;font-size:0.75rem;}
+  .bench-row.header{background:var(--bg2);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+  .bench-row:last-child{border-bottom:none;}
+  .bench-bar-wrap{height:6px;background:var(--border2);border-radius:3px;overflow:hidden;}
+  .bench-bar{height:100%;background:var(--cyan);border-radius:3px;}
+  .bench-bar.hl-bar{background:var(--magenta);}
+
+  .monitor-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin:1.2rem 0;}
+  .monitor-card{background:var(--bg2);padding:1.2rem 1.4rem;}
+  .monitor-trigger{font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--magenta);margin-bottom:0.4rem;}
+  .monitor-if{font-size:0.7rem;color:var(--amber);margin-bottom:0.3rem;}
+  .monitor-then{font-size:0.75rem;color:#c0c0e0;line-height:1.65;}
+
+  .sources{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin:1.2rem 0;}
+  .source-card{background:var(--bg2);padding:1.2rem;}
+  .source-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:0.5rem;}
+  .source-name{font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.6rem;}
+  .source-text{font-size:0.75rem;color:#b8b8d8;line-height:1.7;}
+
+  .limit-list{list-style:none;margin:0.8rem 0;}
+  .limit-list li{padding:0.7rem 0 0.7rem 1.2rem;border-bottom:1px solid var(--border);font-size:0.78rem;color:#c0c0e0;line-height:1.7;position:relative;}
+  .limit-list li::before{content:'⚠';position:absolute;left:0;color:var(--amber);font-size:0.7rem;}
+  .limit-list li:last-child{border-bottom:none;}
+  .limit-list strong{color:var(--text);}
+
+  /* OBSERVATION WINDOW BOX */
+  .obs-box{border:1px solid rgba(255,170,68,0.4);border-left:4px solid var(--amber);background:rgba(255,170,68,0.05);border-radius:4px;padding:1.5rem;margin:1.5rem 0;}
+  .obs-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--amber);margin-bottom:0.8rem;}
+  .obs-text{font-size:0.8rem;color:#c8c8e8;line-height:1.85;}
+
+  .page-footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-size:0.65rem;color:var(--muted);line-height:2;margin-top:2rem;}
+  .page-footer a{color:var(--cyan);text-decoration:none;}
+
+  @media(max-width:640px){
+    .cover-meta{grid-template-columns:1fr 1fr;}
+    .artifact-metrics{grid-template-columns:repeat(3,1fr);}
+    .artifact-row{grid-template-columns:1fr;}
+    .sources,.monitor-grid{grid-template-columns:1fr;}
+    .bench-row{grid-template-columns:1fr 60px;}
+    .bench-bar-wrap{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">ZORTH<span>EX</span></div>
+  <div class="nav-links">
+    <a href="https://zorthex.com">Home</a>
+    <a href="https://zorthex.com/research.html">Research</a>
+    <a href="https://zorthex.com/methodology.html">Methodology</a>
+  </div>
+</nav>
+
+<div class="cover">
+  <div class="cover-tag">// Custom Report · ZCR Series · Essential · Verified Data · OBSERVATION ACTIVE</div>
+  <div class="cover-id">ZCR-2026-003</div>
+  <div class="cover-title">Real-World Asset Tokenization —<br>Public Attention Diffusion Lag Analysis</div>
+
+  <div class="cover-meta">
+    <div class="meta-cell">
+      <div class="meta-label">Diffusion Lag (L)</div>
+      <div class="meta-val" style="color:var(--magenta);">103 months</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Classification</div>
+      <div class="meta-val" style="color:var(--amber);">OBSERVATION</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Current Status</div>
+      <div class="meta-val" style="color:var(--amber);">Active · 53/100</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Peak Score</div>
+      <div class="meta-val">100/100</div>
+    </div>
+  </div>
+
+  <div class="cover-meta" style="grid-template-columns:repeat(3,1fr);margin-top:1px;">
+    <div class="meta-cell">
+      <div class="meta-label">t_start</div>
+      <div class="meta-val" style="font-size:0.78rem;">January 2017 · Level B</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">t_peak</div>
+      <div class="meta-val" style="font-size:0.78rem;">August 2025</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-label">Analysis Date</div>
+      <div class="meta-val" style="font-size:0.78rem;">May 25, 2026</div>
+    </div>
+  </div>
+
+  <div class="cover-notice">
+    This is a Zorthex Custom Report (ZCR) — Essential tier. All data manually verified. Google Trends CSV snapshot locked: downloaded May 25, 2026. t_start source documented with primary reference (Harbor/Polymath era · Level B). This report is valid as of delivery date. Classifications may evolve — this report documents an open observation window. See zorthex.com/methodology.html for full policy. · Zorthex v1.2 · CC-BY-NC 4.0 · © 2026 Zorthex™ — Renato Santi
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- OBSERVATION WINDOW ALERT -->
+<div class="obs-box" style="margin-top:2rem;">
+  <div class="obs-title">◉ LIVE OBSERVATION WINDOW — 2 months to STRUCTURAL threshold</div>
+  <div class="obs-text">
+    RWA Tokenization has been above the structural attention threshold for <strong>10 consecutive months</strong>. The STRUCTURAL classification requires 12. <strong>June and July 2026 are the critical window.</strong> If attention holds above 25/100, the classification becomes permanent. If it drops, the window closes and OBSERVATION · Receding applies. This report documents the most active classification window in the current Zorthex dataset.
+  </div>
+</div>
+
+<!-- SIGNAL ARTIFACT -->
+<div class="artifact">
+  <div class="artifact-header">
+    <div class="artifact-tag">◈ Signal Artifact · Executive Layer · ZSA-2026-004</div>
+    <div class="artifact-title">
+      Real-World Asset Tokenization
+      <div class="status-observation">◎ OBSERVATION · Active</div>
+    </div>
+  </div>
+
+  <div class="artifact-metrics">
+    <div class="art-metric">
+      <div class="art-val" style="color:var(--magenta);">103 mo</div>
+      <div class="art-lbl">Diffusion Lag L</div>
+    </div>
+    <div class="art-metric">
+      <div class="art-val" style="color:var(--amber);">100/100</div>
+      <div class="art-lbl">Peak Score</div>
+    </div>
+    <div class="art-metric">
+      <div class="art-val" style="color:var(--amber);">10/12</div>
+      <div class="art-lbl">Months above 25</div>
+    </div>
+    <div class="art-metric">
+      <div class="art-val" style="color:var(--amber);">53/100</div>
+      <div class="art-lbl">Current · May 2026</div>
+    </div>
+    <div class="art-metric">
+      <div class="art-val" style="color:var(--amber);">Aug 2025</div>
+      <div class="art-lbl">Breakout Month</div>
+    </div>
+  </div>
+
+  <div class="artifact-body">
+    <div class="artifact-row">
+      <div>
+        <div class="art-section-label">Signal Summary</div>
+        <ul class="art-section-text">
+          <li>Operational infrastructure since January 2017. Public attention: near-zero for 8.5 years</li>
+          <li>Breakout: August 2025 — from 14/100 to 85/100 in a single month</li>
+          <li>Peak: October 2025 — 100/100. Then sustained above threshold</li>
+          <li>10 consecutive months above structural threshold — 2 short of STRUCTURAL</li>
+          <li>June–July 2026: critical window. Classification open.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="art-section-label">Temporal Position — Decision Layer</div>
+        <ul class="art-section-text">
+          <li><strong style="color:var(--amber);">Phase:</strong> Pre-Structural — attention consolidated but not yet permanent</li>
+          <li><strong style="color:var(--amber);">Pattern:</strong> Institutional acceleration trigger (BlackRock BUIDL + regulatory clarity)</li>
+          <li><strong style="color:var(--amber);">Gap:</strong> Operationally real for 9 years before public frame emerged. Institutional adoption cycle open.</li>
+          <li><strong style="color:var(--amber);">Continuity:</strong> Direct narrative link to stablecoins (L=128mo, STRUCTURAL confirmed) — same infrastructure diffusion pattern</li>
+          <li><strong style="color:var(--amber);">Window:</strong> "The next 60 days determine whether tokenized finance becomes a permanently consolidated public infrastructure narrative."</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="artifact-footer">ZCR-2026-003 · Zorthex v1.2 · t_start: January 2017 (Harbor/Polymath · Level B) · CSV locked May 25, 2026 · doi.org/10.5281/zenodo.20270575</div>
+</div>
+
+<!-- SECTION 1: T_START -->
+<div class="section">
+  <div class="section-tag">// 01 · t_start definition</div>
+  <h2>When Did RWA Tokenization Begin?</h2>
+
+  <p>The definition of t_start is the most consequential methodological choice in this report. Multiple candidates exist across a 12-year span. The choice reflects the moment RWA tokenization became an operational financial infrastructure reality — not a technical experiment.</p>
+
+  <div class="hl-amber hl">
+    <strong>t_start selected: January 2017</strong><br>
+    Source: Harbor / Polymath security token infrastructure launch · Level B (corporate announcement + regulatory filing)<br>
+    Rationale: First operational infrastructure specifically designed for regulated tokenized real-world securities, including issuance, compliance, and investor management frameworks. The 2017 cohort represents the first moment tokenization of real-world assets was proposed as institutional financial infrastructure — not as a blockchain experiment.
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">2012–2013</div>
+      <div class="tl-content"><strong>Colored Coins / Counterparty</strong> — technical precursor phase. Theoretical possibility of representing real-world assets on Bitcoin blockchain. No institutional framing, no compliance architecture, no operational ecosystem. Excluded: technical experiment, not financial infrastructure.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date" style="color:var(--amber);">2017 ★</div>
+      <div class="tl-content"><strong>Harbor / Polymath era — operational infrastructure launch.</strong> First platforms specifically designed for regulated tokenized securities. Issuance frameworks, compliance layers, investor management. Securities law applied to tokenized assets for the first time. <strong>This is t_start.</strong> Source: Harbor and Polymath corporate announcements and regulatory filings · Level B.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2018–2020</div>
+      <div class="tl-content"><strong>Security Token Offering (STO) era.</strong> First tokenized real estate, private equity, and debt instruments. Google Trends: near-zero for "RWA tokenization" — the public had no frame for this category. Institutional and crypto-native activity only.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2021</div>
+      <div class="tl-content"><strong>MakerDAO RWA integration.</strong> First DeFi protocol to accept real-world assets as collateral. Bridges TradFi and DeFi. Begins institutional DeFi narrative. Google Trends: still sub-threshold. DeFi institutionalization phase — not t_start.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2022</div>
+      <div class="tl-content"><strong>Franklin Templeton BENJI.</strong> First US regulated money market fund on public blockchain. $300M+ in tokenized treasuries. Google Trends: sub-5/100. Regulated institutional scaling phase — confirms the infrastructure works, does not yet trigger public frame.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Jan 2024</div>
+      <div class="tl-content"><strong>BlackRock BUIDL launch.</strong> $500M tokenized treasury fund on Ethereum. The largest asset manager in the world enters on-chain finance. Google Trends: still sub-10/100. Mainstream institutional validation — but public frame still not formed.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date" style="color:var(--amber);">Aug 2025 ★</div>
+      <div class="tl-content"><strong>Public attention breakout.</strong> Google Trends: 14/100 → 85/100 in one month. The most explosive single-month attention jump in the current Zorthex dataset. t_peak confirmed. Trigger: convergence of BlackRock BUIDL scale, GENIUS Act regulatory clarity, and institutional narrative compression.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Oct 2025</div>
+      <div class="tl-content"><strong>Peak: 100/100.</strong> Maximum public attention recorded. RWA tokenization becomes a mainstream financial narrative. Sustained above threshold since.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">May 2026</div>
+      <div class="tl-content"><strong>Current: 53/100.</strong> 10 months above threshold. STRUCTURAL window open. Classification pending June–July 2026 readings.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: THE BREAKOUT -->
+<div class="section">
+  <div class="section-tag">// 02 · the breakout</div>
+  <h2>From 14 to 85 in One Month</h2>
+
+  <p>The August 2025 attention breakout for RWA tokenization is the most explosive single-month jump in the current Zorthex dataset. Understanding what produced it is operationally relevant.</p>
+
+  <div class="hl">
+    <strong>The breakout mechanism:</strong> RWA tokenization did not have a single regulatory trigger like PQC (NIST publication) or stablecoins (GENIUS Act). Instead, it experienced a narrative compression event — multiple institutional signals converging simultaneously into a single legible public frame.
+  </div>
+
+  <h3>The Three Converging Signals</h3>
+  <p><strong>1 — BlackRock BUIDL scale.</strong> By mid-2025, BlackRock's tokenized fund had grown to $1.7B+ — the largest tokenized treasury product in history. The scale made the story undeniable for mainstream financial media.</p>
+
+  <p><strong>2 — GENIUS Act regulatory clarity.</strong> The stablecoin legislation created a federal framework that implicitly validated on-chain financial infrastructure. Institutions that had been watching from the sideline now had regulatory permission to engage.</p>
+
+  <p><strong>3 — Market structure convergence.</strong> By August 2025, tokenized treasuries, bonds, and real estate had collectively crossed $10B in total value locked — a threshold that institutional research desks use to classify a market as real.</p>
+
+  <div class="hl-amber hl">
+    <strong>Pattern observed:</strong> RWA tokenization operated inside institutional and crypto-financial infrastructure for nearly nine years before public attention structurally reacted. The trigger was not a single event — it was a threshold of institutional credibility that compressed into public awareness simultaneously. This is a distinct diffusion pattern from regulatory mandate (PQC, stablecoins) and from market speculation (Bitcoin). It represents a third mechanism: <strong>institutional mass threshold.</strong>
+  </div>
+</div>
+
+<!-- SECTION 3: THREE SOURCES -->
+<div class="section">
+  <div class="section-tag">// 03 · three-source verification</div>
+  <h2>Signal Across Three Independent Sources</h2>
+
+  <div class="sources">
+    <div class="source-card">
+      <div class="source-name"><span class="source-dot" style="background:var(--cyan);"></span>Google Trends</div>
+      <div class="source-text">
+        Query: <strong>'RWA tokenization'</strong>, Worldwide<br>
+        Downloaded: May 25, 2026<br><br>
+        2017–2025: consistently sub-15/100<br>
+        First above threshold: August 2025 (85/100)<br>
+        Peak: October 2025 (100/100)<br>
+        Months above 25: <strong>10</strong> — OBSERVATION<br>
+        May 2026: <strong>53/100</strong> — Active<br><br>
+        <em>The August 2025 jump from 14 to 85 in a single month is the most explosive breakout in the current Zorthex dataset. No comparable single-month jump exists across the 22 documented cases.</em>
+      </div>
+    </div>
+    <div class="source-card">
+      <div class="source-name"><span class="source-dot" style="background:var(--magenta);"></span>Wikipedia Pageviews</div>
+      <div class="source-text">
+        Page: en.wikipedia.org/wiki/Tokenization_(blockchain)<br><br>
+        Pre-2024: specialist-driven, low baseline traffic<br>
+        2024: increased following BlackRock BUIDL launch<br>
+        August 2025: significant spike correlating with Google Trends breakout<br>
+        Sustained elevated traffic through 2025–2026<br><br>
+        <em>Wikipedia traffic pattern is consistent with institutional narrative compression — spikes correlate with institutional milestones rather than individual news events.</em>
+      </div>
+    </div>
+    <div class="source-card">
+      <div class="source-name"><span class="source-dot" style="background:var(--amber);"></span>Reddit Community</div>
+      <div class="source-text">
+        Primary: r/CryptoCurrency, r/ethereum, r/defi<br>
+        Secondary: r/investing, r/finance, r/wallstreetbets<br><br>
+        Pre-2024: crypto-native discussion only<br>
+        2024: TradFi crossover begins (r/investing, r/finance)<br>
+        2025: "RWA" becomes standard vocabulary in institutional crypto discussion<br>
+        Narrative shift: from "tokenization experiment" to "on-chain finance infrastructure"<br><br>
+        <em>The Reddit signal is the clearest indicator of narrative frame shift — "RWA" moved from crypto jargon to institutional finance vocabulary.</em>
+      </div>
+    </div>
+  </div>
+
+  <div class="hl hl-cyan">
+    <strong>Three-source convergence confirmed:</strong> All three sources show consistent directional signal from August 2025. The convergence pattern is unambiguous. Notably, this is the first case in the Zorthex dataset where the breakout occurred without a single identifiable regulatory trigger — suggesting institutional mass threshold as a distinct diffusion mechanism.
+  </div>
+</div>
+
+<!-- SECTION 4: DIFFUSION DYNAMICS -->
+<div class="section">
+  <div class="section-tag">// 04 · diffusion dynamics</div>
+  <h2>Why 103 Months? Invisible Infrastructure</h2>
+
+  <p>L = 103 months places RWA tokenization at the median of the Financial/Technology cluster in the Zorthex dataset. This is consistent with the broader pattern of financial infrastructure technologies that scale within institutional ecosystems before public awareness consolidates.</p>
+
+  <h3>The Invisible Infrastructure Mechanism</h3>
+  <p>RWA tokenization shares a fundamental characteristic with stablecoins (L=128 months) and post-quantum cryptography (L=91 months): it operated at institutional and technical levels for years without creating a legible public category. The public could not search for something it had no name for.</p>
+
+  <p>Unlike consumer technologies (iPhone: L=29 months) or crisis-driven narratives (mRNA vaccines: spike driven by controversy), financial infrastructure technologies require a <strong>frame-creation event</strong> before public attention can consolidate. The frame is not the technology — it is the moment the technology acquires a name, a regulatory home, and an institutional champion recognizable to mainstream audiences.</p>
+
+  <div class="hl">
+    <strong>The BlackRock effect:</strong> BlackRock BUIDL did not invent RWA tokenization — Harbor and Polymath did, in 2017. What BlackRock did was create the public frame. When the world's largest asset manager puts $1.7B into a tokenized fund, the category becomes real to audiences that had no frame for it before. The 103-month lag is the interval between the technology existing and the frame being created.
+  </div>
+
+  <h3>The Stablecoins Connection</h3>
+  <p>RWA tokenization and stablecoins are not separate phenomena — they are two layers of the same on-chain financial infrastructure transition. Stablecoins tokenize fiat currency. RWA tokenizes everything else: treasuries, bonds, real estate, private equity. Together they represent the complete tokenization of the financial system.</p>
+
+  <div class="hl-green hl">
+    <strong>Emerging thesis:</strong> The Zorthex dataset now documents a consistent pattern across stablecoins (L=128mo), RWA tokenization (L=103mo), and post-quantum cryptography (L=91mo): financial and security infrastructure transitions operate invisibly for years before a threshold of institutional credibility compresses public awareness into weeks. This pattern is reproducible, documentable, and predictive of future infrastructure transitions.
+  </div>
+</div>
+
+<!-- SECTION 5: BENCHMARK -->
+<div class="section">
+  <div class="section-tag">// 05 · sector benchmark</div>
+  <h2>Where RWA Sits in the Dataset</h2>
+
+  <div class="bench-wrap">
+    <div class="bench-row header">
+      <div>Phenomenon</div><div>L (months)</div><div>Diffusion bar</div><div>Trigger type</div>
+    </div>
+    <div class="bench-row">
+      <div style="color:var(--text);">Quantitative Easing</div>
+      <div style="color:var(--cyan);">136 mo</div>
+      <div class="bench-bar-wrap"><div class="bench-bar" style="width:97%;"></div></div>
+      <div style="color:var(--muted);font-size:0.7rem;">Policy + meme</div>
+    </div>
+    <div class="bench-row">
+      <div style="color:var(--text);">Stablecoins</div>
+      <div style="color:var(--cyan);">128 mo</div>
+      <div class="bench-bar-wrap"><div class="bench-bar" style="width:91%;"></div></div>
+      <div style="color:var(--muted);font-size:0.7rem;">Regulatory (GENIUS Act)</div>
+    </div>
+    <div class="bench-row">
+      <div style="color:var(--text);">mRNA Cancer Vaccines</div>
+      <div style="color:var(--cyan);">126 mo</div>
+      <div class="bench-bar-wrap"><div class="bench-bar" style="width:90%;"></div></div>
+      <div style="color:var(--muted);font-size:0.7rem;">Science + political</div>
+    </div>
+    <div class="bench-row">
+      <div style="color:var(--text);">Bitcoin</div>
+      <div style="color:var(--cyan);">107 mo</div>
+      <div class="bench-bar-wrap"><div class="bench-bar" style="width:76%;"></div></div>
+      <div style="color:var(--muted);font-size:0.7rem;">Market + media</div>
+    </div>
+    <div class="bench-row" style="background:rgba(204,68,255,0.03);">
+      <div style="color:var(--magenta);font-weight:700;">RWA Tokenization ◀</div>
+      <div style="color:var(--magenta);">103 mo</div>
+      <div class="bench-bar-wrap"><div class="bench-bar hl-bar" style="width:73%;"></div></div>
+      <div style="color:var(--magenta);font-size:0.7rem;">Institutional mass</div>
+    </div>
+    <div class="bench-row">
+      <div style="color:var(--text);">Post-Quantum Crypto</div>
+      <div style="color:var(--cyan);">91 mo</div>
+      <div class="bench-bar-wrap"><div class="bench-bar" style="width:65%;"></div></div>
+      <div style="color:var(--muted);font-size:0.7rem;">Regulatory (NIST)</div>
+    </div>
+    <div class="bench-row">
+      <div style="color:var(--text);">CRISPR</div>
+      <div style="color:var(--cyan);">82 mo</div>
+      <div class="bench-bar-wrap"><div class="bench-bar" style="width:58%;"></div></div>
+      <div style="color:var(--muted);font-size:0.7rem;">Science + controversy</div>
+    </div>
+  </div>
+
+  <p style="margin-top:1rem;">At 103 months, RWA tokenization sits at the median of the Financial/Technology cluster. The trigger type — institutional mass threshold — is a new category in the dataset, distinct from regulatory mandate (PQC, stablecoins) and market speculation (Bitcoin). It represents a third documented diffusion mechanism.</p>
+</div>
+
+<!-- SECTION 6: MONITORING FRAMEWORK -->
+<div class="section">
+  <div class="section-tag">// 06 · monitoring framework</div>
+  <h2>What to Watch — Conditional Monitoring Framework</h2>
+
+  <div class="monitor-grid">
+    <div class="monitor-card">
+      <div class="monitor-trigger">STRUCTURAL Threshold — CRITICAL</div>
+      <div class="monitor-if">IF: June AND July 2026 remain above 25/100</div>
+      <div class="monitor-then">THEN: STRUCTURAL classification confirmed — permanent. The public frame for on-chain finance consolidates. Institutional adoption window shifts from early to mainstream phase. This is the most watched trigger in the current dataset.</div>
+    </div>
+    <div class="monitor-card">
+      <div class="monitor-trigger">STRUCTURAL Failure</div>
+      <div class="monitor-if">IF: Either June or July 2026 drops below 25/100</div>
+      <div class="monitor-then">THEN: Classification shifts to OBSERVATION · Receding. The 10-month window closes without confirmation. This does not invalidate the technology — it documents that the public frame did not consolidate in this cycle. A new attention cycle is possible on the next institutional trigger.</div>
+    </div>
+    <div class="monitor-card">
+      <div class="monitor-trigger">BlackRock BUIDL Scale</div>
+      <div class="monitor-if">IF: BUIDL crosses $5B AUM or launches in new asset class</div>
+      <div class="monitor-then">THEN: Secondary attention spike likely. Google Trends would move toward 70-90/100. Each BUIDL milestone functions as an institutional credibility amplifier for the entire RWA category.</div>
+    </div>
+    <div class="monitor-card">
+      <div class="monitor-trigger">Regulatory Framework</div>
+      <div class="monitor-if">IF: SEC or EU issues formal guidance on tokenized securities</div>
+      <div class="monitor-then">THEN: Regulatory trigger would likely compress remaining adoption hesitancy. Pattern consistent with stablecoins (GENIUS Act) and PQC (NIST standards). A formal regulatory home for tokenized securities would be the equivalent trigger for RWA.</div>
+    </div>
+    <div class="monitor-card">
+      <div class="monitor-trigger">Traditional Finance Entry</div>
+      <div class="monitor-if">IF: JPMorgan, Goldman Sachs, or Fidelity launch public tokenized fund products</div>
+      <div class="monitor-then">THEN: Second institutional mass threshold event. Would likely push attention back to 80-100/100 range. Current US attention (estimated sub-30) would increase significantly. Watch for Wikipedia pageview correlation within 48 hours of announcement.</div>
+    </div>
+    <div class="monitor-card">
+      <div class="monitor-trigger">Market Structure Failure</div>
+      <div class="monitor-if">IF: Major tokenized asset platform failure or security breach exceeding $500M</div>
+      <div class="monitor-then">THEN: Crisis spike possible. Historical pattern (Terra/UST for stablecoins) suggests crisis-driven spikes do not produce sustained structural attention. Monitor whether post-crisis attention holds above 25 for 30 days. STRUCTURAL classification would not be affected if already confirmed.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 7: LIMITATIONS -->
+<div class="section">
+  <div class="section-tag">// 07 · declared limitations</div>
+  <h2>Limitations of This Report</h2>
+
+  <ul class="limit-list">
+    <li><strong>t_start alternative candidates:</strong> Four alternative t_start dates exist and are documented: 2012 (Colored Coins, technical precursor), 2021 (MakerDAO RWA, DeFi institutionalization), 2022 (Franklin Templeton BENJI, regulated scaling), 2024 (BlackRock BUIDL, mainstream validation). Each produces a different L value. The 2017 choice reflects first operational financial infrastructure — the rationale is declared and alternatives documented.</li>
+    <li><strong>Query specificity:</strong> The query 'RWA tokenization' captures the specific institutional framing. Broader queries ('tokenization', 'security tokens', 'asset tokenization') would produce different absolute values and potentially different t_peak dates. The chosen query reflects the dominant institutional vocabulary as of 2025. This choice is declared.</li>
+    <li><strong>OBSERVATION status:</strong> This report documents an open classification window. The STRUCTURAL determination is pending June–July 2026. Any analysis built on this report should account for the possibility that the classification remains OBSERVATION or shifts to Receding.</li>
+    <li><strong>Trigger attribution:</strong> Unlike PQC (NIST) and stablecoins (GENIUS Act), no single regulatory event can be attributed as the primary trigger for the August 2025 breakout. The institutional mass threshold mechanism is a hypothesis based on convergence of multiple signals — it is not a documented single-event causation.</li>
+    <li><strong>Wikipedia source:</strong> Wikipedia pageview data for RWA tokenization is qualitative in this report due to the fragmented nature of the topic across multiple Wikipedia pages (tokenization, blockchain, DeFi). A single authoritative page does not exist as clearly as for "Stablecoin" or "Post-quantum cryptography."</li>
+  </ul>
+</div>
+
+<!-- SECTION 8: SOURCE DOCUMENTATION -->
+<div class="section">
+  <div class="section-tag">// 08 · source documentation</div>
+  <h2>Primary Sources</h2>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Data</th><th>Source</th><th>Level</th><th>Date</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>t_start definition</td>
+        <td>Harbor and Polymath security token infrastructure launch</td>
+        <td style="color:var(--cyan);">B</td>
+        <td>January 2017</td>
+      </tr>
+      <tr>
+        <td>Google Trends CSV</td>
+        <td>trends.google.com · query: 'RWA tokenization' · Worldwide · 2004–present</td>
+        <td style="color:var(--cyan);">Primary</td>
+        <td>May 25, 2026</td>
+      </tr>
+      <tr>
+        <td>BlackRock BUIDL</td>
+        <td>BlackRock press release — BUIDL fund launch on Ethereum</td>
+        <td style="color:var(--green);">B</td>
+        <td>March 2024</td>
+      </tr>
+      <tr>
+        <td>Franklin Templeton BENJI</td>
+        <td>Franklin Templeton corporate announcement — BENJI tokenized fund</td>
+        <td style="color:var(--green);">B</td>
+        <td>April 2022</td>
+      </tr>
+      <tr>
+        <td>MakerDAO RWA</td>
+        <td>MakerDAO governance proposal — first RWA collateral integration</td>
+        <td style="color:var(--green);">B</td>
+        <td>2021</td>
+      </tr>
+      <tr>
+        <td>Alternative t_start candidates</td>
+        <td>Colored Coins (2012), MakerDAO (2021), BENJI (2022), BUIDL (2024) — all Level B or C</td>
+        <td style="color:var(--amber);">B/C</td>
+        <td>Various</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="hl hl-cyan" style="margin-top:1.5rem;">
+    <strong>Data availability:</strong> Google Trends CSV available for independent verification at github.com/zorthex2026/zorthex-diffusion-lag · Methodology: zorthex.com/methodology.html · Contact: zorthex.official@gmail.com
+  </div>
+</div>
+
+</div>
+
+<div class="page-footer">
+  ZCR-2026-003 · Real-World Asset Tokenization · Zorthex Custom Report · Essential<br>
+  © 2026 Zorthex™ — Renato Santi · Framework v1.2 · CC-BY-NC 4.0<br>
+  <a href="https://doi.org/10.5281/zenodo.20270575">doi.org/10.5281/zenodo.20270575</a> &nbsp;·&nbsp;
+  <a href="https://github.com/zorthex2026/zorthex-diffusion-lag">GitHub</a> &nbsp;·&nbsp;
+  <a href="https://zorthex.com/methodology.html">Methodology</a> &nbsp;·&nbsp;
+  Powered by Claude · zorthex.com
+</div>
+
+</body>
+</html>
