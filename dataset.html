@@ -16,33 +16,26 @@
     nav a{color:var(--muted);text-decoration:none;font-size:0.75rem;letter-spacing:0.1em;transition:color 0.2s;}
     nav a:hover{color:var(--accent);}
     main{position:relative;z-index:1;padding-top:5rem;}
-
     .hero{padding:3rem 2rem 2rem;max-width:1000px;margin:0 auto;border-bottom:1px solid var(--border);}
     .eyebrow{font-size:0.65rem;letter-spacing:0.2em;color:var(--amber);margin-bottom:0.8rem;text-transform:uppercase;}
     h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.1;margin-bottom:1rem;}
     h1 span{color:var(--amber);}
     .hero-sub{font-size:0.88rem;line-height:1.8;color:var(--muted);max-width:700px;margin-bottom:1rem;}
     .dataset-meta{font-size:0.72rem;color:var(--amber);letter-spacing:0.08em;}
-
     section{max-width:1000px;margin:0 auto;padding:3rem 2rem;}
     section+section{border-top:1px solid var(--border);}
     .section-label{font-size:0.65rem;letter-spacing:0.2em;color:var(--amber);margin-bottom:1rem;text-transform:uppercase;}
     h2{font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;margin-bottom:1.5rem;color:var(--text);}
     h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--amber);margin:2rem 0 1rem;}
-
-    /* LAYER TABS */
     .layer-intro{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:2rem;}
     .layer-card{background:var(--bg2);padding:1.3rem;}
     .layer-tag{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.4rem;}
     .layer-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;margin-bottom:0.4rem;}
     .layer-desc{font-size:0.75rem;color:var(--muted);line-height:1.7;}
-
-    /* TABLES */
     .tech-table{width:100%;border-collapse:collapse;font-size:0.72rem;margin-bottom:1.5rem;}
     .tech-table th{text-align:left;padding:0.6rem 0.8rem;border-bottom:1px solid var(--border);color:var(--muted);font-weight:400;letter-spacing:0.08em;font-size:0.6rem;text-transform:uppercase;}
     .tech-table td{padding:0.6rem 0.8rem;border-bottom:1px solid rgba(26,26,58,0.5);color:#aaaacc;vertical-align:middle;}
     .tech-table tr:hover td{background:rgba(0,180,216,0.02);}
-
     .badge{display:inline-block;padding:0.15rem 0.45rem;font-size:0.58rem;letter-spacing:0.08em;border:1px solid;border-radius:2px;white-space:nowrap;}
     .b-structural{color:var(--accent3);border-color:var(--accent3);}
     .b-observation{color:var(--amber);border-color:var(--amber);}
@@ -57,31 +50,25 @@
     .b-r2{color:var(--magenta);border-color:var(--magenta);}
     .b-r3{color:var(--amber);border-color:var(--amber);}
     .b-r4{color:var(--warn);border-color:var(--warn);}
-
     .disclaimer{font-size:0.65rem;color:var(--muted);padding:0.8rem;border:1px solid var(--border);line-height:1.8;margin-bottom:1.5rem;border-left:3px solid var(--amber);}
-
-    /* REGIME LEGEND */
     .regime-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:2rem;}
     .regime-item{background:var(--bg2);padding:1rem;}
     .regime-num{font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.3rem;}
     .regime-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;margin-bottom:0.3rem;}
     .regime-ex{font-size:0.68rem;color:var(--muted);line-height:1.5;}
-
     .stat-legend{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:2rem;}
     .stat-item{background:var(--bg2);padding:1rem;}
     .stat-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;margin-bottom:0.3rem;}
     .stat-rule{font-size:0.68rem;color:var(--muted);line-height:1.5;}
-
     .back-row{display:flex;gap:1rem;flex-wrap:wrap;padding:2rem;max-width:1000px;margin:0 auto;}
     .btn{display:inline-block;padding:0.7rem 1.4rem;font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:0.1em;text-decoration:none;transition:all 0.2s;border:1px solid;}
     .btn-amber{color:var(--amber);border-color:var(--amber);}
     .btn-amber:hover{background:var(--amber);color:var(--bg);}
     .btn-muted{color:var(--muted);border-color:var(--border);}
     .btn-muted:hover{color:var(--text);border-color:var(--muted);}
-
+    .n50-badge{display:inline-block;padding:0.3rem 0.8rem;font-family:'Syne',sans-serif;font-weight:800;font-size:0.7rem;letter-spacing:0.15em;border:1px solid var(--accent3);color:var(--accent3);border-radius:3px;background:rgba(45,198,83,0.06);}
     footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem;text-align:center;font-size:0.7rem;color:var(--muted);letter-spacing:0.1em;}
     footer a{color:var(--accent);text-decoration:none;}
-
     @media(max-width:640px){.layer-intro,.regime-legend,.stat-legend{grid-template-columns:1fr;}.tech-table{font-size:0.65rem;}}
   </style>
 </head>
@@ -96,13 +83,16 @@
 <main>
 
   <div class="hero">
-    <div class="eyebrow">// dataset v1.3 · phase 1 complete · n=32</div>
+    <div class="eyebrow">// dataset v1.3 · n=50 · phase 1 complete ✅</div>
     <h1>The <span>Data</span></h1>
-    <p class="hero-sub">32 documented cases across 4 diffusion regimes. Separated into Layer A (hard infrastructure, L-comparable) and Layer B (attention phenomena, regime-classifiable). Every case carries a mandatory Stationarity Flag. All data manually verified or CSV-locked.</p>
-    <div class="dataset-meta">n=32 total · Layer A: 18 · Layer B: 14 · verified May 2026 · Zorthex v1.3</div>
+    <p class="hero-sub">50 documented cases across 4 diffusion regimes. Separated into Layer A (hard infrastructure, L-comparable) and Layer B (attention phenomena, regime-classifiable). Every case carries a mandatory Stationarity Flag.</p>
+    <div class="dataset-meta" style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <span class="n50-badge">n=50 ✅</span>
+      <span>Layer A: 18 · Layer B: 32 · verified May 2026 · Zorthex v1.3</span>
+    </div>
   </div>
 
-  <!-- LEGEND SECTION -->
+  <!-- LEGEND -->
   <section>
     <div class="section-label">// framework · legends</div>
     <h2>How to Read This Dataset</h2>
@@ -112,12 +102,12 @@
       <div class="layer-card" style="border-top:2px solid var(--accent);">
         <div class="layer-tag" style="color:var(--accent);">Layer A — Hard Infrastructure</div>
         <div class="layer-title">L-Comparable Cases</div>
-        <div class="layer-desc">Phenomena with documented operational emergence and institutional legibility trajectory. L values are cross-comparable within this layer. Eligible for sector averaging and benchmark calculations. t_start defined as operational launch or regulatory first recognition.</div>
+        <div class="layer-desc">Phenomena with documented operational emergence and institutional legibility trajectory. L values are cross-comparable within this layer. Eligible for sector averaging and benchmark calculations.</div>
       </div>
       <div class="layer-card" style="border-top:2px solid var(--amber);">
         <div class="layer-tag" style="color:var(--amber);">Layer B — Attention Phenomena</div>
         <div class="layer-title">Regime-Classifiable Only</div>
-        <div class="layer-desc">Phenomena driven by speculation, cultural moments, or exogenous shocks. L values are not cross-comparable with Layer A. Eligible for regime classification and pattern analysis. Included to document the full spectrum of diffusion dynamics — not excluded because they are less valid.</div>
+        <div class="layer-desc">Phenomena driven by speculation, cultural moments, policy shocks, or exogenous events. L values are NOT cross-comparable with Layer A. Eligible for regime classification and pattern analysis.</div>
       </div>
     </div>
 
@@ -126,22 +116,22 @@
       <div class="regime-item" style="border-top:2px solid var(--accent);">
         <div class="regime-num" style="color:var(--accent);">Regime 1</div>
         <div class="regime-name" style="color:var(--accent);">Policy-Trigger</div>
-        <div class="regime-ex">Slow ramp → regulatory breakout → sustained consolidation<br><br>PQC, Stablecoins, CBDC, ESG, EU AI Act</div>
+        <div class="regime-ex">Slow ramp → regulatory breakout → sustained consolidation<br><br>PQC (91mo), Stablecoins (128mo), Basel III, ESG, MiCA</div>
       </div>
       <div class="regime-item" style="border-top:2px solid var(--magenta);">
         <div class="regime-num" style="color:var(--magenta);">Regime 2</div>
         <div class="regime-name" style="color:var(--magenta);">Institutional Mass</div>
-        <div class="regime-ex">Multi-year invisibility → explosive single-month breakout<br><br>RWA, Tokenized Deposits, EV Infra, Quantum Computing</div>
+        <div class="regime-ex">Multi-year invisibility → explosive single-month breakout<br><br>RWA (103mo), EV Infra, Quantum, Space, Synthetic Bio</div>
       </div>
       <div class="regime-item" style="border-top:2px solid var(--amber);">
         <div class="regime-num" style="color:var(--amber);">Regime 3</div>
         <div class="regime-name" style="color:var(--amber);">Market-Narrative</div>
-        <div class="regime-ex">Speculation cycles, media amplification, price events<br><br>Bitcoin, Crypto, DeFi, Remote Work, GenAI</div>
+        <div class="regime-ex">Speculation cycles, media amplification, price events<br><br>Bitcoin, Crypto, DeFi, Web3, Creator Economy</div>
       </div>
       <div class="regime-item" style="border-top:2px solid var(--warn);">
         <div class="regime-num" style="color:var(--warn);">Regime 4</div>
         <div class="regime-name" style="color:var(--warn);">Shock / Spoke</div>
-        <div class="regime-ex">Single-event spike → memory-zero collapse<br><br>GDPR, NFT partial, Clubhouse</div>
+        <div class="regime-ex">Single-event spike → memory-zero collapse<br><br>GDPR, NFT partial, ICO, Memecoin</div>
       </div>
     </div>
 
@@ -160,28 +150,20 @@
         <div class="stat-rule">Exogenous shock dominant. L excluded from averaging. Included in regime classification only.</div>
       </div>
     </div>
+
+    <div class="disclaimer">⚠ August 2025 cluster: 10 cases show first-above-threshold date in August 2025, producing ~10 months consecutive to May 2026. This temporal clustering is declared — it reflects a real-world attention wave, not a methodological artifact. These cases are classified OBSERVATION pending June–July 2026 confirmation.</div>
   </section>
 
-  <!-- LAYER A TABLE -->
+  <!-- LAYER A -->
   <section>
-    <div class="section-label">// layer A · hard infrastructure · L-comparable</div>
-    <h2>Layer A — 18 Cases</h2>
+    <div class="section-label">// layer A · hard infrastructure · L-comparable · 18 cases</div>
+    <h2>Layer A — Hard Infrastructure</h2>
 
     <table class="tech-table">
       <thead>
-        <tr>
-          <th>Phenomenon</th>
-          <th>Domain</th>
-          <th>t_start</th>
-          <th>L (mo)</th>
-          <th>Classification</th>
-          <th>May 2026</th>
-          <th>Regime</th>
-          <th>Stationarity</th>
-        </tr>
+        <tr><th>Phenomenon</th><th>Domain</th><th>t_start</th><th>L (mo)</th><th>Classification</th><th>May 2026</th><th>Regime</th><th>Stationarity</th></tr>
       </thead>
       <tbody>
-        <!-- FINANCIAL INFRASTRUCTURE -->
         <tr><td colspan="8" style="background:rgba(0,180,216,0.03);color:var(--accent);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Financial Infrastructure</td></tr>
         <tr><td><strong style="color:var(--text);">Stablecoins</strong> ★ ZCR-001</td><td>Financial</td><td>Oct 2014</td><td style="color:var(--magenta);">128</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">53/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
         <tr><td><strong style="color:var(--text);">RWA Tokenization</strong> ★ ZCR-003</td><td>Financial</td><td>Jan 2017</td><td style="color:var(--magenta);">103</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">53/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
@@ -191,55 +173,55 @@
         <tr><td>Tokenized Deposits</td><td>Financial</td><td>Feb 2019</td><td style="color:var(--magenta);">~78</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">53/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
         <tr><td>Quantitative Easing</td><td>Financial</td><td>Nov 2008</td><td style="color:var(--magenta);">136</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">Active</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
 
-        <!-- SECURITY / TECH INFRA -->
         <tr><td colspan="8" style="background:rgba(0,180,216,0.03);color:var(--accent);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Security / Tech Infrastructure</td></tr>
         <tr><td><strong style="color:var(--text);">Post-Quantum Crypto</strong> ★ ZCR-002</td><td>Security</td><td>Jan 2017</td><td style="color:var(--magenta);">91</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">35/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
         <tr><td>Edge Computing</td><td>Tech Infra</td><td>~2015</td><td style="color:var(--magenta);">~120</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">69/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
         <tr><td>Quantum Computing</td><td>Tech Infra</td><td>May 2016</td><td style="color:var(--magenta);">~113</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">29/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
 
-        <!-- ENERGY / INFRASTRUCTURE -->
         <tr><td colspan="8" style="background:rgba(0,180,216,0.03);color:var(--accent);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Energy / Physical Infrastructure</td></tr>
         <tr><td>SMR (Small Modular Reactor)</td><td>Energy</td><td>Jan 2009</td><td style="color:var(--magenta);">199</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">69/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
         <tr><td>Green Hydrogen</td><td>Energy</td><td>~2005</td><td style="color:var(--magenta);">~198</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">74/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
         <tr><td>Carbon Capture</td><td>Energy</td><td>~2004</td><td style="color:var(--magenta);">~204</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">66/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
         <tr><td>EV Infrastructure</td><td>Energy</td><td>Oct 2012</td><td style="color:var(--magenta);">~154</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">79/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
 
-        <!-- BIOTECH -->
         <tr><td colspan="8" style="background:rgba(0,180,216,0.03);color:var(--accent);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Biotech / Medical</td></tr>
         <tr><td>Liquid Biopsy</td><td>Biotech</td><td>Nov 2010</td><td style="color:var(--magenta);">~174</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">73/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
         <tr><td>CRISPR</td><td>Biotech</td><td>Jun 2012</td><td style="color:var(--magenta);">82</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-receding">Receding</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
       </tbody>
     </table>
-
-    <div class="disclaimer">★ = Verified Custom Report available. L values marked ~ are AI-estimated pending full manual verification. Sector averages for Layer A only. Non-stationary cases excluded from L averaging per methodology v1.3.</div>
+    <div class="disclaimer">★ = Verified Custom Report available at zorthex.com/research.html · L values marked ~ are AI-estimated pending full manual verification.</div>
   </section>
 
-  <!-- LAYER B TABLE -->
+  <!-- LAYER B -->
   <section>
-    <div class="section-label">// layer B · attention phenomena · regime-classifiable only</div>
-    <h2>Layer B — 14 Cases</h2>
-    <div class="disclaimer">Layer B cases are included for regime classification and pattern analysis. L values are NOT cross-comparable with Layer A. Stationarity flags apply. These cases document the full spectrum of diffusion dynamics — including bubbles, shock events, and speculation cycles.</div>
+    <div class="section-label">// layer B · attention phenomena · regime-classifiable only · 32 cases</div>
+    <h2>Layer B — Attention Phenomena</h2>
+    <div class="disclaimer">Layer B L values are NOT cross-comparable with Layer A. Stationarity flags apply. Included to document the full spectrum of diffusion dynamics.</div>
 
     <table class="tech-table">
       <thead>
-        <tr>
-          <th>Phenomenon</th>
-          <th>Domain</th>
-          <th>t_start</th>
-          <th>L (mo)</th>
-          <th>Classification</th>
-          <th>May 2026</th>
-          <th>Regime</th>
-          <th>Stationarity</th>
-        </tr>
+        <tr><th>Phenomenon</th><th>Domain</th><th>t_start</th><th>L (mo)</th><th>Classification</th><th>May 2026</th><th>Regime</th><th>Stationarity</th></tr>
       </thead>
       <tbody>
-        <!-- AI / NARRATIVE -->
+
+        <!-- POLICY REGULATORY -->
+        <tr><td colspan="8" style="background:rgba(0,180,216,0.03);color:var(--accent);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Policy / Regulatory</td></tr>
+        <tr><td>Basel III</td><td>Policy</td><td>Dec 2010</td><td style="color:var(--magenta);">63</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">35/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>ESG Reporting</td><td>Policy</td><td>~2006</td><td style="color:var(--magenta);">~212</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">53/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>EU AI Act</td><td>Policy</td><td>Apr 2021</td><td style="color:var(--magenta);">~52</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">31/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>MiCA Regulation</td><td>Policy</td><td>Sep 2020</td><td style="color:var(--magenta);">~10</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">47/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Open Banking PSD2</td><td>Policy</td><td>Jan 2016</td><td style="color:var(--magenta);">~10</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">67/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Carbon Tax</td><td>Policy</td><td>~2007</td><td style="color:var(--magenta);">~10</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">48/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>eIDAS Digital Identity</td><td>Policy</td><td>Oct 2021</td><td style="color:var(--magenta);">~10</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">48/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>CISA Cybersecurity</td><td>Policy</td><td>Nov 2018</td><td style="color:var(--magenta);">~10</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">62/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>GDPR</td><td>Policy</td><td>Apr 2016</td><td style="color:var(--magenta);">~23</td><td><span class="badge b-bubble">BUBBLE</span></td><td><span class="badge b-active">36/100</span></td><td><span class="badge b-r4">Shock</span></td><td><span class="badge b-nonstat">NON-STAT</span></td></tr>
+
+        <!-- AI / TECH NARRATIVE -->
         <tr><td colspan="8" style="background:rgba(255,170,68,0.03);color:var(--amber);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">AI / Tech Narrative</td></tr>
         <tr><td>LLM / GenAI</td><td>AI</td><td>Jun 2017</td><td>69</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">Active</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
         <tr><td>Deep Learning</td><td>AI</td><td>Sep 2012</td><td>112</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">Active</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
         <tr><td>Autonomous Vehicle</td><td>AI</td><td>Oct 2010</td><td>176</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-receding">Receding</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
-        <tr><td>EU AI Act</td><td>Policy</td><td>Apr 2021</td><td>~52</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">31/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Digital Twin</td><td>Tech</td><td>~2017</td><td style="color:var(--magenta);">~10</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">54/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
 
         <!-- CONSUMER / SOCIAL -->
         <tr><td colspan="8" style="background:rgba(255,170,68,0.03);color:var(--amber);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Consumer / Social</td></tr>
@@ -248,26 +230,36 @@
         <tr><td>Facebook / Social Media</td><td>Consumer</td><td>Feb 2004</td><td>59</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-receding">Receding</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
         <tr><td>Virtual Reality</td><td>Consumer</td><td>Jan 2010</td><td>71</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-receding">Receding</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
         <tr><td>Remote Work</td><td>Social</td><td>~2004</td><td>~216</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">78/100</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-nonstat">NON-STAT</span></td></tr>
+        <tr><td>Creator Economy</td><td>Consumer</td><td>~2009</td><td style="color:var(--magenta);">~10</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">40/100</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
+
+        <!-- ENERGY NARRATIVE -->
+        <tr><td colspan="8" style="background:rgba(255,170,68,0.03);color:var(--amber);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Energy Narrative</td></tr>
+        <tr><td>Nuclear Fusion</td><td>Energy</td><td>~1950</td><td>~875</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">22/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Battery Storage</td><td>Energy</td><td>~2010</td><td style="color:var(--magenta);">~10</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">65/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Space Commercialization</td><td>Tech</td><td>Dec 2015</td><td style="color:var(--magenta);">~10</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">64/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Synthetic Biology</td><td>Biotech</td><td>~2010</td><td style="color:var(--magenta);">~10</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">70/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>Longevity / Anti-aging</td><td>Biotech</td><td>~2006</td><td style="color:var(--magenta);">~10</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">47/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
 
         <!-- BIOTECH SEMI -->
         <tr><td colspan="8" style="background:rgba(255,170,68,0.03);color:var(--amber);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Biotech Semi-Stable</td></tr>
         <tr><td>mRNA Cancer Vaccines</td><td>Biotech</td><td>Jan 2015</td><td>126</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-receding">17/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
         <tr><td>Gene Therapy</td><td>Biotech</td><td>~1990</td><td>—</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">67/100</span></td><td><span class="badge b-r2">Inst. Mass</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
 
+        <!-- CRYPTO / MARKET NARRATIVE -->
+        <tr><td colspan="8" style="background:rgba(255,170,68,0.03);color:var(--amber);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Crypto / Market Narrative</td></tr>
+        <tr><td>Web3</td><td>Crypto</td><td>~2014</td><td style="color:var(--magenta);">54</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">45/100</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
+        <tr><td>DeFi Summer</td><td>Crypto</td><td>~2015</td><td>~124</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">29/100</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
+
         <!-- BUBBLES / SHOCK -->
         <tr><td colspan="8" style="background:rgba(230,57,70,0.03);color:var(--warn);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Bubbles &amp; Shock Events</td></tr>
         <tr><td>NFT</td><td>Crypto</td><td>2017</td><td>N/A</td><td><span class="badge b-bubble">BUBBLE</span></td><td><span class="badge b-dormant">5/100</span></td><td><span class="badge b-r4">Shock</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
         <tr><td>Metaverse</td><td>Consumer</td><td>2014</td><td>N/A</td><td><span class="badge b-bubble">BUBBLE</span></td><td><span class="badge b-dormant">Dormant</span></td><td><span class="badge b-r4">Shock</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
-        <tr><td>GDPR</td><td>Policy</td><td>Apr 2016</td><td>~23</td><td><span class="badge b-bubble">BUBBLE</span></td><td><span class="badge b-active">36/100</span></td><td><span class="badge b-r4">Shock</span></td><td><span class="badge b-nonstat">NON-STAT</span></td></tr>
+        <tr><td>ICO Boom</td><td>Crypto</td><td>2017</td><td>N/A</td><td><span class="badge b-bubble">BUBBLE</span></td><td><span class="badge b-dormant">Dormant</span></td><td><span class="badge b-r4">Shock</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
+        <tr><td>Memecoin</td><td>Crypto</td><td>2013</td><td>N/A</td><td><span class="badge b-bubble">BUBBLE</span></td><td><span class="badge b-dormant">Dormant</span></td><td><span class="badge b-r4">Shock</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
 
-        <!-- OBSERVATION PHASE 1 -->
-        <tr><td colspan="8" style="background:rgba(255,170,68,0.03);color:var(--amber);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.5rem 0.8rem;">Phase 1 Observation (ESG / DeFi)</td></tr>
-        <tr><td>ESG Reporting</td><td>Policy</td><td>~2006</td><td>~212</td><td><span class="badge b-structural">STRUCTURAL</span></td><td><span class="badge b-active">53/100</span></td><td><span class="badge b-r1">Policy</span></td><td><span class="badge b-stable">STABLE</span></td></tr>
-        <tr><td>DeFi Summer</td><td>Crypto</td><td>~2015</td><td>~124</td><td><span class="badge b-observation">OBSERVATION</span></td><td><span class="badge b-active">29/100</span></td><td><span class="badge b-r3">Market</span></td><td><span class="badge b-semi">SEMI-STABLE</span></td></tr>
       </tbody>
     </table>
-
-    <div class="disclaimer">Non-stationary cases (Remote Work, GDPR) are excluded from L averaging. Semi-stable cases are flagged in cross-cluster comparisons. All Layer B L values where marked ~ are estimates pending full verification.</div>
+    <div class="disclaimer">Non-stationary cases (Remote Work, GDPR) excluded from L averaging. Semi-stable cases flagged in cross-cluster comparisons. Cases marked ~10 months: first-above-threshold August 2025 — see cluster note above.</div>
   </section>
 
   <!-- STATUS LEGEND -->
@@ -279,7 +271,7 @@
       <div class="stat-item"><div class="stat-name" style="color:var(--amber);">Receding</div><div class="stat-rule">Current score 10–24/100. Attention declining but present.</div></div>
       <div class="stat-item"><div class="stat-name" style="color:var(--muted);">Dormant</div><div class="stat-rule">Current score &lt; 10/100. Returned to technical baseline.</div></div>
     </div>
-    <div class="disclaimer">STRUCTURAL classification is permanent once acquired. Current Status tracks today's attention independently from historical classification.</div>
+    <div class="disclaimer">STRUCTURAL classification is permanent once acquired. Current Status tracks today's attention independently.</div>
   </section>
 
   <div class="back-row">
