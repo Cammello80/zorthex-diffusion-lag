@@ -1,10 +1,10 @@
 zorthex-diffusion-lag
-![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20270575.svg)
+![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20374051.svg)
 Public Attention Diffusion Lag (L) — A replicable observational framework for measuring the temporal gap between operational emergence and institutional legibility in financial and technological infrastructure transitions.
 Zorthex™ v1.3 · Dataset v1.3 · n=50 ✅ — Phase 1 Complete
 ---
 Cite as
-Santi, R. (2026). ZORTHEX v1.2 — Public Attention Diffusion Lag: A Replicable Framework for Measuring Technology Diffusion (1.2). Zenodo. https://doi.org/10.5281/zenodo.20270575
+Santi, R. (2026). ZORTHEX v1.2 — Public Attention Diffusion Lag: A Replicable Framework for Measuring Technology Diffusion (1.2). Zenodo. https://doi.org/10.5281/zenodo.20374051
 v1.3 DOI pending — to be published on Zenodo.
 ---
 What is Zorthex
@@ -106,7 +106,7 @@ Version Changelog
 Version	DOI	Date	Notes
 v1.0	10.5281/zenodo.20049068	Apr 2026	Initial, n=11, 3-month window
 v1.1	10.5281/zenodo.20072999	May 2026	12-month window, BUBBLE, n=12
-v1.2	10.5281/zenodo.20270575	May 2026	t_start policy A–D, CSV locking, 4-tier
+v1.2	10.5281/zenodo.20374051	May 2026	t_start policy A–D, CSV locking, 4-tier
 v1.3	pending Zenodo	May 2026	4-regime taxonomy, Layer A/B, Non-Stationarity Flag, n=50 ✅
 ---
 Repository Structure
