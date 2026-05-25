@@ -414,6 +414,34 @@
   </div>
 
   <!-- 08 LIMITATIONS -->
+  <!-- METHODOLOGICAL DECISIONS -->
+  <div class="msec" id="decisions">
+    <div class="sec-eyebrow">// 07b</div>
+    <h2>Methodological Decisions — Declared Rationale</h2>
+    <p style="font-size:0.82rem;color:#c0c0e0;line-height:1.9;margin-bottom:1.5rem;">Every parameter in the Zorthex framework is a choice, not a given. Institutional users and research partners are entitled to understand why each choice was made, what alternatives were considered, and what happens in borderline cases. This section documents those decisions explicitly — not as a disclaimer, but as part of the auditable standard.</p>
+
+    <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--amber);margin:2rem 0 0.7rem;">Why 25/100 as structural threshold?</h3>
+    <p style="font-size:0.82rem;color:#c0c0e0;line-height:1.9;margin-bottom:1rem;">The threshold of 25/100 was selected empirically through sensitivity testing across dataset v1.2 (n=15 cases) at three candidate values: 20, 25, and 30.</p>
+    <div style="border-left:3px solid var(--cyan);background:rgba(0,212,255,0.04);padding:1rem 1.4rem;margin:1rem 0;border-radius:0 3px 3px 0;">
+      <p style="font-size:0.78rem;color:#c8c8e8;line-height:1.85;margin:0;"><strong style="color:var(--text);">At threshold 20:</strong> confirmed transient phenomena (NFT, Metaverse, Clubhouse) passed the structural test — producing false positives.<br><strong style="color:var(--text);">At threshold 25:</strong> separation between confirmed structural phenomena and confirmed bubbles is most stable across all tested cases.<br><strong style="color:var(--text);">At threshold 30:</strong> confirmed structural phenomena such as Bitcoin and Cryptocurrency fail the test — producing false negatives.<br><br><strong style="color:var(--cyan);">Decision: 25 is the most stable value under tested conditions. It is declared as an empirical heuristic, not a theoretical constant. It will be re-evaluated at n=100.</strong></p>
+    </div>
+    <p style="font-size:0.82rem;color:#c0c0e0;line-height:1.9;margin-bottom:1rem;">Google Trends normalizes internally to 100. Values below 20 consistently represent either geographic concentration or residual specialist interest — not mainstream institutional attention. The 25/100 threshold activates the 12-month window requirement; it does not alone determine classification.</p>
+
+    <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--amber);margin:2rem 0 0.7rem;">Why 12 consecutive months?</h3>
+    <p style="font-size:0.82rem;color:#c0c0e0;line-height:1.9;margin-bottom:1rem;">The 12-month consecutive window was designed to distinguish structural consolidation from temporary spikes. The key word is consecutive — an interruption resets the count.</p>
+    <div style="border-left:3px solid var(--cyan);background:rgba(0,212,255,0.04);padding:1rem 1.4rem;margin:1rem 0;border-radius:0 3px 3px 0;">
+      <p style="font-size:0.78rem;color:#c8c8e8;line-height:1.85;margin:0;"><strong style="color:var(--text);">Phenomena below 12 months:</strong> may represent media campaigns, regulatory announcements, speculation cycles, or shock events. These produce real attention but not structural consolidation.<br><strong style="color:var(--text);">Phenomena at 12+ months:</strong> demonstrate that attention has survived news cycles, market corrections, and narrative shifts — indicating genuine institutional absorption.<br><br><strong style="color:var(--cyan);">Decision: 12 months was selected as the minimum duration consistent with a complete annual institutional planning cycle. It maps to the standard timeframe for policy implementation, investment committee review, and regulatory adoption cycles. It is declared as a methodological choice — not a discovery.</strong></p>
+    </div>
+    <p style="font-size:0.82rem;color:#c0c0e0;line-height:1.9;margin-bottom:1rem;"><strong style="color:var(--text);">Borderline cases:</strong> If a phenomenon reaches 11 months above threshold and then drops below 25 for one month, the count resets. If it recovers and completes 12 consecutive months in a later window, STRUCTURAL is assigned from the first month of that completed window — not retroactively from the earlier attempt. All borderline cases are documented explicitly in the dataset.</p>
+
+    <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--amber);margin:2rem 0 0.7rem;">How are Stationarity Flags assigned?</h3>
+    <p style="font-size:0.82rem;color:#c0c0e0;line-height:1.9;margin-bottom:1rem;">The Stationarity Flag is a declared methodological judgment — not an algorithmic output. It is assigned case by case according to three documented criteria:</p>
+    <div style="border-left:3px solid var(--cyan);background:rgba(0,212,255,0.04);padding:1rem 1.4rem;margin:1rem 0;border-radius:0 3px 3px 0;">
+      <p style="font-size:0.78rem;color:#c8c8e8;line-height:1.85;margin:0;"><strong style="color:var(--text);">STABLE:</strong> The attention curve follows the organic diffusion of the phenomenon. No identifiable exogenous event accounts for the timing or magnitude of the attention peak. The phenomenon would have reached structural attention without the event in question.<br><br><strong style="color:var(--text);">SEMI-STABLE:</strong> An external event partially influenced the attention trajectory — amplifying, accelerating, or distorting it — but the phenomenon shows evidence of organic diffusion independent of that event. L is usable with declared caution.<br><br><strong style="color:var(--text);">NON-STATIONARY:</strong> A single exogenous event dominates the attention curve to the point where the phenomenon would not have reached structural threshold without it. The event, not the phenomenon's inherent diffusion dynamics, is the primary driver.<br><br><strong style="color:var(--cyan);">Decision process: The flag is assigned through documented review of the attention curve against identified external events. The rationale for each assignment is declared in the dataset. Where ambiguity exists between SEMI-STABLE and NON-STATIONARY, the more conservative flag (NON-STATIONARY) is applied. Disagreement with a flag assignment is explicitly welcomed as a contribution to methodology.</strong></p>
+    </div>
+    <p style="font-size:0.82rem;color:#c0c0e0;line-height:1.9;margin-bottom:1rem;">The stationarity framework transforms Zorthex from an attention measurement system into an attention system with causal regime control. A framework that declares its own comparability limits is more credible — not less — than one that treats all cases as analytically equivalent.</p>
+  </div>
+
   <div class="msec" id="limitations">
     <div class="sec-eyebrow">// 08</div>
     <h2>Declared Limitations</h2>
