@@ -1,7 +1,7 @@
 zorthex-diffusion-lag
 ![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20374051.svg)
 Public Attention Diffusion Lag (L) — A replicable observational framework for measuring the temporal gap between operational emergence and institutional legibility in financial and technological infrastructure transitions.
-Zorthex™ v1.3 · Dataset v1.3 · n=50 ✅ — Phase 1 Complete
+Zorthex™ v1.3 · Dataset v1.3 · n=50 public ✅ · n=82 internal · 7 domains · Phase 1 Complete
 ---
 Cite as
 Santi, R. (2026). ZORTHEX v1.3 — Public Attention Diffusion Lag: A Replicable Framework for Measuring Technology Diffusion (1.3). Zenodo. https://doi.org/10.5281/zenodo.20374051
@@ -36,7 +36,10 @@ Layer Separation
 Layer A — Hard Infrastructure (L-comparable): 18 cases
 Layer B — Attention Phenomena (regime-classifiable only): 32 cases
 ---
-Dataset v1.3 — n=50 ✅
+Dataset — Current State
+Public dataset: n=50 · DOI: 10.5281/zenodo.20374051
+Internal research: n=82 cases analysed · 7 domains · cross-domain coherence validated May 2026
+Framework update to v2.0 forthcoming — Zenodo DOI will be updated upon publication.
 > ⚠ August 2025 cluster: 10 cases show first-above-threshold in August 2025 (~10 months to May 2026). Declared temporal clustering — not a methodological artifact.
 Layer A — Hard Infrastructure (18 cases)
 Phenomenon	L (months)	Classification	Regime	Stationarity
@@ -107,10 +110,12 @@ v1.0	10.5281/zenodo.20049068	Apr 2026	Initial, n=11, 3-month window
 v1.1	10.5281/zenodo.20072999	May 2026	12-month window, BUBBLE, n=12
 v1.2	10.5281/zenodo.20270575	May 2026	t_start policy A–D, CSV locking, 4-tier
 v1.3	10.5281/zenodo.20374051 ✅	May 2026	4-regime taxonomy, Layer A/B, Non-Stationarity Flag, n=50 ✅
+v2.0	pending	Jun/Jul 2026	10 per domain, coherence validated, n=82
 ---
 Repository Structure
 `dataset.html` — full public dataset, n=50, Layer A/B, regime flags, stationarity
 `methodology.html` — complete methodological documentation
+`CLAUDE.md` — declared role of Claude in the Zorthex project
 `ZCR-2026-001-Stablecoins.html` — verified Custom Report
 `ZCR-2026-001-Cover.html` — cover page
 `ZCR-2026-002-PQC.html` — verified Custom Report
