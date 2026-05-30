@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this framework, please cite it as below."
+type: software
+title: "ZORTHEX v1.3 — Public Attention Diffusion Lag: A Replicable Framework for Measuring Technology Diffusion"
+authors:
+  - family-names: Santi
+    given-names: Renato
+    orcid: "https://orcid.org/0009-0000-9936-1110"
+version: "1.3"
+date-released: 2026-05-25
+doi: 10.5281/zenodo.20374051
+url: "https://zorthex.com"
+repository-code: "https://github.com/zorthex2026/zorthex-diffusion-lag"
+license: CC-BY-NC-4.0
+abstract: >
+  Zorthex is an empirical framework for measuring the temporal gap between
+  when a technology or institutional phenomenon becomes operationally real
+  and when public attention structurally consolidates around it.
+  The core metric L = t_peak - t_start (months) is calculated using three
+  independent sources: Google Trends, Wikipedia pageviews, and Reddit
+  community depth. The dataset covers 50 verified public cases across 7
+  domains with a 4-regime diffusion taxonomy.
+keywords:
+  - diffusion lag
+  - technology adoption
+  - public attention
+  - institutional attention
+  - temporal intelligence
+  - Google Trends
+  - innovation diffusion
+  - MCP server
